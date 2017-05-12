@@ -35,9 +35,10 @@
     "isomorphic-fetch": "^2.2.1",
     "jquery": "^2.2.1",
     "json-loader": "^0.5.4",
+    "ng2-toasty": "^2.5.0",
     "preboot": "^4.5.2",
     "raw-loader": "^0.5.1",
-    "rxjs": "^5.0.1",
+    "rxjs": "^5.3.1",
     "style-loader": "^0.13.1",
     "to-string-loader": "^1.1.5",
     "typescript": "^2.2.1",
@@ -45,9 +46,10 @@
     "webpack": "^2.2.0",
     "webpack-hot-middleware": "^2.12.2",
     "webpack-merge": "^0.14.1",
-    "zone.js": "^0.7.6"
+    "zone.js": "^0.8.10"
   },
   "devDependencies": {
+    "@angular/cli": "^1.0.0",
     "@types/chai": "^3.4.34",
     "@types/jasmine": "^2.5.37",
     "chai": "^3.5.0",

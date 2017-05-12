@@ -19,12 +19,14 @@ namespace WebApplicationBasic.Controllers
         {
             return View();
         }
-      /*  [HttpGet("/api/makes")] 
-        public IEnumerable<Make> GetMakes() {
-           
-        }*/
-        public class Make {
-            string model { get; set; }
-        }
+        /*[HttpGet("/api/makes")] 
+          public IEnumerable<Make> GetMakes() {
+
+          }*/
+        /*[HttpGet("/api/features")] 
+          public IEnumerable<Feature> GetFeatures() {
+
+          }*/
+
     }
 }
