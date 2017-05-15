@@ -27,6 +27,12 @@
                         <span class='glyphicon glyphicon-th-list'></span> Fetch data
                     </a>
                 </li>
+                 <li [routerLinkActive]="['link-active']"
+                     [routerLinkActiveOptions]="{exact: true}">
+                    <a [routerLink]="['/vehicles']">
+                        <span class='glyphicon glyphicon-plus'></span> Vehicles List
+                    </a>
+                </li>
                  <li [routerLinkActive]="['link-active']">
                     <a [routerLink]="['/vehicles/new']">
                         <span class='glyphicon glyphicon-plus'></span> New Vehicle

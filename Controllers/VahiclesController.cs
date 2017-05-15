@@ -7,6 +7,8 @@ using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
+using System.Collections;
 
 namespace _mosh_A2.Controllers
 {
@@ -16,8 +18,8 @@ namespace _mosh_A2.Controllers
         private readonly IMapper mapper;
         private readonly IVehicleRepository repository;
         private readonly IUnitOfWork unitOfWork;
-        public VahiclesController(IMapper mapper, 
-                                  IVehicleRepository repository, 
+        public VahiclesController(IMapper mapper,
+                                  IVehicleRepository repository,
                                   IUnitOfWork unitOfWork)
         {
             this.unitOfWork = unitOfWork;
@@ -28,25 +30,14 @@ namespace _mosh_A2.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateVehicle([FromBody] SaveVehicleResource vehicleResource)
         {
-            throw new Exception();
-
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
-
-            /*  var model = await context.Models.FindAsync(vehicleResource.ModelId);
-              if(model == null)
-              {
-                  ModelState.AddModelError("ModelId", "Invalid modelId");
-                  return BadRequest(ModelState);
-              } */
 
             var vehicle = mapper.Map<SaveVehicleResource, Vehicle>(vehicleResource);
             vehicle.LastUpdate = DateTime.Now;
 
             repository.Add(vehicle);
             await unitOfWork.CompleteAsync();
-
-            //await context.Models.Include(m => m.Make).SingleOrDefaultAsync(m => m.Id == vehicle.ModelId);
 
             vehicle = await repository.GetVehicle(vehicle.Id);
 
@@ -56,18 +47,17 @@ namespace _mosh_A2.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateVehicle(int id, [FromBody] VehicleResource vehicleResource)
+        public async Task<IActionResult> UpdateVehicle(int id, [FromBody] SaveVehicleResource vehicleResource)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            //var vehicle = await context.Vehicles.Include(v => v.Features).SingleOrDefaultAsync(v => v.Id == id);
             var vehicle = await repository.GetVehicle(id);
 
             if (vehicle == null)
                 return NotFound();
 
-            mapper.Map<VehicleResource, Vehicle>(vehicleResource, vehicle);
+            mapper.Map<SaveVehicleResource, Vehicle>(vehicleResource, vehicle);
             vehicle.LastUpdate = DateTime.Now;
 
             await unitOfWork.CompleteAsync();
@@ -103,6 +93,13 @@ namespace _mosh_A2.Controllers
             return Ok(vehicleResource);
         }
 
+        [HttpGet]
+        public async Task<IEnumerable<VehicleResource>> GetVehicles()
+        {
+            var vehicles = await repository.GetVehicles();
+
+            return mapper.Map<IEnumerable<Vehicle>, IEnumerable<VehicleResource>>(vehicles);
+        }
 
     }
 }
