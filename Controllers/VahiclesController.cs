@@ -9,6 +9,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Collections;
+using _mosh_A2.Core.Models;
 
 namespace _mosh_A2.Controllers
 {
@@ -94,9 +95,10 @@ namespace _mosh_A2.Controllers
         }
 
         [HttpGet]
-        public async Task<IEnumerable<VehicleResource>> GetVehicles()
+        public async Task<IEnumerable<VehicleResource>> GetVehicles(FilterResource filterResource)
         {
-            var vehicles = await repository.GetVehicles();
+            var filter = mapper.Map<FilterResource, Filter>(filterResource);
+            var vehicles = await repository.GetVehicles(filter);
 
             return mapper.Map<IEnumerable<Vehicle>, IEnumerable<VehicleResource>>(vehicles);
         }

@@ -8,6 +8,7 @@ import { Vehicle, KeyValuePair } from "./../models/vehicle";
 export class VehicleListComponent implements OnInit {
   vehicles: Vehicle[];
   makes: KeyValuePair[];
+  models: KeyValuePair[];
   filter: any = {};
 
   constructor(private vahicleService: VehicleService) { }
@@ -15,12 +16,26 @@ export class VehicleListComponent implements OnInit {
   ngOnInit() {
     this.vahicleService.getMakes()
       .subscribe(makes => this.makes = makes);
+    
+    this.populateModels();
+    this.populateVehicles();
+  }
 
-    this.vahicleService.getVehicles()
+  private populateModels() {
+    
+  }
+
+  private populateVehicles() {
+    this.vahicleService.getVehicles(this.filter)
       .subscribe(vehicles => this.vehicles = vehicles);
   }
 
   onFilterChange() {
-    
+    this.populateVehicles();
+  }
+
+  resetFilter() {
+    this.filter = {};
+    this.onFilterChange();
   }
 }

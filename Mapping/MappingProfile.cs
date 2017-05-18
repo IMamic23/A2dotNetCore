@@ -3,6 +3,7 @@ using _mosh_A2.Models;
 using AutoMapper;
 using System.Linq;
 using System.Collections.Generic;
+using _mosh_A2.Core.Models;
 
 namespace _mosh_A2.Mapping
 {
@@ -29,6 +30,7 @@ namespace _mosh_A2.Mapping
                                                                                                                     Name = vf.Feature.Name })));
 
             // API Resource to Domain
+            CreateMap<FilterResource, Filter>();
             CreateMap<SaveVehicleResource, Vehicle>()
                 .ForMember(v => v.Id, opt => opt.Ignore())
                 .ForMember(v => v.ContactName, opt => opt.MapFrom(vr => vr.Contact.Name))
