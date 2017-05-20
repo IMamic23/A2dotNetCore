@@ -1,3 +1,4 @@
+import { PaginationComponent } from './components/shared/pagination.component';
 import * as Raven from "raven-js";
 import { AppErrorHandler } from "./components/app/app.error-handler";
 import { UniversalModule } from "angular2-universal";
@@ -27,6 +28,7 @@ Raven.config("https://f30ee7661839445f92ad72044ff7a487@sentry.io/167797").instal
         HomeComponent,
         VehicleFormComponent,
         VehicleListComponent,
+        PaginationComponent
     ],
     imports: [
         FormsModule,
