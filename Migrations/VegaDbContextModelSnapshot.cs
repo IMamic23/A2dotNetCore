@@ -16,6 +16,24 @@ namespace MoshA2.Migrations
                 .HasAnnotation("ProductVersion", "1.1.1")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+            modelBuilder.Entity("_mosh_A2.Core.Models.Photo", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("FileName")
+                        .IsRequired()
+                        .HasMaxLength(255);
+
+                    b.Property<int?>("VehicleId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("VehicleId");
+
+                    b.ToTable("Photos");
+                });
+
             modelBuilder.Entity("_mosh_A2.Models.Feature", b =>
                 {
                     b.Property<int>("Id")
@@ -102,6 +120,13 @@ namespace MoshA2.Migrations
                     b.HasIndex("FeatureId");
 
                     b.ToTable("VehicleFeatures");
+                });
+
+            modelBuilder.Entity("_mosh_A2.Core.Models.Photo", b =>
+                {
+                    b.HasOne("_mosh_A2.Models.Vehicle")
+                        .WithMany("Photos")
+                        .HasForeignKey("VehicleId");
                 });
 
             modelBuilder.Entity("_mosh_A2.Models.Model", b =>

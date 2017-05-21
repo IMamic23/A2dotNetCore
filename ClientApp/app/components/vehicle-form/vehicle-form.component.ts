@@ -105,4 +105,8 @@ export class VehicleFormComponent implements OnInit {
       this.router.navigate(['/vehicles/', vehicle.id])
     });
   }
+
+  goBack() {
+    window.history.back();
+  }
 }

@@ -1,3 +1,6 @@
+import { BrowserXhr } from '@angular/http';
+import { ProgressService, BrowserXhrWithProgress } from './services/progress.service';
+import { PhotoService } from './services/photo.service';
 import { PaginationComponent } from './components/shared/pagination.component';
 import * as Raven from "raven-js";
 import { AppErrorHandler } from "./components/app/app.error-handler";
@@ -15,6 +18,7 @@ import { FetchDataComponent } from "./components/fetchdata/fetchdata.component";
 import { CounterComponent } from "./components/counter/counter.component";
 import { VehicleFormComponent } from "./components/vehicle-form/vehicle-form.component";
 import { VehicleListComponent } from './components/vehicle-list/vehicle-list.component';
+import { ViewVehicleComponent } from './components/view-vehicle/view-vehicle.component';
 
 Raven.config("https://f30ee7661839445f92ad72044ff7a487@sentry.io/167797").install();
 
@@ -28,7 +32,8 @@ Raven.config("https://f30ee7661839445f92ad72044ff7a487@sentry.io/167797").instal
         HomeComponent,
         VehicleFormComponent,
         VehicleListComponent,
-        PaginationComponent
+        PaginationComponent,
+        ViewVehicleComponent
     ],
     imports: [
         FormsModule,
@@ -41,7 +46,8 @@ Raven.config("https://f30ee7661839445f92ad72044ff7a487@sentry.io/167797").instal
             { path: "vehicles", component: VehicleListComponent },
             { path: "fetch-data", component: FetchDataComponent },
             { path: "vehicles/new", component: VehicleFormComponent },
-            { path: "vehicles/:id", component: VehicleFormComponent },
+            { path: "vehicles/:id", component: ViewVehicleComponent },
+            { path: "vehicles/edit/:id", component: VehicleFormComponent },
             { path: "**", redirectTo: "home" }
         ])
     ],
@@ -49,7 +55,12 @@ Raven.config("https://f30ee7661839445f92ad72044ff7a487@sentry.io/167797").instal
         {
             provide: ErrorHandler, useClass: AppErrorHandler
         },
-        VehicleService
+        {
+            provide: BrowserXhr, useClass: BrowserXhrWithProgress
+        },
+        VehicleService,
+        PhotoService, 
+        ProgressService
     ]
 })
 export class AppModule {

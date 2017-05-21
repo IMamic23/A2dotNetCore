@@ -1,25 +1,25 @@
 import { VehicleService } from './../../services/vehicle.service';
 import { Component, OnInit } from "@angular/core";
-import { Vehicle, KeyValuePair } from "./../models/vehicle";
+import { Vehicle, KeyValuePair, Make } from "./../models/vehicle";
 
 @Component({
   templateUrl: "./vehicle-list.component.html",
   styleUrls: ["./vehicle-list.component.css"]
 })
 export class VehicleListComponent implements OnInit {
-  private readonly PAGE_SIZE = 3;
+  private readonly PAGE_SIZE = 5;
   
   queryResult: any = {};
-  makes: KeyValuePair[];
-  models: KeyValuePair[];
+  makes: any;
+  models: any;
   query: any = {
     pageSize: this.PAGE_SIZE
   };
   columns = [
     { title: 'Id' },
-    { title: 'Contact Name', key: 'contactName', isSortable: true },
     { title: 'Make', key: 'make', isSortable: true },
     { title: 'Model', key: 'model', isSortable: true },
+    { title: 'Contact Name', key: 'contactName', isSortable: true },
     { }
   ];
 
@@ -28,13 +28,14 @@ export class VehicleListComponent implements OnInit {
   ngOnInit() {
     this.vahicleService.getMakes()
       .subscribe(makes => this.makes = makes);
-    
-    this.populateModels();
+  
     this.populateVehicles();
   }
 
   private populateModels() {
-    
+    if(this.query.makeId)
+    var selectedMake = this.makes.find(m => m.id == this.query.makeId);
+    this.models = selectedMake ? selectedMake.models : [];
   }
 
   private populateVehicles() {
@@ -44,6 +45,7 @@ export class VehicleListComponent implements OnInit {
 
   onFilterChange() {
     this.query.page = 1;
+    this.populateModels();
     this.populateVehicles();
   }
 

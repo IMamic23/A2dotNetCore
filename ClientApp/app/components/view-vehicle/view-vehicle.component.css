@@ -1,0 +1,46 @@
+table {
+    width: 500px;
+    min-width: 300px;
+    overflow: scroll;
+}
+
+th, td {
+    width: 33.3%;
+}
+
+.myFeaturesList {
+    width: 200px;
+    list-style: none;
+    box-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+    padding: 5px;
+    margin-top: 3px;
+    border: 1px solid rgba(0,0,0,0.2);
+}
+
+ul{
+    -webkit-padding-start: 0px;
+}
+
+.photo-wrapper {
+  position: relative;
+  display: inline-block;
+}
+.close:before {
+  content: '✕';
+  font-size: 12px;
+}
+.close {
+  position: absolute;
+  top: 3px;
+  right: 10px;
+  opacity: 0.5;
+  color: red;
+  cursor: pointer;
+}
+.close:hover {
+  opacity: 0.9;
+}
+
+img {
+    margin: 5px;
+}

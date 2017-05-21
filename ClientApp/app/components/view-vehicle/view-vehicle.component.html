@@ -1,0 +1,83 @@
+<h1>Vehicle</h1>
+<div>
+
+  <!-- Nav tabs -->
+  <ul class="nav nav-tabs" role="tablist">
+    <li role="presentation" class="active"><a href="#basic" aria-controls="basic" role="tab" data-toggle="tab">Vehicle</a></li>
+    <li role="presentation"><a href="#photos" aria-controls="photos" role="tab" data-toggle="tab">Photos</a></li>
+  </ul>
+
+  <!-- Tab panes -->
+  <div class="tab-content" *ngIf="vehicle">
+    <!-- Vehicle tab -->
+    <div role="tabpanel" class="tab-pane active" id="basic">
+      <h2>Basics</h2>
+      <table class="table table-bordered table-hover table-responsive">
+        <thead>
+          <tr>
+            <th>Make</th>
+            <th>Model</th>
+            <th>Registered</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>{{ vehicle.make.name }}</td>
+            <td>{{ vehicle.model.name }}</td>
+            <td>{{ vehicle.isRegistered ? 'Yes' : 'No' }}</td>
+          </tr>
+        </tbody>
+      </table>
+      <h2>Features</h2>
+      <ul>
+        <li class="myFeaturesList" *ngFor="let f of vehicle.features">{{ f.name }}</li>
+      </ul>
+      <h2>Contact</h2>
+      
+        <table class="table table-bordered table-hover table-responsive">
+        <thead>
+          <tr>
+            <th>Contact Name</th>
+            <th>Contact Phone</th>
+            <th>Contact Email</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>{{ vehicle.contact.name }}</td>
+            <td>{{ vehicle.contact.phone }}</td>
+            <td>{{ vehicle.contact.email }}</td>
+          </tr>
+        </tbody>
+      </table>
+    
+      <br/>
+      <p>
+        <a class="btn btn-primary" [routerLink]="['/vehicles/edit/', vehicle.id]">Edit</a>
+        <button class="btn btn-danger" (click)="delete()">Delete</button>
+        <a class="btn btn-default" [routerLink]="['/vehicles']">View All Vehicles</a>
+      </p>
+    </div>
+    <!-- Photos tab -->
+    <div role="tabpanel" class="tab-pane" id="photos">
+      <h2>Photos</h2>
+      <input type="file" (change)="uploadPhoto()" #fileInput>
+      <div class="progress" *ngIf="progress && progress.percentage < 100">
+        <div class="progress-bar" [style.width]="progress.percentage + '%'">
+          <span class="sr-only">{{ progress.percentage }}% Complete</span>
+        </div>
+      </div>
+      <div *ngIf="progress && progress.percentage < 100">
+        <button class="btn btn-danger" 
+           (click)="cancleUpload()">Cancel upload
+        </button>
+      </div>
+      <div *ngFor="let photo of photos" class="photo-wrapper"> 
+        <img src="/uploads/{{ photo.fileName }}" class="img-thumbnail">
+        <span class="close" (click)="deletePhoto(photo.fileName)"></span>
+      </div>
+    </div>
+  </div>
+</div>
+
+
