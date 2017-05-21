@@ -74,7 +74,7 @@
       </div>
       <div *ngFor="let photo of photos" class="photo-wrapper"> 
         <img src="/uploads/{{ photo.fileName }}" class="img-thumbnail">
-        <span class="close" (click)="deletePhoto(photo.fileName)"></span>
+        <span class="close" (click)="deletePhoto(photo)"></span>
       </div>
     </div>
   </div>

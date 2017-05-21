@@ -22,9 +22,9 @@ namespace _mosh_A2.Persistence
                 .ToListAsync();
         }
 
-        public Photo GetPhoto(string fileName)
+        public async Task<Photo> GetPhoto(int id)
         {
-            return context.Photos.Single(p => p.FileName == fileName);
+            return await context.Photos.FindAsync(id);
         }
 
         public void Remove(Photo photo) 

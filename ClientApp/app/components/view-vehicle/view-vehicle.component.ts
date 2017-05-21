@@ -113,10 +113,11 @@ export class ViewVehicleComponent implements OnInit {
      this.progress = null;
   }
 
-  deletePhoto(fileName) {
+  deletePhoto(photo) {
     if(confirm("Are you sure?")) {
-      this.photoService.deletePhoto(fileName)
+      this.photoService.deletePhoto(photo.id)
         .subscribe(x => {
+          this.photos.splice(this.photos.indexOf(photo), 1);
           this.toasty.success({
             title: 'Success',
             msg: 'Photo is sucessfully deleted.',
@@ -132,7 +133,6 @@ export class ViewVehicleComponent implements OnInit {
             showClose: true,
             timeout: 5000
           });
-          this.router.navigate(['/vehicles']);
       });
     }
   }

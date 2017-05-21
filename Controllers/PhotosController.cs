@@ -75,14 +75,11 @@ namespace _mosh_A2.Controllers
             return mapper.Map<IEnumerable<Photo>, IEnumerable<PhotoResource>>(photos);
         }
 
-        [Route("/api/photos/{fileName}")]
-        [HttpDelete("{fileName}")]
-        public async Task<IActionResult> DeletePhoto(string fileName){
-             
-             if(fileName == "") 
-                return BadRequest("No image provided.");
+        [Route("/api/photos/{id}")]
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeletePhoto(int id){            
 
-             var photo = photoRepository.GetPhoto(fileName);
+             var photo = await photoRepository.GetPhoto(id);
 
              if (photo == null)
                 return NotFound();
@@ -90,7 +87,7 @@ namespace _mosh_A2.Controllers
              photoRepository.Remove(photo);
              await unitOfWork.CompleteAsync();
 
-             return Ok(fileName);
+             return Ok(id);
         }
     }
 }

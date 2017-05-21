@@ -8,7 +8,7 @@ namespace _mosh_A2.Core
     public interface IPhotoRepository
     {
         Task<IEnumerable<Photo>> GetPhotos(int vehicleId);
-        Photo GetPhoto(string fileName);
+        Task<Photo> GetPhoto(int id);
         void Remove(Photo photo);
     }
 }

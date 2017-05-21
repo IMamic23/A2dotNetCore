@@ -19,8 +19,8 @@ export class PhotoService {
             .map(res => res.json());
     }
 
-    deletePhoto(fileName) {
-        return this.http.delete(`/api/photos/${fileName}`)
+    deletePhoto(id) {
+        return this.http.delete(`/api/photos/${id}`)
             .map(res => res.json());
     }
 }
