@@ -33,7 +33,7 @@ ul{
   position: absolute;
   top: 3px;
   right: 10px;
-  opacity: 0.5;
+  opacity: 0.6;
   color: red;
   cursor: pointer;
 }
@@ -43,4 +43,5 @@ ul{
 
 img {
     margin: 5px;
+    max-width: 300px;
 }
