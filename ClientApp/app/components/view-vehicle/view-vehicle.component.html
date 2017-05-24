@@ -1,4 +1,4 @@
-<h1>Vehicle</h1>
+<h1>Vehicle details</h1>
 <div>
 
   <!-- Nav tabs -->
@@ -11,27 +11,36 @@
   <div class="tab-content" *ngIf="vehicle">
     <!-- Vehicle tab -->
     <div role="tabpanel" class="tab-pane active" id="basic">
-      <h2>Basics</h2>
-      <table class="table table-bordered table-hover table-responsive">
+     <div class="row">
+      <div class="col-sm-4 col-md-4 col-lg-3">  
+        <div class="photo-wrapper"> 
+           <img src="/uploads/{{ photos[0].fileName }}" class="img-thumbnail" style="max-width:200px;">
+        </div>
+      </div>
+      <div class="col-sm-8 col-md-8 col-lg-8"> 
+        <h2>{{ vehicle.make.name }} {{ vehicle.model.name }} Basics</h2>
+      </div>
+     </div>
+      <table class="table table-bordered table-hover table-responsive" style="width: 200px; min-width: 100px;">
         <thead>
           <tr>
-            <th>Make</th>
-            <th>Model</th>
             <th>Registered</th>
           </tr>
         </thead>
         <tbody>
           <tr>
-            <td>{{ vehicle.make.name }}</td>
-            <td>{{ vehicle.model.name }}</td>
             <td>{{ vehicle.isRegistered ? 'Yes' : 'No' }}</td>
           </tr>
         </tbody>
       </table>
       <h2>Features</h2>
-      <ul>
-        <li class="myFeaturesList" *ngFor="let f of vehicle.features">{{ f.name }}</li>
-      </ul>
+      <div class="row">
+        <div class="features-wrapper"> 
+          <div class="col-md-6" *ngFor="let f of vehicle.features">
+              <div class="myFeaturesList"><span id="rn-features">{{ f.name }}</span></div>
+          </div>
+        </div>
+      </div>
       <h2>Contact</h2>
       
         <table class="table table-bordered table-hover table-responsive">
@@ -60,7 +69,7 @@
     </div>
     <!-- Photos tab -->
     <div role="tabpanel" class="tab-pane" id="photos">
-      <h2>Photos</h2>
+      <h2>{{ vehicle.make.name }} {{ vehicle.model.name }} Photos</h2>
       <input type="file" (change)="uploadPhoto()" #fileInput>
       <div class="progress" *ngIf="progress && progress.percentage < 100">
         <div class="progress-bar" [style.width]="progress.percentage + '%'">

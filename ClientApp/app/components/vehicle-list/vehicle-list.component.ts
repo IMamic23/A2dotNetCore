@@ -16,11 +16,10 @@ export class VehicleListComponent implements OnInit {
     pageSize: this.PAGE_SIZE
   };
   columns = [
-    { title: 'Id' },
     { title: 'Make', key: 'make', isSortable: true },
     { title: 'Model', key: 'model', isSortable: true },
     { title: 'Contact Name', key: 'contactName', isSortable: true },
-    { }
+    { title: 'Click for Details' }
   ];
 
   constructor(private vahicleService: VehicleService) { }

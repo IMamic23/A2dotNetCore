@@ -13,3 +13,16 @@
 .my-form{
     position: relative;
 }
+
+.features-wrapper {
+    max-width: 800px;
+    min-width: 300px;
+    overflow: auto;
+    border: 2px solid whitesmoke;
+}
+
+form{
+    max-width: 800px;
+    min-width: 300px;
+    overflow: hidden;
+}
