@@ -25,6 +25,7 @@ namespace _mosh_A2.Models
         public DateTime LastUpdate { get; set; }
         public ICollection<VehicleFeature> Features { get; set; }
         public ICollection<Photo> Photos { get; set; }
+        public Logo Logo { get; set; }
 
         public Vehicle()
         {

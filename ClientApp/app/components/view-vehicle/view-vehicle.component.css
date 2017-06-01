@@ -58,3 +58,11 @@ img {
     overflow: auto;
     border: 2px solid whitesmoke;
 }
+
+.img-logo {
+ max-width: 100px;
+}
+
+.img-main {
+ max-width: 500px;
+}

@@ -12,14 +12,22 @@
     <!-- Vehicle tab -->
     <div role="tabpanel" class="tab-pane active" id="basic">
      <div class="row">
-      <div class="col-sm-4 col-md-4 col-lg-3">  
-        <div class="photo-wrapper"> 
-           <img src="/uploads/{{ photos[0].fileName }}" class="img-thumbnail" style="max-width:200px;">
+      <div class="col-sm-3 col-md-3 col-lg-2">
+        <div *ngIf="logo == null">
+          <label>Upload logo</label>  
+          <input type="file" (change)="uploadLogo()" #fileInput>
+        </div>
+        <div *ngIf="logo != null" class="photo-wrapper"> 
+          <img src="/logos/{{ logo.fileName }}" class="img-thumbnail img-logo">
+          <span class="close" (click)="deleteLogo(logo)"></span>
         </div>
       </div>
       <div class="col-sm-8 col-md-8 col-lg-8"> 
         <h2>{{ vehicle.make.name }} {{ vehicle.model.name }} Basics</h2>
       </div>
+     </div>
+     <div *ngIf="photos.length > 0" class="photo-wrapper"> 
+           <img src="/uploads/{{ photos[0].fileName }}" class="img-thumbnail img-main">
      </div>
       <table class="table table-bordered table-hover table-responsive" style="width: 200px; min-width: 100px;">
         <thead>
