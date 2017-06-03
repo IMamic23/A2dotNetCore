@@ -64,5 +64,25 @@ img {
 }
 
 .img-main {
- max-width: 500px;
+ max-width: 100%;
+}
+
+th, td {
+ width: 20%;
+}
+
+.buttons-wrapper {
+position: fixed;
+right: 20px;
+bottom: 10px;
+width: 500px;
+}
+
+.buttons-wrapper > a, .buttons-wrapper > button {
+    width: 30%;
+    opacity: 0.7;
+}
+
+.buttons-wrapper > a:hover, .buttons-wrapper > button:hover {
+    opacity: 1;
 }
