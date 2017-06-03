@@ -9,11 +9,11 @@ th, td {
 }
 
 .myFeaturesList {
-    width: 200px;
-    list-style: none;
+    display: block;
     box-shadow: 2px 2px 4px rgba(0,0,0,0.2);
     padding: 5px;
-    margin-top: 3px;
+    margin: 5px;
+    text-align: center;
     border: 1px solid rgba(0,0,0,0.2);
 }
 
@@ -27,20 +27,62 @@ ul{
 }
 .close:before {
   content: '✕';
-  font-size: 12px;
 }
 .close {
   position: absolute;
-  top: 3px;
-  right: 10px;
-  opacity: 0.5;
+  font-size: 13px;
+  top: 5%;
+  right: 5%;
+  opacity: 0.6;
   color: red;
   cursor: pointer;
 }
 .close:hover {
   opacity: 0.9;
+  font-size: 15px;
 }
 
 img {
     margin: 5px;
+    max-width: 350px;
+}
+
+.make-model {
+    font-size: 22px;
+    font-weight: bold;
+}
+
+.features-wrapper {
+    max-width: 600px;
+    min-width: 300px;
+    overflow: auto;
+    border: 2px solid whitesmoke;
+}
+
+.img-logo {
+ max-width: 100px;
+}
+
+.img-main {
+ max-width: 100%;
+}
+
+th, td {
+ width: 20%;
+}
+
+.buttons-wrapper {
+position: fixed;
+right: 20px;
+bottom: 10px;
+width: 500px;
+}
+
+.buttons-wrapper > a, .buttons-wrapper > button {
+    width: 30%;
+    opacity: 0.7;
+}
+
+.buttons-wrapper > a:hover, .buttons-wrapper > button:hover {
+    opacity: 1;
 }

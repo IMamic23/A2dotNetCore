@@ -12,6 +12,7 @@ namespace _mosh_A2.Mapping
         public MappingProfile()
         {
             // Domain to API Resource
+            CreateMap<Logo, LogoResource>();
             CreateMap<Photo, PhotoResource>();
             CreateMap(typeof(QueryResult<>), typeof(QueryResultResource<>));
             CreateMap<Make, MakeResource>();

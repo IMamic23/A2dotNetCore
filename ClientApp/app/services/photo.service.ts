@@ -23,4 +23,17 @@ export class PhotoService {
         return this.http.delete(`/api/photos/${id}`)
             .map(res => res.json());
     }
+
+    uploadLogo(vehicleId, logo) {
+         var formData = new FormData();
+         formData.append("file", logo);
+         return this.http.post(`/api/vehicles/${vehicleId}/logo`, formData)
+            .map(res => res.json());
+    }
+
+    getLogo(vehicleId) {
+        return this.http.get(`/api/vehicles/${vehicleId}/logo`)
+            .map(res => res.json());
+    }
+
 }

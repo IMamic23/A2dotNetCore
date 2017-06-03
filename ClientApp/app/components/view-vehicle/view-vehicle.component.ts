@@ -16,6 +16,7 @@ export class ViewVehicleComponent implements OnInit {
   vehicle: any;
   vehicleId: number;
   photos: any[];
+  logo: any;
   progress: any;
   subscription: any;
   file: any;
@@ -40,12 +41,15 @@ export class ViewVehicleComponent implements OnInit {
     }
 
   ngOnInit() {
-    this.getVehicleAndPhotos();
+    this.getVehicleLogoAndPhotos();
   }
 
-  getVehicleAndPhotos() {
+  getVehicleLogoAndPhotos() {
     this.photoService.getPhotos(this.vehicleId)
       .subscribe(photos => this.photos = photos);
+    
+     this.photoService.getLogo(this.vehicleId)
+       .subscribe(logo => this.logo = logo);
 
     this.vehicleService.getVehicle(this.vehicleId)
       .subscribe(
@@ -79,6 +83,25 @@ export class ViewVehicleComponent implements OnInit {
     var nativeElement: HTMLInputElement = this.fileInput.nativeElement;
     this.file = nativeElement.files[0];
     
+    this.useProgress();
+    
+    nativeElement.value = '';
+
+    this.photoService.upload(this.vehicleId, this.file)
+      .subscribe(photo => {
+        this.photos.push(photo);
+      }, err => {
+        this.toasty.error({
+            title: 'Error',
+            msg: err.text(),
+            theme: 'bootstrap',
+            showClose: true,
+            timeout: 5000
+          });
+      });
+  }
+
+  useProgress() {
     this.subscription = this.progressService.startTracking()
       .subscribe(progress => {
         console.log(progress);
@@ -87,13 +110,20 @@ export class ViewVehicleComponent implements OnInit {
         });
       }, null, 
       () => { this.progress = null });
+  }
+
+  uploadLogo() {
+    var nativeElement: HTMLInputElement = this.fileInput.nativeElement;
+    this.file = nativeElement.files[0];
+    
+    this.useProgress();
     
     nativeElement.value = '';
 
-    this.photoService.upload(this.vehicleId, this.file)
-      .subscribe(photo => {
-        this.photos.push(photo);
-      }, err => {
+    this.photoService.uploadLogo(this.vehicleId, this.file)
+      .subscribe(logo => {
+        this.logo = logo;
+      }, err =>{
         this.toasty.error({
             title: 'Error',
             msg: err.text(),

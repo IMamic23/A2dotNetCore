@@ -1,4 +1,4 @@
-<h1>Vehicle</h1>
+<h1>Vehicle details</h1>
 <div>
 
   <!-- Nav tabs -->
@@ -11,28 +11,57 @@
   <div class="tab-content" *ngIf="vehicle">
     <!-- Vehicle tab -->
     <div role="tabpanel" class="tab-pane active" id="basic">
-      <h2>Basics</h2>
-      <table class="table table-bordered table-hover table-responsive">
+     <div class="row">
+     <div class="col-lg-6 col-md-6 col-sm-12"> 
+     <div class="row">
+      <div class="col-sm-4 col-md-4 col-lg-3">
+        <div *ngIf="logo == null">
+          <label>Upload logo</label>  
+          <input type="file" (change)="uploadLogo()" #fileInput>
+        </div>
+        <div *ngIf="logo != null" class="photo-wrapper"> 
+          <img src="/logos/{{ logo.fileName }}" class="img-thumbnail img-logo img-responsive">
+          <!--<span class="close" (click)="deleteLogo(logo)"></span>-->
+        </div>
+      </div>
+      <div class="col-sm-8 col-md-8 col-lg-9"> 
+        <h2>{{ vehicle.make.name }} {{ vehicle.model.name }} <small>BASICS</small></h2>
+      </div>
+     </div>
+     <div *ngIf="photos.length > 0" class="photo-wrapper"> 
+           <img src="/uploads/{{ photos[0].fileName }}" class="img-thumbnail img-main img-responsive">
+     </div>
+      <table class="table table-bordered table-hover table-responsive" style="width: 100%; min-width: 300px;">
         <thead>
           <tr>
-            <th>Make</th>
-            <th>Model</th>
             <th>Registered</th>
+            <th>Milage</th>
+            <th>First Owner?</th>
+            <th>Test Vehicle?</th>
+            <th>Basic Price</th>
           </tr>
         </thead>
         <tbody>
           <tr>
-            <td>{{ vehicle.make.name }}</td>
-            <td>{{ vehicle.model.name }}</td>
             <td>{{ vehicle.isRegistered ? 'Yes' : 'No' }}</td>
+            <td>75.350km</td>
+            <td>Yes</td>
+            <td>No</td>
+            <td>€ 20000</td> 
           </tr>
         </tbody>
       </table>
-      <h2>Features</h2>
-      <ul>
-        <li class="myFeaturesList" *ngFor="let f of vehicle.features">{{ f.name }}</li>
-      </ul>
-      <h2>Contact</h2>
+     </div> <!-- col -->
+     <div class="col-lg-6 col-md-12 col-sm-12">
+      <h3>Features</h3>
+      <div class="row">
+        <div class="features-wrapper"> 
+          <div class="col-md-6" *ngFor="let f of vehicle.features">
+              <div class="myFeaturesList"><span id="rn-features">{{ f.name }}</span></div>
+          </div>
+        </div>
+      </div>
+      <h3>Contact</h3>
       
         <table class="table table-bordered table-hover table-responsive">
         <thead>
@@ -50,17 +79,20 @@
           </tr>
         </tbody>
       </table>
-    
       <br/>
-      <p>
+      <br/>
+      <br/>
+      <div class="buttons-wrapper">
         <a class="btn btn-primary" [routerLink]="['/vehicles/edit/', vehicle.id]">Edit</a>
         <button class="btn btn-danger" (click)="delete()">Delete</button>
         <a class="btn btn-default" [routerLink]="['/vehicles']">View All Vehicles</a>
-      </p>
-    </div>
+      </div>
+       </div> <!-- /col -->
+      </div> <!-- /Main row -->
+    </div> <!-- /tab -->
     <!-- Photos tab -->
     <div role="tabpanel" class="tab-pane" id="photos">
-      <h2>Photos</h2>
+      <h2>{{ vehicle.make.name }} {{ vehicle.model.name }} <small>PHOTOS</small></h2>
       <input type="file" (change)="uploadPhoto()" #fileInput>
       <div class="progress" *ngIf="progress && progress.percentage < 100">
         <div class="progress-bar" [style.width]="progress.percentage + '%'">
