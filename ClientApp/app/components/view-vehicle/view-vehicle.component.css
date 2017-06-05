@@ -80,7 +80,7 @@ width: 500px;
 
 .buttons-wrapper > a, .buttons-wrapper > button {
     width: 30%;
-    opacity: 0.7;
+    opacity: 0.9;
 }
 
 .buttons-wrapper > a:hover, .buttons-wrapper > button:hover {

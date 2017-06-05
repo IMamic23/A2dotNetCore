@@ -15,7 +15,7 @@
      <div class="col-lg-6 col-md-6 col-sm-12"> 
      <div class="row">
       <div class="col-sm-4 col-md-4 col-lg-3">
-        <div *ngIf="logo == null">
+        <div *ngIf="logo == null && auth.authenticated()">
           <label>Upload logo</label>  
           <input type="file" (change)="uploadLogo()" #fileInput>
         </div>
@@ -83,8 +83,8 @@
       <br/>
       <br/>
       <div class="buttons-wrapper">
-        <a class="btn btn-primary" [routerLink]="['/vehicles/edit/', vehicle.id]">Edit</a>
-        <button class="btn btn-danger" (click)="delete()">Delete</button>
+        <a *ngIf="auth.authenticated()" class="btn btn-primary" [routerLink]="['/vehicles/edit/', vehicle.id]">Edit</a>
+        <button *ngIf="auth.authenticated()" class="btn btn-danger" (click)="delete()">Delete</button>
         <a class="btn btn-default" [routerLink]="['/vehicles']">View All Vehicles</a>
       </div>
        </div> <!-- /col -->
@@ -93,7 +93,7 @@
     <!-- Photos tab -->
     <div role="tabpanel" class="tab-pane" id="photos">
       <h2>{{ vehicle.make.name }} {{ vehicle.model.name }} <small>PHOTOS</small></h2>
-      <input type="file" (change)="uploadPhoto()" #fileInput>
+      <input *ngIf="auth.authenticated()" type="file" (change)="uploadPhoto()" #fileInput>
       <div class="progress" *ngIf="progress && progress.percentage < 100">
         <div class="progress-bar" [style.width]="progress.percentage + '%'">
           <span class="sr-only">{{ progress.percentage }}% Complete</span>

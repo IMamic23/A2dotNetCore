@@ -13,6 +13,7 @@ using _mosh_A2.Persistence;
 using _mosh_A2.Core;
 using AutoMapper;
 using _mosh_A2.Core.Models;
+using _mosh_A2.Controllers;
 
 namespace WebApplicationBasic
 {
@@ -43,6 +44,10 @@ namespace WebApplicationBasic
             services.AddAutoMapper();
 
             services.AddDbContext<VegaDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("Default")));
+
+            services.AddAuthorization(options => {
+               options.AddPolicy(Policies.RequireAdminRole, policy => policy.RequireClaim("https://vega.com/roles", "Admin")); 
+            });
             // Add framework services.
             services.AddMvc();
         }
@@ -66,6 +71,13 @@ namespace WebApplicationBasic
             }
 
             app.UseStaticFiles();
+
+            var options = new JwtBearerOptions
+            {
+            Audience = "https://api.vega.com",
+            Authority = "https://imamicproject.eu.auth0.com/"
+            };
+            app.UseJwtBearerAuthentication(options);
 
             app.UseMvc(routes =>
             {
