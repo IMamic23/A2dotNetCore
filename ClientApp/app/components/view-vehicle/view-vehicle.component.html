@@ -85,7 +85,7 @@
       <div class="buttons-wrapper">
         <a *ngIf="auth.authenticated()" class="btn btn-primary" [routerLink]="['/vehicles/edit/', vehicle.id]">Edit</a>
         <button *ngIf="auth.authenticated()" class="btn btn-danger" (click)="delete()">Delete</button>
-        <a class="btn btn-default" [routerLink]="['/vehicles']">View All Vehicles</a>
+        <a class="btn btn-default pull-right" [routerLink]="['/vehicles']">View All Vehicles</a>
       </div>
        </div> <!-- /col -->
       </div> <!-- /Main row -->

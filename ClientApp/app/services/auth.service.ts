@@ -1,4 +1,6 @@
-import { Injectable }      from '@angular/core';
+import { EventEmitter } from '@angular/common/src/facade/async';
+import { Router } from '@angular/router';
+import { Injectable, Output } from '@angular/core';
 import { tokenNotExpired, JwtHelper } from 'angular2-jwt';
 
 // Avoid name not found warnings
@@ -12,9 +14,9 @@ export class Auth {
   // Configure Auth0
   lock = new Auth0Lock('XnTO55C3CRq6W5cbHmJ0t753UhI8qIWS', 'imamicproject.eu.auth0.com', {});
 
-  constructor() {
+  constructor(private route: Router) {
     this.ReadUserFromLocalStorage();
-  
+    
     this.lock.on('authenticated', (authResult: any) => this.onUserAuthenticated(authResult));
   }
 
@@ -33,6 +35,7 @@ export class Auth {
 
   private ReadUserFromLocalStorage() {
       this.profile = JSON.parse(localStorage.getItem('profile'));
+      console.log(this.profile);
 
       var token = localStorage.getItem('token');
       if(token) {
@@ -63,6 +66,7 @@ export class Auth {
     localStorage.removeItem('profile');
     this.profile = null;
     this.roles = [];
+    this.route.navigate(['/vehicles']);
   }
 
 }

@@ -17,6 +17,11 @@
                         <span class='glyphicon glyphicon-user'></span> Login
                     </a>
                 </li>
+                <li>
+                    <a href="#" *ngIf="auth.authenticated()">
+                        <span class='glyphicon glyphicon-user'></span> Welcome, {{ auth.profile.name }} 
+                    </a>
+                </li>
                  <li>
                     <a (click)="auth.logout()" *ngIf="auth.authenticated()">
                         <span class='glyphicon glyphicon-user'></span> Logout
