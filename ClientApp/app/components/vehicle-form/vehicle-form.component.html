@@ -1,5 +1,5 @@
 <h2>New Vehicle</h2>
-<div class="container-fluid">
+<div class="container-fluid well newVehicle-container pull-left">
     <form #f="ngForm" (ngSubmit)="submit()">
         <div class="form-group my-form">
             <label for="make">Make</label>
@@ -124,26 +124,48 @@
          </div>
          <div class="form-group my-form">
              <label for="yearOfManafacture">Year Of Manafacture</label>
-             <input id="yearOfManafacture" 
+             
+              <select id="yearOfManafacture" 
+                    class="form-control"
+                    [(ngModel)]="vehicle.additionalInfo.yearOfManafacture" 
+                    name="yearOfManafacture" 
+                    required 
+                    #yearOfManafacture="ngModel">
+                <option value=""></option>
+                <option *ngFor="let y of years" value="{{ y }}">{{ y }}</option>
+            </select>
+             
+             <!--<input id="yearOfManafacture" 
                 type="number"
                 placeholder="Enter Year Of Manafacture"  
                 class="form-control" 
                 [(ngModel)]="vehicle.additionalInfo.yearOfManafacture" 
                 name="yearOfManafacture" 
                 required
-                #yearOfManafacture="ngModel">
+                #yearOfManafacture="ngModel">-->
             <div class="alert alert-danger my-alert" *ngIf="yearOfManafacture.touched && !yearOfManafacture.valid">Please specifiy a year of manafacture</div> 
          </div>
          <div class="form-group my-form">
              <label for="firstRegistrationYear">First Year Of Registration</label>
-             <input id="firstRegistrationYear" 
+             
+              <select id="firstRegistrationYear" 
+                    class="form-control"
+                    [(ngModel)]="vehicle.additionalInfo.firstRegistrationYear" 
+                    name="firstRegistrationYear" 
+                    required 
+                    #firstRegistrationYear="ngModel">
+                <option value=""></option>
+                <option *ngFor="let y of years" value="{{ y }}">{{ y }}</option>
+            </select>
+             
+             <!--<input id="firstRegistrationYear" 
                 type="number"
                 placeholder="Enter First Year Of Registration"  
                 class="form-control" 
                 [(ngModel)]="vehicle.additionalInfo.firstRegistrationYear" 
                 name="firstRegistrationYear" 
                 required
-                #firstRegistrationYear="ngModel">
+                #firstRegistrationYear="ngModel">-->
             <div class="alert alert-danger my-alert" *ngIf="firstRegistrationYear.touched && !firstRegistrationYear.valid">Please specifiy a First Year Of Registration</div>
          </div>
          <div class="form-group my-form">
@@ -151,13 +173,16 @@
              <input id="mileage" 
                 type="number"
                 placeholder="Enter Mileage"  
-                class="form-control" 
-                [(ngModel)]="vehicle.additionalInfo.mileage" 
+                class="form-control"
+                [(ngModel)]="vehicle.additionalInfo.mileage"
                 name="mileage"
                 step="0.1"
                 required
                 #mileage="ngModel">
-            <div class="alert alert-danger my-alert" *ngIf="mileage.touched && !mileage.valid">Please specifiy car Mileage</div>
+            <div class="alert alert-danger my-alert" 
+                *ngIf="mileage.touched && !mileage.valid || mileage.touched && mileage.value == 0">
+                Please specifiy car Mileage
+                </div>
          </div>
          <div class="form-group my-form">
              <label for="modelEnginePower">Engine Power</label>
@@ -170,7 +195,10 @@
                 step="0.1" 
                 required
                 #modelEnginePower="ngModel">
-            <div class="alert alert-danger my-alert" *ngIf="modelEnginePower.touched && !modelEnginePower.valid">Please specifiy Model Engine Power</div>
+            <div class="alert alert-danger my-alert" 
+                *ngIf="modelEnginePower.touched && !modelEnginePower.valid || modelEnginePower.touched && modelEnginePower.value == 0">
+                Please specifiy Model Engine Power
+                </div>
          </div>
          <div class="form-group my-form">
             <label for="gearType">Gear Type</label>
@@ -231,7 +259,10 @@
                 step="0.1"
                 required
                 #fuelConsumption="ngModel">
-            <div class="alert alert-danger my-alert" *ngIf="fuelConsumption.touched && !fuelConsumption.valid">Please specifiy Fuel Consumption</div>
+            <div class="alert alert-danger my-alert" 
+                *ngIf="fuelConsumption.touched && !fuelConsumption.valid || fuelConsumption.touched && fuelConsumption.value == 0">
+                Please specifiy Fuel Consumption
+                </div>
          </div>
          <div class="form-group my-form">
             <label for="carState">Car State</label>
@@ -304,9 +335,11 @@
                 required
                 #carDescription="ngModel">
             <div class="alert alert-danger my-alert" *ngIf="carDescription.touched && !carDescription.valid">Please specifiy Car Description</div>
+        </div>
+        <div class="buttons-wrapper">
+            <button class="btn btn-primary" [disabled]="!f.valid">Save</button>
+            <button *ngIf="vehicle.id" class="btn btn-danger" type="button" (click)="delete()">Delete</button>
+            <button type="button" class="btn btn-default" (click)="goBack()">Cancel</button>
         </div> 
-        <button class="btn btn-primary" [disabled]="!f.valid">Save</button>
-        <button *ngIf="vehicle.id" class="btn btn-danger" type="button" (click)="delete()">Delete</button>
-        <button type="button" class="btn btn-default" (click)="goBack()">Cancel</button>
     </form>
 </div>

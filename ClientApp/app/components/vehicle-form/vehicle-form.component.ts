@@ -13,10 +13,11 @@ import "rxjs/add/Observable/forkJoin";
   styleUrls: ["./vehicle-form.component.css"]
 })
 export class VehicleFormComponent implements OnInit {
+  private years: number[] = [];
+  private yy : number;
   makes: any[];
   models: any[];
   features: any[];
-  years: number[] = [2017,2016,2015,2014,2013,2012,2011,2010];
   additionalInfo: any;
   vehicle: SaveVehicle = {
     id: 0,
@@ -26,16 +27,16 @@ export class VehicleFormComponent implements OnInit {
     features: [],
     additionalInfo: {
       modelType: '',
-      yearOfManafacture: 0,
-      firstRegistrationYear: 0,
-      mileage: 0,
+      yearOfManafacture: null,
+      firstRegistrationYear: null,
+      mileage: null,
       modelEngineType: '',
-      modelEnginePower: 0,
+      modelEnginePower: null,
       gearType: '',
-      noOfGears: 0,
-      fuelConsumption: 0,
+      noOfGears: null,
+      fuelConsumption: null,
       carState: '',
-      ownerNo: 0,
+      ownerNo: null,
       carCurrentLocation: '',
       carDescription: '',
       carColor: ''
@@ -63,6 +64,8 @@ export class VehicleFormComponent implements OnInit {
       this.vehicleService.getMakes(),
       this.vehicleService.getFeatures(),
     ];
+    
+    this.getYear();
 
     if (this.vehicle.id)
       sources.push(this.vehicleService.getVehicle(this.vehicle.id));
@@ -96,6 +99,13 @@ export class VehicleFormComponent implements OnInit {
 
     delete this.vehicle.modelId;
   }
+  
+   getYear(){
+        var today = new Date();
+        this.yy = today.getFullYear();        
+        for(var i = (this.yy); i >= (this.yy)-50; i--){
+        this.years.push(i);}
+    }
 
   private populateModels() {
     var selectedMake = this.makes.find(m => m.id == this.vehicle.makeId);

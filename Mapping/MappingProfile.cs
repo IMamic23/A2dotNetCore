@@ -36,6 +36,10 @@ namespace _mosh_A2.Mapping
 
             // API Resource to Domain
             CreateMap<VehicleQueryResource, VehicleQuery>();
+
+            // CreateMap<AdditionalInfoResource, AdditionalInfo>()
+            //     .ForMember(v => v.Id, opt => opt.Ignore());
+
             CreateMap<SaveVehicleResource, Vehicle>()
                 .ForMember(v => v.Id, opt => opt.Ignore())
                 .ForMember(v => v.ContactName, opt => opt.MapFrom(vr => vr.Contact.Name))

@@ -26,3 +26,15 @@ form{
     min-width: 300px;
     overflow: hidden;
 }
+
+.buttons-wrapper {
+position: fixed;
+right: 20px;
+bottom: 20px;
+width: 500px;
+}
+
+.newVehicle-container {
+    width: 50%;
+    min-width: 300px;
+}

@@ -43,7 +43,7 @@
         <tbody>
           <tr>
             <td>{{ vehicle.isRegistered ? 'Yes' : 'No' }}</td>
-            <td>{{ vehicle.additionalInfo.mileage }}km</td>
+            <td>{{ vehicle.additionalInfo.mileage }} km</td>
             <td>{{ (vehicle.additionalInfo.ownerNo == 1) ? 'Yes' : 'No' }}</td>
        <!-- <td>No</td>
             <td>€ 20000</td> -->
@@ -63,64 +63,147 @@
       <h3>Additional Informations</h3>
       <ul class="additionalData">
         <li>
-          <span class="addDataTitle">Model Type</span>
-          <span class="addDataValue">{{ vehicle.additionalInfo.modelType }}</span>
+          <div class="row">
+            <div class="col-md-5 addDataTitle">
+              <span>Model Type</span>
+            </div>
+            <div class="col-md-7">
+              <span>{{ vehicle.additionalInfo.modelType }}</span>
+            </div>
+          </div>
         </li>
          <li>
-          <span class="addDataTitle">Engine Type</span>
-          <span class="addDataValue">{{ vehicle.additionalInfo.modelEngineType }}</span>
+           <div class="row">
+            <div class="col-md-5 addDataTitle">
+              <span>Engine Type</span>
+            </div>
+            <div class="col-md-7">
+              <span>{{ vehicle.additionalInfo.modelEngineType }}</span>
+            </div>
+           </div>
         </li>
         <li>
-          <span class="addDataTitle">Year Of Manafacture</span>
-          <span class="addDataValue">{{ vehicle.additionalInfo.yearOfManafacture }}</span>
+          <div class="row">
+            <div class="col-md-5 addDataTitle">
+              <span>Year Of Manafacture</span>
+            </div>
+            <div class="col-md-7">
+              <span>{{ vehicle.additionalInfo.yearOfManafacture }}</span>
+            </div>
+          </div>
         </li>
         <li>
-          <span class="addDataTitle">First Year Of Registration</span>
-          <span class="addDataValue">{{ vehicle.additionalInfo.firstRegistrationYear }}</span>
+          <div class="row">
+            <div class="col-md-5 addDataTitle">
+              <span>First Year Of Registration</span>
+            </div>
+            <div class="col-md-7">
+              <span>{{ vehicle.additionalInfo.firstRegistrationYear }}</span>
+            </div>
+          </div>
         </li>
         <li>
-          <span class="addDataTitle">Mileage</span>
-          <span class="addDataValue">{{ vehicle.additionalInfo.mileage }}km</span>
+          <div class="row">
+            <div class="col-md-5 addDataTitle">
+              <span>Mileage</span>
+            </div>
+            <div class="col-md-7">
+              <span>{{ vehicle.additionalInfo.mileage }} km</span>
+            </div>
+          </div>
         </li>
         <li>
-          <span class="addDataTitle">Engine Power</span>
-          <span class="addDataValue">{{ vehicle.additionalInfo.modelEnginePower }}kW</span>
+          <div class="row">
+            <div class="col-md-5 addDataTitle">
+              <span>Engine Power</span>
+            </div>
+            <div class="col-md-7">
+              <span>{{ vehicle.additionalInfo.modelEnginePower }} kW</span>
+            </div>
+          </div>
         </li>
         <li>
-          <span class="addDataTitle">Gear Type</span>
-          <span class="addDataValue">{{ vehicle.additionalInfo.gearType }}</span>
+          <div class="row">
+            <div class="col-md-5 addDataTitle">
+              <span>Gear Type</span>
+            </div>
+            <div class="col-md-7">
+              <span>{{ vehicle.additionalInfo.gearType }}</span>
+            </div>
+          </div>
         </li>
         <li>
-          <span class="addDataTitle">Number of Gears</span>
-          <span class="addDataValue">{{ vehicle.additionalInfo.noOfGears }}</span>
+          <div class="row">
+            <div class="col-md-5 addDataTitle">
+              <span>Number of Gears</span>
+            </div>
+            <div class="col-md-7">
+              <span>{{ vehicle.additionalInfo.noOfGears }}</span>
+            </div>
+          </div>
         </li>
         <li>
-          <span class="addDataTitle">Fuel Consumption</span>
-          <span class="addDataValue">{{ vehicle.additionalInfo.fuelConsumption }}</span>
+          <div class="row">
+            <div class="col-md-5 addDataTitle">
+              <span>Fuel Consumption</span>
+            </div>
+            <div class="col-md-7">
+              <span>{{ vehicle.additionalInfo.fuelConsumption }} liters/100km</span>
+            </div>
+          </div>
         </li>
         <li>
-          <span class="addDataTitle">Car State</span>
-          <span class="addDataValue">{{ vehicle.additionalInfo.carState }}</span>
+          <div class="row">
+            <div class="col-md-5 addDataTitle">
+              <span>Car State</span>
+            </div>
+            <div class="col-md-7">
+             <span>{{ vehicle.additionalInfo.carState }}</span>
+            </div>
+          </div>
         </li>
         <li>
-          <span class="addDataTitle">Car Color</span>
-          <span class="addDataValue">{{ vehicle.additionalInfo.carColor }}</span>
+          <div class="row">
+            <div class="col-md-5 addDataTitle">
+              <span>Car Color</span>
+            </div>
+            <div class="col-md-7">
+              <span>{{ vehicle.additionalInfo.carColor }}</span>
+            </div>
+          </div>
         </li>
         <li>
-          <span class="addDataTitle">Owner Number?</span>
-          <span class="addDataValue">{{ vehicle.additionalInfo.ownerNo }}</span>
+          <div class="row">
+            <div class="col-md-5 addDataTitle">
+             <span>Owner Number?</span>
+            </div>
+            <div class="col-md-7">
+              <span>{{ vehicle.additionalInfo.ownerNo }}</span>
+            </div>
+          </div>
         </li>
         <li>
-          <span class="addDataTitle">Car Current Location</span>
-          <span class="addDataValue">{{ vehicle.additionalInfo.carCurrentLocation }}</span>
+          <div class="row">
+            <div class="col-md-5 addDataTitle">
+              <span>Car Current Location</span>
+            </div>
+            <div class="col-md-7">
+              <span>{{ vehicle.additionalInfo.carCurrentLocation }}</span>
+            </div>
+          </div>
         </li>
         <li>
-          <span class="addDataTitle">Car Description</span>
-          <span class="addDataValue">{{ vehicle.additionalInfo.carDescription }}</span>
+          <div class="row">
+            <div class="col-md-5 addDataTitle">
+              <span>Car Description</span>
+            </div>
+            <div class="col-md-7">
+              <span>{{ vehicle.additionalInfo.carDescription }}</span>
+            </div>
+          </div>
         </li>
       </ul>
       <h3>Contact</h3>
-      
         <table class="table table-bordered table-hover table-responsive">
         <thead>
           <tr>
