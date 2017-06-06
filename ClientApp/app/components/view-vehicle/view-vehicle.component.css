@@ -86,3 +86,23 @@ width: 500px;
 .buttons-wrapper > a:hover, .buttons-wrapper > button:hover {
     opacity: 1;
 }
+
+.additionalData > li {
+    list-style: none;
+    max-width: 500px;
+    margin: 3px;
+    padding: 5px;
+    border: 1px solid rgba(0,0,0,0.2);
+}
+.addDataTitle {
+    min-width: 200px;
+    text-align: right;
+    margin-right: 5px;
+    display: inline-block;
+    font-weight: bold;
+}
+.addDataValue {
+    display: inline-block;
+    min-width: 270px;
+    margin-left: 5px;
+}

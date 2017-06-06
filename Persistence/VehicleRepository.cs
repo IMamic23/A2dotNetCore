@@ -29,6 +29,7 @@ namespace _mosh_A2.Persistence
                 .ThenInclude(vf => vf.Feature)
                 .Include(v => v.Model)
                 .ThenInclude(m => m.Make)
+                .Include(a => a.AdditionalInfo)
                 .SingleOrDefaultAsync(v => v.Id == id);
         }
 

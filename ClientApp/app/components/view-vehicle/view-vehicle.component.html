@@ -35,25 +35,23 @@
         <thead>
           <tr>
             <th>Registered</th>
-            <th>Milage</th>
+            <!--<th>Milage</th>
             <th>First Owner?</th>
             <th>Test Vehicle?</th>
-            <th>Basic Price</th>
+            <th>Basic Price</th>-->
           </tr>
         </thead>
         <tbody>
           <tr>
             <td>{{ vehicle.isRegistered ? 'Yes' : 'No' }}</td>
-            <td>75.350km</td>
+            <!--<td>75.350km</td>
             <td>Yes</td>
             <td>No</td>
-            <td>€ 20000</td> 
+            <td>€ 20000</td> -->
           </tr>
         </tbody>
       </table>
-     </div> <!-- col -->
-     <div class="col-lg-6 col-md-12 col-sm-12">
-      <h3>Features</h3>
+        <h3>Features</h3>
       <div class="row">
         <div class="features-wrapper"> 
           <div class="col-md-6" *ngFor="let f of vehicle.features">
@@ -61,6 +59,67 @@
           </div>
         </div>
       </div>
+     </div> <!-- col -->
+     <div class="col-lg-6 col-md-12 col-sm-12">
+      <h3>Additional Informations</h3>
+      <ul class="additionalData">
+        <li>
+          <span class="addDataTitle">Model Type</span>
+          <span class="addDataValue">{{ vehicle.additionalInfo.modelType }}</span>
+        </li>
+         <li>
+          <span class="addDataTitle">Engine Type</span>
+          <span class="addDataValue">{{ vehicle.additionalInfo.modelEngineType }}</span>
+        </li>
+        <li>
+          <span class="addDataTitle">Year Of Manafacture</span>
+          <span class="addDataValue">{{ vehicle.additionalInfo.yearOfManafacture }}</span>
+        </li>
+        <li>
+          <span class="addDataTitle">First Year Of Registration</span>
+          <span class="addDataValue">{{ vehicle.additionalInfo.firstRegistrationYear }}</span>
+        </li>
+        <li>
+          <span class="addDataTitle">Mileage</span>
+          <span class="addDataValue">{{ vehicle.additionalInfo.mileage }}</span>
+        </li>
+        <li>
+          <span class="addDataTitle">Engine Power</span>
+          <span class="addDataValue">{{ vehicle.additionalInfo.modelEnginePower }}kW</span>
+        </li>
+        <li>
+          <span class="addDataTitle">Gear Type</span>
+          <span class="addDataValue">{{ vehicle.additionalInfo.gearType }}</span>
+        </li>
+        <li>
+          <span class="addDataTitle">Number of Gears</span>
+          <span class="addDataValue">{{ vehicle.additionalInfo.noOfGears }}</span>
+        </li>
+        <li>
+          <span class="addDataTitle">Fuel Consumption</span>
+          <span class="addDataValue">{{ vehicle.additionalInfo.fuelConsumption }}</span>
+        </li>
+        <li>
+          <span class="addDataTitle">Car State</span>
+          <span class="addDataValue">{{ vehicle.additionalInfo.carState }}</span>
+        </li>
+        <li>
+          <span class="addDataTitle">Car Color</span>
+          <span class="addDataValue">{{ vehicle.additionalInfo.carColor }}</span>
+        </li>
+        <li>
+          <span class="addDataTitle">Owner Number?</span>
+          <span class="addDataValue">{{ vehicle.additionalInfo.ownerNo }}</span>
+        </li>
+        <li>
+          <span class="addDataTitle">Car Current Location</span>
+          <span class="addDataValue">{{ vehicle.additionalInfo.carCurrentLocation }}</span>
+        </li>
+        <li>
+          <span class="addDataTitle">Car Description</span>
+          <span class="addDataValue">{{ vehicle.additionalInfo.carDescription }}</span>
+        </li>
+      </ul>
       <h3>Contact</h3>
       
         <table class="table table-bordered table-hover table-responsive">

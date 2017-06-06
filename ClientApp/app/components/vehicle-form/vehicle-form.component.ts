@@ -16,12 +16,29 @@ export class VehicleFormComponent implements OnInit {
   makes: any[];
   models: any[];
   features: any[];
+  additionalInfo: any;
   vehicle: SaveVehicle = {
     id: 0,
     makeId: 0,
     modelId: 0,
     isRegistered: false,
     features: [],
+    additionalInfo: {
+      modelType: '',
+      yearOfManafacture: 0,
+      firstRegistrationYear: 0,
+      mileage: 0,
+      modelEngineType: '',
+      modelEnginePower: 0,
+      gearType: '',
+      noOfGears: 0,
+      fuelConsumption: 0,
+      carState: '',
+      ownerNo: 0,
+      carCurrentLocation: '',
+      carDescription: '',
+      carColor: ''
+    },
     contact: {
       name: '',
       email: '',
@@ -69,6 +86,7 @@ export class VehicleFormComponent implements OnInit {
     this.vehicle.modelId = v.model.id;
     this.vehicle.isRegistered = v.isRegistered;
     this.vehicle.contact = v.contact;
+    this.vehicle.additionalInfo = v.additionalInfo;
     this.vehicle.features = _.pluck(v.features, 'id');
   }
 
