@@ -1,6 +1,5 @@
 <h1>Vehicle details</h1>
-<div>
-
+<div class="well">
   <!-- Nav tabs -->
   <ul class="nav nav-tabs" role="tablist">
     <li role="presentation" class="active"><a href="#basic" aria-controls="basic" role="tab" data-toggle="tab">Vehicle</a></li>
@@ -35,18 +34,18 @@
         <thead>
           <tr>
             <th>Registered</th>
-            <!--<th>Milage</th>
+            <th>Milage</th>
             <th>First Owner?</th>
-            <th>Test Vehicle?</th>
+            <!--<th>Test Vehicle?</th>
             <th>Basic Price</th>-->
           </tr>
         </thead>
         <tbody>
           <tr>
             <td>{{ vehicle.isRegistered ? 'Yes' : 'No' }}</td>
-            <!--<td>75.350km</td>
-            <td>Yes</td>
-            <td>No</td>
+            <td>{{ vehicle.additionalInfo.mileage }}km</td>
+            <td>{{ (vehicle.additionalInfo.ownerNo == 1) ? 'Yes' : 'No' }}</td>
+       <!-- <td>No</td>
             <td>€ 20000</td> -->
           </tr>
         </tbody>
@@ -81,7 +80,7 @@
         </li>
         <li>
           <span class="addDataTitle">Mileage</span>
-          <span class="addDataValue">{{ vehicle.additionalInfo.mileage }}</span>
+          <span class="addDataValue">{{ vehicle.additionalInfo.mileage }}km</span>
         </li>
         <li>
           <span class="addDataTitle">Engine Power</span>

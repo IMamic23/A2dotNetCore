@@ -55,6 +55,8 @@ namespace _mosh_A2.Mapping
                          v.Features.Add(f);
                     }
                 });
+                // .ForMember(v => v.AdditionalInfo.Id, opt => opt.Ignore())
+
         }
     }
 }

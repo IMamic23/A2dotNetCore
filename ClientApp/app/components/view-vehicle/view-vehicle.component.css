@@ -44,7 +44,7 @@ ul{
 
 img {
     margin: 5px;
-    max-width: 350px;
+    max-width: 600px;
 }
 
 .make-model {
@@ -74,7 +74,7 @@ th, td {
 .buttons-wrapper {
 position: fixed;
 right: 20px;
-bottom: 10px;
+bottom: 20px;
 width: 500px;
 }
 

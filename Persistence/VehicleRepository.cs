@@ -46,6 +46,10 @@ namespace _mosh_A2.Persistence
         {
             context.Vehicles.Remove(vehicle);
         }
+         public void Update(Vehicle vehicle) 
+        {
+            context.Vehicles.Update(vehicle);
+        }
 
         public async Task<QueryResult<Vehicle>> GetVehicles(VehicleQuery queryObj){
             

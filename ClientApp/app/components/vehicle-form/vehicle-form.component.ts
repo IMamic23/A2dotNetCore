@@ -16,6 +16,7 @@ export class VehicleFormComponent implements OnInit {
   makes: any[];
   models: any[];
   features: any[];
+  years: number[] = [2017,2016,2015,2014,2013,2012,2011,2010];
   additionalInfo: any;
   vehicle: SaveVehicle = {
     id: 0,
