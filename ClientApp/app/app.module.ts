@@ -24,6 +24,7 @@ import { VehicleFormComponent } from "./components/vehicle-form/vehicle-form.com
 import { VehicleListComponent } from './components/vehicle-list/vehicle-list.component';
 import { ViewVehicleComponent } from './components/view-vehicle/view-vehicle.component';
 import { AUTH_PROVIDERS } from "angular2-jwt/angular2-jwt";
+import { AdditionalInfoComponent } from "./components/view-vehicle/additional-info.component";
 
 Raven.config("https://f30ee7661839445f92ad72044ff7a487@sentry.io/167797").install();
 
@@ -39,7 +40,8 @@ Raven.config("https://f30ee7661839445f92ad72044ff7a487@sentry.io/167797").instal
         VehicleListComponent,
         PaginationComponent,
         ViewVehicleComponent,
-        AdminComponent
+        AdminComponent,
+        AdditionalInfoComponent
     ],
     imports: [
         FormsModule,

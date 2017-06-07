@@ -21,11 +21,15 @@ export class ViewVehicleComponent implements OnInit {
   @ViewChild('fileInput') fileInput: ElementRef;
   vehicle: any;
   vehicleId: number;
-  photos: any[];
-  logo: any;
+  photos: any[] = [];
+  logo: any = null;
   progress: any;
   subscription: any;
   file: any;
+  additionalInfoTitles: any = {
+    modelType: "Model Type"
+  };
+  
 
   constructor(
     private zone: NgZone,

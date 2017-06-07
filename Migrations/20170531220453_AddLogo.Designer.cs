@@ -30,6 +30,8 @@ namespace MoshA2.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("VehicleId");
+
                     b.ToTable("Logos");
                 });
 

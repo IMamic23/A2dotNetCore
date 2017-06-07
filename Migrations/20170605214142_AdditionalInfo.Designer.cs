@@ -30,11 +30,11 @@ namespace MoshA2.Migrations
 
                     b.Property<string>("CarState");
 
-                    b.Property<int>("FirstRegistratioYear");
+                    b.Property<int>("FirstRegistrationYear");
 
                     b.Property<double>("FuelConsumption");
 
-                    b.Property<string>("GeatType");
+                    b.Property<string>("GearType");
 
                     b.Property<double>("Mileage");
 

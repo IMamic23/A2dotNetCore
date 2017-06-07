@@ -81,7 +81,7 @@
         </li>
         <li>
           <span class="addDataTitle">Mileage</span>
-          <span class="addDataValue">{{ vehicle.additionalInfo.mileage }}</span>
+          <span class="addDataValue">{{ vehicle.additionalInfo.mileage }}km</span>
         </li>
         <li>
           <span class="addDataTitle">Engine Power</span>
@@ -138,6 +138,9 @@
           </tr>
         </tbody>
       </table>
+      <ul class="additionalData">
+        <rb-additional-info [additionalInfoTitle]="additionalInfoTitles.modelType" [additionalInfoValue]="vehicle.additionalInfo.modelType"></rb-additional-info>
+      </ul>
       <br/>
       <br/>
       <br/>
