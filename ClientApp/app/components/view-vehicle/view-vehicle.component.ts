@@ -27,7 +27,8 @@ export class ViewVehicleComponent implements OnInit {
   subscription: any;
   file: any;
   additionalInfoTitles: any = {
-    modelType: "Model Type"
+    modelType: "Model Type",
+    modelEngineType: "Engine Type"
   };
   
 
