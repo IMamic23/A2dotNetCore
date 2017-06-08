@@ -1,0 +1,12 @@
+.addDataTitle {
+    text-align: right;
+    font-weight: bold;
+}
+
+li {
+    list-style: none;
+    max-width: 500px;
+    margin: 3px;
+    padding: 5px;
+    border: 1px solid rgba(0,0,0,0.2);
+}

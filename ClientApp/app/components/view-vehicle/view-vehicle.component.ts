@@ -26,6 +26,22 @@ export class ViewVehicleComponent implements OnInit {
   progress: any;
   subscription: any;
   file: any;
+  additionalInfoTitles: any = {
+    modelType: "Model Type",
+    modelEngineType: "Engine Type",
+    yearOfManafacture: "Year of manufacture",
+    firstRegistrationYear: "First registration year",
+    mileage: "Mileage",
+    modelEnginePower: "Engine power",
+    gearType: "Gear type",
+    noOfGears: "Number of gears",
+    fuelConsumption: "Fuel consumption",
+    carState: "Car state",
+    carColor: "Car color",
+    ownerNo: "Owner number",
+    carCurrentLocation: "Car Current Location",
+    carDescription: "Car Description"
+  };
 
   constructor(
     private zone: NgZone,

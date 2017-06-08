@@ -1,3 +1,4 @@
+import { AdditionalInfoComponent } from './components/view-vehicle/additional-info.component';
 import { AdminAuthGuard } from './services/admin-auth-guard.service';
 import { AuthGuard } from './services/auth-guard.service';
 import { AdminComponent } from './components/admin/admin.component';
@@ -39,7 +40,8 @@ Raven.config("https://f30ee7661839445f92ad72044ff7a487@sentry.io/167797").instal
         VehicleListComponent,
         PaginationComponent,
         ViewVehicleComponent,
-        AdminComponent
+        AdminComponent,
+        AdditionalInfoComponent
     ],
     imports: [
         FormsModule,
