@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations;
+using _mosh_A2.Core.Models;
 using _mosh_A2.Models;
 
 namespace _mosh_A2.Controllers.Resources
@@ -16,7 +17,7 @@ namespace _mosh_A2.Controllers.Resources
         [Required]
         public ContactResource Contact { get; set; }
         public ICollection<int> Features { get; set; }
-
+        public AdditionalInfo AdditionalInfo { get; set; }
         public SaveVehicleResource()
         {
             Features = new Collection<int>();

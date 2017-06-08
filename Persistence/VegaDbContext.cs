@@ -10,6 +10,7 @@ namespace _mosh_A2.Persistence
         public DbSet<Vehicle> Vehicles { get; set; }
         public DbSet<Feature> Features { get; set; }
         public DbSet<Model> Models { get; set; }
+        public DbSet<AdditionalInfo> AdditionalInfo { get; set; }
         public DbSet<Photo> Photos { get; set; }
         public DbSet<Logo> Logos { get; set;}
         public VegaDbContext(DbContextOptions<VegaDbContext> options) 

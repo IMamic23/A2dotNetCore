@@ -1,6 +1,5 @@
 <h1>Vehicle details</h1>
-<div>
-
+<div class="well">
   <!-- Nav tabs -->
   <ul class="nav nav-tabs" role="tablist">
     <li role="presentation" class="active"><a href="#basic" aria-controls="basic" role="tab" data-toggle="tab">Vehicle</a></li>
@@ -15,7 +14,7 @@
      <div class="col-lg-6 col-md-6 col-sm-12"> 
      <div class="row">
       <div class="col-sm-4 col-md-4 col-lg-3">
-        <div *ngIf="logo == null">
+        <div *ngIf="logo == null && auth.authenticated()">
           <label>Upload logo</label>  
           <input type="file" (change)="uploadLogo()" #fileInput>
         </div>
@@ -37,23 +36,21 @@
             <th>Registered</th>
             <th>Milage</th>
             <th>First Owner?</th>
-            <th>Test Vehicle?</th>
-            <th>Basic Price</th>
+            <!--<th>Test Vehicle?</th>
+            <th>Basic Price</th>-->
           </tr>
         </thead>
         <tbody>
           <tr>
             <td>{{ vehicle.isRegistered ? 'Yes' : 'No' }}</td>
-            <td>75.350km</td>
-            <td>Yes</td>
-            <td>No</td>
-            <td>€ 20000</td> 
+            <td>{{ vehicle.additionalInfo.mileage }} km</td>
+            <td>{{ (vehicle.additionalInfo.ownerNo == 1) ? 'Yes' : 'No' }}</td>
+       <!-- <td>No</td>
+            <td>€ 20000</td> -->
           </tr>
         </tbody>
       </table>
-     </div> <!-- col -->
-     <div class="col-lg-6 col-md-12 col-sm-12">
-      <h3>Features</h3>
+        <h3>Features</h3>
       <div class="row">
         <div class="features-wrapper"> 
           <div class="col-md-6" *ngFor="let f of vehicle.features">
@@ -61,8 +58,196 @@
           </div>
         </div>
       </div>
+     </div> <!-- col -->
+     <div class="col-lg-6 col-md-12 col-sm-12">
+      <h3>Additional Informations</h3>
+         <ul class="additionalData">
+          <rb-additional-info [additionalInfoTitle]="additionalInfoTitles.modelType" 
+                              [additionalInfoValue]="vehicle.additionalInfo.modelType">
+          </rb-additional-info>
+          <rb-additional-info [additionalInfoTitle]="additionalInfoTitles.modelEngineType" 
+                              [additionalInfoValue]="vehicle.additionalInfo.modelEngineType">
+          </rb-additional-info>
+          <rb-additional-info [additionalInfoTitle]="additionalInfoTitles.yearOfManafacture" 
+                              [additionalInfoValue]="vehicle.additionalInfo.yearOfManafacture">
+          </rb-additional-info>
+          <rb-additional-info [additionalInfoTitle]="additionalInfoTitles.firstRegistrationYear" 
+                              [additionalInfoValue]="vehicle.additionalInfo.firstRegistrationYear">
+          </rb-additional-info>
+          <rb-additional-info [additionalInfoTitle]="additionalInfoTitles.mileage" 
+                              [additionalInfoValue]="vehicle.additionalInfo.mileage">
+          </rb-additional-info>
+          <rb-additional-info [additionalInfoTitle]="additionalInfoTitles.modelEnginePower" 
+                              [additionalInfoValue]="vehicle.additionalInfo.modelEnginePower">
+          </rb-additional-info>
+          <rb-additional-info [additionalInfoTitle]="additionalInfoTitles.gearType" 
+                              [additionalInfoValue]="vehicle.additionalInfo.gearType">
+          </rb-additional-info>
+          <rb-additional-info [additionalInfoTitle]="additionalInfoTitles.noOfGears" 
+                              [additionalInfoValue]="vehicle.additionalInfo.noOfGears">
+          </rb-additional-info>
+          <rb-additional-info [additionalInfoTitle]="additionalInfoTitles.fuelConsumption" 
+                              [additionalInfoValue]="vehicle.additionalInfo.fuelConsumption">
+          </rb-additional-info>
+          <rb-additional-info [additionalInfoTitle]="additionalInfoTitles.carState" 
+                              [additionalInfoValue]="vehicle.additionalInfo.carState">
+          </rb-additional-info>
+          <rb-additional-info [additionalInfoTitle]="additionalInfoTitles.carColor" 
+                              [additionalInfoValue]="vehicle.additionalInfo.carColor">
+          </rb-additional-info>
+          <rb-additional-info [additionalInfoTitle]="additionalInfoTitles.ownerNo" 
+                              [additionalInfoValue]="vehicle.additionalInfo.ownerNo">
+          </rb-additional-info>
+          <rb-additional-info [additionalInfoTitle]="additionalInfoTitles.carCurrentLocation" 
+                              [additionalInfoValue]="vehicle.additionalInfo.carCurrentLocation">
+          </rb-additional-info>
+          <rb-additional-info [additionalInfoTitle]="additionalInfoTitles.carDescription" 
+                              [additionalInfoValue]="vehicle.additionalInfo.carDescription">
+          </rb-additional-info>
+      </ul>
+      <!--<ul class="additionalData">
+        <li>
+          <div class="row">
+            <div class="col-md-5 addDataTitle">
+              <span>Model Type</span>
+            </div>
+            <div class="col-md-7">
+              <span>{{ vehicle.additionalInfo.modelType }}</span>
+            </div>
+          </div>
+        </li>
+         <li>
+           <div class="row">
+            <div class="col-md-5 addDataTitle">
+              <span>Engine Type</span>
+            </div>
+            <div class="col-md-7">
+              <span>{{ vehicle.additionalInfo.modelEngineType }}</span>
+            </div>
+           </div>
+        </li>
+        <li>
+          <div class="row">
+            <div class="col-md-5 addDataTitle">
+              <span>Year Of Manafacture</span>
+            </div>
+            <div class="col-md-7">
+              <span>{{ vehicle.additionalInfo.yearOfManafacture }}</span>
+            </div>
+          </div>
+        </li>
+        <li>
+          <div class="row">
+            <div class="col-md-5 addDataTitle">
+              <span>First Year Of Registration</span>
+            </div>
+            <div class="col-md-7">
+              <span>{{ vehicle.additionalInfo.firstRegistrationYear }}</span>
+            </div>
+          </div>
+        </li>
+        <li>
+          <div class="row">
+            <div class="col-md-5 addDataTitle">
+              <span>Mileage</span>
+            </div>
+            <div class="col-md-7">
+              <span>{{ vehicle.additionalInfo.mileage }} km</span>
+            </div>
+          </div>
+        </li>
+        <li>
+          <div class="row">
+            <div class="col-md-5 addDataTitle">
+              <span>Engine Power</span>
+            </div>
+            <div class="col-md-7">
+              <span>{{ vehicle.additionalInfo.modelEnginePower }} kW</span>
+            </div>
+          </div>
+        </li>
+        <li>
+          <div class="row">
+            <div class="col-md-5 addDataTitle">
+              <span>Gear Type</span>
+            </div>
+            <div class="col-md-7">
+              <span>{{ vehicle.additionalInfo.gearType }}</span>
+            </div>
+          </div>
+        </li>
+        <li>
+          <div class="row">
+            <div class="col-md-5 addDataTitle">
+              <span>Number of Gears</span>
+            </div>
+            <div class="col-md-7">
+              <span>{{ vehicle.additionalInfo.noOfGears }}</span>
+            </div>
+          </div>
+        </li>
+        <li>
+          <div class="row">
+            <div class="col-md-5 addDataTitle">
+              <span>Fuel Consumption</span>
+            </div>
+            <div class="col-md-7">
+              <span>{{ vehicle.additionalInfo.fuelConsumption }} liters/100km</span>
+            </div>
+          </div>
+        </li>
+        <li>
+          <div class="row">
+            <div class="col-md-5 addDataTitle">
+              <span>Car State</span>
+            </div>
+            <div class="col-md-7">
+             <span>{{ vehicle.additionalInfo.carState }}</span>
+            </div>
+          </div>
+        </li>
+        <li>
+          <div class="row">
+            <div class="col-md-5 addDataTitle">
+              <span>Car Color</span>
+            </div>
+            <div class="col-md-7">
+              <span>{{ vehicle.additionalInfo.carColor }}</span>
+            </div>
+          </div>
+        </li>
+        <li>
+          <div class="row">
+            <div class="col-md-5 addDataTitle">
+             <span>Owner Number?</span>
+            </div>
+            <div class="col-md-7">
+              <span>{{ vehicle.additionalInfo.ownerNo }}</span>
+            </div>
+          </div>
+        </li>
+        <li>
+          <div class="row">
+            <div class="col-md-5 addDataTitle">
+              <span>Car Current Location</span>
+            </div>
+            <div class="col-md-7">
+              <span>{{ vehicle.additionalInfo.carCurrentLocation }}</span>
+            </div>
+          </div>
+        </li>
+        <li>
+          <div class="row">
+            <div class="col-md-5 addDataTitle">
+              <span>Car Description</span>
+            </div>
+            <div class="col-md-7">
+              <span>{{ vehicle.additionalInfo.carDescription }}</span>
+            </div>
+          </div>
+        </li>
+      </ul>-->
       <h3>Contact</h3>
-      
         <table class="table table-bordered table-hover table-responsive">
         <thead>
           <tr>
@@ -83,9 +268,9 @@
       <br/>
       <br/>
       <div class="buttons-wrapper">
-        <a class="btn btn-primary" [routerLink]="['/vehicles/edit/', vehicle.id]">Edit</a>
-        <button class="btn btn-danger" (click)="delete()">Delete</button>
-        <a class="btn btn-default" [routerLink]="['/vehicles']">View All Vehicles</a>
+        <a *ngIf="auth.authenticated()" class="btn btn-primary" [routerLink]="['/vehicles/edit/', vehicle.id]">Edit</a>
+        <button *ngIf="auth.authenticated()" class="btn btn-danger" (click)="delete()">Delete</button>
+        <a class="btn btn-default pull-right" [routerLink]="['/vehicles']">View All Vehicles</a>
       </div>
        </div> <!-- /col -->
       </div> <!-- /Main row -->
@@ -93,7 +278,7 @@
     <!-- Photos tab -->
     <div role="tabpanel" class="tab-pane" id="photos">
       <h2>{{ vehicle.make.name }} {{ vehicle.model.name }} <small>PHOTOS</small></h2>
-      <input type="file" (change)="uploadPhoto()" #fileInput>
+      <input *ngIf="auth.authenticated()" type="file" (change)="uploadPhoto()" #fileInput>
       <div class="progress" *ngIf="progress && progress.percentage < 100">
         <div class="progress-bar" [style.width]="progress.percentage + '%'">
           <span class="sr-only">{{ progress.percentage }}% Complete</span>

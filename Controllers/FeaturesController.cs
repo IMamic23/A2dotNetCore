@@ -4,6 +4,7 @@ using _mosh_A2.Controllers.Resources;
 using _mosh_A2.Models;
 using _mosh_A2.Persistence;
 using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 

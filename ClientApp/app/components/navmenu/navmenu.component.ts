@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Auth } from './../../services/auth.service';
+import { Component, Input } from '@angular/core';
 
 @Component({
     selector: 'nav-menu',
@@ -6,4 +7,8 @@ import { Component } from '@angular/core';
     styleUrls: ['./navmenu.component.css']
 })
 export class NavMenuComponent {
+
+       constructor(public auth: Auth) {
+    }
+
 }

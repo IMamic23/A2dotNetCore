@@ -29,6 +29,7 @@ namespace _mosh_A2.Persistence
                 .ThenInclude(vf => vf.Feature)
                 .Include(v => v.Model)
                 .ThenInclude(m => m.Make)
+                .Include(a => a.AdditionalInfo)
                 .SingleOrDefaultAsync(v => v.Id == id);
         }
 
@@ -44,6 +45,10 @@ namespace _mosh_A2.Persistence
          public void Remove(Vehicle vehicle) 
         {
             context.Vehicles.Remove(vehicle);
+        }
+         public void Update(Vehicle vehicle) 
+        {
+            context.Vehicles.Update(vehicle);
         }
 
         public async Task<QueryResult<Vehicle>> GetVehicles(VehicleQuery queryObj){

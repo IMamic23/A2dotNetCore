@@ -44,7 +44,7 @@ ul{
 
 img {
     margin: 5px;
-    max-width: 350px;
+    max-width: 600px;
 }
 
 .make-model {
@@ -74,15 +74,31 @@ th, td {
 .buttons-wrapper {
 position: fixed;
 right: 20px;
-bottom: 10px;
+bottom: 20px;
 width: 500px;
 }
 
 .buttons-wrapper > a, .buttons-wrapper > button {
     width: 30%;
-    opacity: 0.7;
+    opacity: 0.9;
 }
 
 .buttons-wrapper > a:hover, .buttons-wrapper > button:hover {
     opacity: 1;
+}
+
+.additionalData > li {
+    list-style: none;
+    max-width: 500px;
+    margin: 3px;
+    padding: 5px;
+    border: 1px solid rgba(0,0,0,0.2);
+}
+.addDataTitle {
+    text-align: right;
+    font-weight: bold;
+}
+.addDataValue {
+    display: inline-block;
+    margin-left: 5px;
 }

@@ -32,6 +32,12 @@ namespace MoshA2.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Logos", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Logos_Vehicles_VehicleId",
+                        column: x => x.VehicleId,
+                        principalTable: "Vehicles",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.AddForeignKey(

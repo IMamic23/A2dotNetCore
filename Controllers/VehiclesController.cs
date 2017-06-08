@@ -10,16 +10,17 @@ using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Collections;
 using _mosh_A2.Core.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace _mosh_A2.Controllers
 {
     [Route("/api/vehicles")]
-    public class VahiclesController : Controller
+    public class VehiclesController : Controller
     {
         private readonly IMapper mapper;
         private readonly IVehicleRepository repository;
         private readonly IUnitOfWork unitOfWork;
-        public VahiclesController(IMapper mapper,
+        public VehiclesController(IMapper mapper,
                                   IVehicleRepository repository,
                                   IUnitOfWork unitOfWork)
         {
@@ -29,6 +30,8 @@ namespace _mosh_A2.Controllers
         }
 
         [HttpPost]
+        //[Authorize(Policies.RequireAdminRole)]
+        [Authorize]
         public async Task<IActionResult> CreateVehicle([FromBody] SaveVehicleResource vehicleResource)
         {
             if (!ModelState.IsValid)
@@ -48,6 +51,7 @@ namespace _mosh_A2.Controllers
         }
 
         [HttpPut("{id}")]
+        [Authorize]
         public async Task<IActionResult> UpdateVehicle(int id, [FromBody] SaveVehicleResource vehicleResource)
         {
             if (!ModelState.IsValid)
@@ -61,6 +65,7 @@ namespace _mosh_A2.Controllers
             mapper.Map<SaveVehicleResource, Vehicle>(vehicleResource, vehicle);
             vehicle.LastUpdate = DateTime.Now;
 
+            repository.Update(vehicle);
             await unitOfWork.CompleteAsync();
 
             vehicle = await repository.GetVehicle(vehicle.Id);
@@ -69,6 +74,7 @@ namespace _mosh_A2.Controllers
             return Ok(result);
         }
         [HttpDelete("{id}")]
+        [Authorize]
         public async Task<IActionResult> DeleteVehicle(int id)
         {
             var vehicle = await repository.GetVehicle(id, includeRelated: false);

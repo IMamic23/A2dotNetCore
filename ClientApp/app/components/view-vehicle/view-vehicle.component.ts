@@ -1,5 +1,7 @@
+import { Auth } from './../../services/auth.service';
+import { BrowserXhr } from '@angular/http';
 import { NgZone } from '@angular/core';
-import { ProgressService } from './../../services/progress.service';
+import { ProgressService, BrowserXhrWithProgress } from './../../services/progress.service';
 import { PhotoService } from './../../services/photo.service';
 import { VehicleService } from './../../services/vehicle.service';
 import { ToastyService } from 'ng2-toasty';
@@ -9,7 +11,11 @@ import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
 @Component({
   selector: 'rb-view-vehicle',
   templateUrl: './view-vehicle.component.html',
-  styleUrls: ['./view-vehicle.component.css']
+  styleUrls: ['./view-vehicle.component.css'],
+  providers: [
+        { provide: BrowserXhr, useClass: BrowserXhrWithProgress },
+        ProgressService
+        ]  
 })
 export class ViewVehicleComponent implements OnInit {
   @ViewChild('fileInput') fileInput: ElementRef;
@@ -20,6 +26,22 @@ export class ViewVehicleComponent implements OnInit {
   progress: any;
   subscription: any;
   file: any;
+  additionalInfoTitles: any = {
+    modelType: "Model Type",
+    modelEngineType: "Engine Type",
+    yearOfManafacture: "Year of manufacture",
+    firstRegistrationYear: "First registration year",
+    mileage: "Mileage",
+    modelEnginePower: "Engine power",
+    gearType: "Gear type",
+    noOfGears: "Number of gears",
+    fuelConsumption: "Fuel consumption",
+    carState: "Car state",
+    carColor: "Car color",
+    ownerNo: "Owner number",
+    carCurrentLocation: "Car Current Location",
+    carDescription: "Car Description"
+  };
 
   constructor(
     private zone: NgZone,
@@ -28,7 +50,8 @@ export class ViewVehicleComponent implements OnInit {
     private toasty: ToastyService,
     private progressService: ProgressService,
     private photoService: PhotoService,
-    private vehicleService: VehicleService) { 
+    private vehicleService: VehicleService,
+    private auth: Auth) { 
 
     route.params.subscribe(p => {
       this.vehicleId = +p['id'];

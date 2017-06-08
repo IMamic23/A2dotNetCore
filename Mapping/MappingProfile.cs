@@ -16,6 +16,7 @@ namespace _mosh_A2.Mapping
             CreateMap<Photo, PhotoResource>();
             CreateMap(typeof(QueryResult<>), typeof(QueryResultResource<>));
             CreateMap<Make, MakeResource>();
+            CreateMap<AdditionalInfo, AdditionalInfoResource>();
             CreateMap<Make, KeyValuePairResource>();
             CreateMap<Model, KeyValuePairResource>();
             CreateMap<Feature, KeyValuePairResource>();
@@ -30,10 +31,15 @@ namespace _mosh_A2.Mapping
                                                                                            Email = v.ContactEmail,
                                                                                            Phone = v.ContactPhone }))
                 .ForMember(vr => vr.Features, opt => opt.MapFrom(v => v.Features.Select(vf => new KeyValuePairResource { Id = vf.Feature.Id, 
-                                                                                                                    Name = vf.Feature.Name })));
+                                                                                                                    Name = vf.Feature.Name })))
+                .ForMember(vr => vr.AdditionalInfo, opt => opt.MapFrom(v => v.AdditionalInfo));
 
             // API Resource to Domain
             CreateMap<VehicleQueryResource, VehicleQuery>();
+
+            // CreateMap<AdditionalInfoResource, AdditionalInfo>()
+            //     .ForMember(v => v.Id, opt => opt.Ignore());
+
             CreateMap<SaveVehicleResource, Vehicle>()
                 .ForMember(v => v.Id, opt => opt.Ignore())
                 .ForMember(v => v.ContactName, opt => opt.MapFrom(vr => vr.Contact.Name))
@@ -53,6 +59,8 @@ namespace _mosh_A2.Mapping
                          v.Features.Add(f);
                     }
                 });
+                // .ForMember(v => v.AdditionalInfo.Id, opt => opt.Ignore())
+
         }
     }
 }

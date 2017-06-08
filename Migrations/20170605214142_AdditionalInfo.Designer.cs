@@ -8,9 +8,10 @@ using _mosh_A2.Persistence;
 namespace MoshA2.Migrations
 {
     [DbContext(typeof(VegaDbContext))]
-    partial class VegaDbContextModelSnapshot : ModelSnapshot
+    [Migration("20170605214142_AdditionalInfo")]
+    partial class AdditionalInfo
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.1.1")
@@ -29,11 +30,11 @@ namespace MoshA2.Migrations
 
                     b.Property<string>("CarState");
 
-                    b.Property<int>("FirstRegistratioYear");
+                    b.Property<int>("FirstRegistrationYear");
 
                     b.Property<double>("FuelConsumption");
 
-                    b.Property<string>("GeatType");
+                    b.Property<string>("GearType");
 
                     b.Property<double>("Mileage");
 

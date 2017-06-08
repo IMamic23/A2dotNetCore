@@ -13,15 +13,34 @@ import "rxjs/add/Observable/forkJoin";
   styleUrls: ["./vehicle-form.component.css"]
 })
 export class VehicleFormComponent implements OnInit {
+  private years: number[] = [];
+  private yy : number;
   makes: any[];
   models: any[];
   features: any[];
+  additionalInfo: any;
   vehicle: SaveVehicle = {
     id: 0,
     makeId: 0,
     modelId: 0,
     isRegistered: false,
     features: [],
+    additionalInfo: {
+      modelType: '',
+      yearOfManafacture: null,
+      firstRegistrationYear: null,
+      mileage: null,
+      modelEngineType: '',
+      modelEnginePower: null,
+      gearType: '',
+      noOfGears: null,
+      fuelConsumption: null,
+      carState: '',
+      ownerNo: null,
+      carCurrentLocation: '',
+      carDescription: '',
+      carColor: ''
+    },
     contact: {
       name: '',
       email: '',
@@ -45,6 +64,8 @@ export class VehicleFormComponent implements OnInit {
       this.vehicleService.getMakes(),
       this.vehicleService.getFeatures(),
     ];
+    
+    this.getYear();
 
     if (this.vehicle.id)
       sources.push(this.vehicleService.getVehicle(this.vehicle.id));
@@ -69,6 +90,7 @@ export class VehicleFormComponent implements OnInit {
     this.vehicle.modelId = v.model.id;
     this.vehicle.isRegistered = v.isRegistered;
     this.vehicle.contact = v.contact;
+    this.vehicle.additionalInfo = v.additionalInfo;
     this.vehicle.features = _.pluck(v.features, 'id');
   }
 
@@ -77,6 +99,13 @@ export class VehicleFormComponent implements OnInit {
 
     delete this.vehicle.modelId;
   }
+  
+   getYear(){
+        var today = new Date();
+        this.yy = today.getFullYear();        
+        for(var i = (this.yy); i >= (this.yy)-50; i--){
+        this.years.push(i);}
+    }
 
   private populateModels() {
     var selectedMake = this.makes.find(m => m.id == this.vehicle.makeId);
