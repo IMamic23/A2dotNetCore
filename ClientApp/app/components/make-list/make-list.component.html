@@ -2,10 +2,11 @@
 <p *ngIf="auth.authenticated()">
   <a [routerLink]="['/makes/new']" class="btn btn-primary">New Make and/or Model</a>
 </p>
-
-<div *ngFor="let m of makes" style="margin-top:10px">
-    <span style="font-weight:bold; font-size: 18px;"> {{m.name}} </span>
-      <div *ngFor = "let n of m.models" style="margin-top:3px">
-        <span style="margin-left:15px;">{{n.name}}</span>
-     </div>
+<div class="row">
+  <div class="col-md-3 col-sm-6 col-xs-12" *ngFor="let m of makes" style="margin-top:30px">
+      <span class="myLabelHeader" style="font-weight:bold; font-size: 18px;"> {{m.name}} </span>
+        <div *ngFor = "let n of m.models" style="margin-top:20px">
+          <span class="myLabel" style="margin-left:15px;">{{n.name}}</span>
+      </div>
+  </div>
 </div>

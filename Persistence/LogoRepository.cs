@@ -1,6 +1,8 @@
+using System.Linq;
 using System.Threading.Tasks;
 using _mosh_A2.Core;
 using _mosh_A2.Core.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace _mosh_A2.Persistence
 {
@@ -15,12 +17,17 @@ namespace _mosh_A2.Persistence
 
         public async Task<Logo> GetLogo(int makeId)
         {
-            return await context.Logos.FindAsync(makeId);
+            return await context.Logos.Where(l => l.MakeId == makeId).SingleAsync();
         }
 
         public void Remove(Logo logo)
         {
             context.Logos.Remove(logo);
+        }
+
+        public void Add(Logo logo)
+        {
+            context.Logos.Add(logo);
         }
     }
 }

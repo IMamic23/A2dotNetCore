@@ -82,10 +82,20 @@ export class MakeFormComponent implements OnInit {
       this.makeService.getMakes()
         .subscribe( m => {
             this.makes = m;
+            this.makes.sort((n1,n2) : number => {
+              if (n1.name > n2.name) {
+                  return 1;
+              }
+          
+              if (n1.name < n2.name) {
+                  return -1;
+              }
+                return 0;
+            });
           },
           err => {
             if(err.status = 404) {
-              this.router.navigate(['/vehicles']);
+              this.router.navigate(['/makes']);
               return;
           }
       });
@@ -108,13 +118,22 @@ export class MakeFormComponent implements OnInit {
   private populateModels() {
     var selectedMake = this.makes.find(m => m.id == this.vehicle.makeId);
     this.models = selectedMake ? selectedMake.models : [];
-    
+    this.models.sort((n1,n2) : number => {
+              if (n1.name > n2.name) {
+                  return 1;
+              }
+              if (n1.name < n2.name) {
+                  return -1;
+              }
+                return 0;
+            });
+
     if(this.vehicle.makeId != null && this.vehicle.makeId != 0){
       this.photoService.getLogo(this.vehicle.makeId)
           .subscribe(logo => this.logo = logo);
     }  
   }
-  
+
   submitMake() {
     var result$ = this.makeService.create(this.saveMake);
     result$.subscribe(make => {
