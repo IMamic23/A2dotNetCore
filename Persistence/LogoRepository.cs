@@ -13,9 +13,9 @@ namespace _mosh_A2.Persistence
             this.context = context;
         }
 
-        public async Task<Logo> GetLogo(int vehicleId)
+        public async Task<Logo> GetLogo(int makeId)
         {
-            return await context.Logos.FindAsync(vehicleId);
+            return await context.Logos.FindAsync(makeId);
         }
 
         public void Remove(Logo logo)

@@ -38,6 +38,7 @@ namespace WebApplicationBasic
 
             services.AddScoped<IVehicleRepository, VehicleRepository>();
             services.AddScoped<IPhotoRepository, PhotoRepository>();
+            services.AddScoped<IMakeRepository, MakeRepository>();
             services.AddScoped<ILogoRepository, LogoRepository>();
             services.AddScoped<IUnitOfWork, UnitOfWork>();
 

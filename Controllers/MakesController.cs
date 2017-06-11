@@ -1,30 +1,58 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using _mosh_A2.Controllers.Resources;
+using _mosh_A2.Core;
 using _mosh_A2.Models;
 using _mosh_A2.Persistence;
 using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace _mosh_A2.Controllers
 {
+    [Route("/api/makes")]
     public class MakesController : Controller
     {
-        private readonly VegaDbContext context;
         private readonly IMapper mapper;
-        public MakesController(VegaDbContext context, IMapper mapper)
+        private readonly IMakeRepository makeRepository;
+        private readonly IUnitOfWork unitOfWork;
+        
+        public MakesController(VegaDbContext context, 
+                               IMapper mapper,
+                               IMakeRepository makeRepository,
+                               IUnitOfWork unitOfWork)
         {
             this.mapper = mapper;
-            this.context = context;
+            this.unitOfWork = unitOfWork;
+            this.makeRepository = makeRepository;
         }
 
-        [HttpGet("/api/makes")]
+        [HttpGet]
         public async Task<IEnumerable<MakeResource>> GetMakes()
         {
-           var makes = await context.Makes.Include(m => m.Models).ToListAsync();
+           var makes = await makeRepository.GetMakes();
 
            return mapper.Map<List<Make>, List<MakeResource>>(makes);
+        }
+
+        [HttpPost]
+        [Authorize]
+        public async Task<IActionResult> CreateMakes([FromBody] SaveMakeResource makeResource)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+            
+            var make = mapper.Map<SaveMakeResource, Make>(makeResource);
+            
+            makeRepository.Add(make);
+            await unitOfWork.CompleteAsync();
+
+            make = await makeRepository.GetMake(make.Id);
+
+            var result = mapper.Map<Make, MakeResource>(make);
+
+            return Ok(result);
         }
     }
 }

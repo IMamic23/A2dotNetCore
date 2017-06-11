@@ -1,3 +1,4 @@
+import { MakeService } from './services/make.service';
 import { AdditionalInfoComponent } from './components/view-vehicle/additional-info.component';
 import { AdminAuthGuard } from './services/admin-auth-guard.service';
 import { AuthGuard } from './services/auth-guard.service';
@@ -25,6 +26,8 @@ import { VehicleFormComponent } from "./components/vehicle-form/vehicle-form.com
 import { VehicleListComponent } from './components/vehicle-list/vehicle-list.component';
 import { ViewVehicleComponent } from './components/view-vehicle/view-vehicle.component';
 import { AUTH_PROVIDERS } from "angular2-jwt/angular2-jwt";
+import { MakeFormComponent } from './components/make-form/make-form.component';
+import { MakeListComponent } from './components/make-list/make-list.component';
 
 Raven.config("https://f30ee7661839445f92ad72044ff7a487@sentry.io/167797").install();
 
@@ -41,7 +44,9 @@ Raven.config("https://f30ee7661839445f92ad72044ff7a487@sentry.io/167797").instal
         PaginationComponent,
         ViewVehicleComponent,
         AdminComponent,
-        AdditionalInfoComponent
+        AdditionalInfoComponent,
+        MakeFormComponent,
+        MakeListComponent
     ],
     imports: [
         FormsModule,
@@ -57,7 +62,10 @@ Raven.config("https://f30ee7661839445f92ad72044ff7a487@sentry.io/167797").instal
             { path: "vehicles/new", component: VehicleFormComponent, canActivate: [AuthGuard] },
             { path: "vehicles/:id", component: ViewVehicleComponent },
             { path: "vehicles/edit/:id", component: VehicleFormComponent, canActivate: [AuthGuard] },
-            { path: "**", redirectTo: "home" }
+            { path: "**", redirectTo: "home" },
+            { path: "makes", component: MakeListComponent },
+            { path: "makes/new", component: MakeFormComponent, canActivate: [AuthGuard] },
+            { path: "makes/edit/:id", component: MakeFormComponent, canActivate: [AuthGuard] },
         ])
     ],
     providers: [
@@ -69,7 +77,8 @@ Raven.config("https://f30ee7661839445f92ad72044ff7a487@sentry.io/167797").instal
         AUTH_PROVIDERS,
         AdminAuthGuard,
         PhotoService, 
-        VehicleService
+        VehicleService,
+        MakeService
     ]
 })
 export class AppModule {
