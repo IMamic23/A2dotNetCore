@@ -12,7 +12,7 @@ using Microsoft.Extensions.Options;
 
 namespace _mosh_A2.Controllers
 {
-    [Route("/api/vehicles/{vehicleId}/logo")]
+    [Route("/api/makes/{makeId}/logo")]
     public class LogosController : Controller
     {
         private readonly IHostingEnvironment host;
@@ -51,6 +51,7 @@ namespace _mosh_A2.Controllers
         public async Task<IActionResult> UploadLogo(int makeId, IFormFile file)
         {
             var make = await makeRepository.GetMake(makeId, includeRelated: false);
+            
             if (make == null)
                 return NotFound();
 

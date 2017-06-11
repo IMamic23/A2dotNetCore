@@ -37,7 +37,6 @@ namespace _mosh_A2.Controllers
         }
 
         [HttpPost]
-        [Authorize]
         public async Task<IActionResult> CreateMakes([FromBody] SaveMakeResource makeResource)
         {
             if (!ModelState.IsValid)
@@ -53,6 +52,20 @@ namespace _mosh_A2.Controllers
             var result = mapper.Map<Make, MakeResource>(make);
 
             return Ok(result);
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteMake(int id)
+        {
+            var make = await makeRepository.GetMake(id, includeRelated: false);
+
+            if (make == null)
+                return NotFound();
+
+            makeRepository.Remove(make);
+            await unitOfWork.CompleteAsync();
+
+            return Ok(id);
         }
     }
 }

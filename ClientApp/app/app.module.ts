@@ -1,3 +1,4 @@
+import { ModelService } from './services/model.service';
 import { MakeService } from './services/make.service';
 import { AdditionalInfoComponent } from './components/view-vehicle/additional-info.component';
 import { AdminAuthGuard } from './services/admin-auth-guard.service';
@@ -59,13 +60,12 @@ Raven.config("https://f30ee7661839445f92ad72044ff7a487@sentry.io/167797").instal
             { path: "vehicles", component: VehicleListComponent },
             { path: "admin", component: AdminComponent, canActivate: [AdminAuthGuard] },
             { path: "fetch-data", component: FetchDataComponent },
+            { path: "makes", component: MakeListComponent },
+            { path: "makes/new", component: MakeFormComponent, canActivate: [AuthGuard] },
             { path: "vehicles/new", component: VehicleFormComponent, canActivate: [AuthGuard] },
             { path: "vehicles/:id", component: ViewVehicleComponent },
             { path: "vehicles/edit/:id", component: VehicleFormComponent, canActivate: [AuthGuard] },
             { path: "**", redirectTo: "home" },
-            { path: "makes", component: MakeListComponent },
-            { path: "makes/new", component: MakeFormComponent, canActivate: [AuthGuard] },
-            { path: "makes/edit/:id", component: MakeFormComponent, canActivate: [AuthGuard] },
         ])
     ],
     providers: [
@@ -78,7 +78,8 @@ Raven.config("https://f30ee7661839445f92ad72044ff7a487@sentry.io/167797").instal
         AdminAuthGuard,
         PhotoService, 
         VehicleService,
-        MakeService
+        MakeService,
+        ModelService
     ]
 })
 export class AppModule {

@@ -8,14 +8,59 @@ using _mosh_A2.Persistence;
 namespace MoshA2.Migrations
 {
     [DbContext(typeof(VegaDbContext))]
-    [Migration("20170531220453_AddLogo")]
-    partial class AddLogo
+    [Migration("20170611101929_newMigrationSTART")]
+    partial class newMigrationSTART
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.1.1")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+            modelBuilder.Entity("_mosh_A2.Core.Models.AdditionalInfo", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("CarColor");
+
+                    b.Property<string>("CarCurrentLocation");
+
+                    b.Property<string>("CarDescription");
+
+                    b.Property<string>("CarState");
+
+                    b.Property<int>("FirstRegistrationYear");
+
+                    b.Property<double>("FuelConsumption");
+
+                    b.Property<string>("GearType");
+
+                    b.Property<double>("Mileage");
+
+                    b.Property<int>("ModelEnginePower");
+
+                    b.Property<string>("ModelEngineType");
+
+                    b.Property<string>("ModelType")
+                        .IsRequired()
+                        .HasMaxLength(255);
+
+                    b.Property<int>("NoOfGears");
+
+                    b.Property<int>("OwnerNo");
+
+                    b.Property<int>("VehicleId");
+
+                    b.Property<int>("YearOfManafacture");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("VehicleId")
+                        .IsUnique();
+
+                    b.ToTable("AdditionalInfo");
+                });
 
             modelBuilder.Entity("_mosh_A2.Core.Models.Logo", b =>
                 {
@@ -26,9 +71,12 @@ namespace MoshA2.Migrations
                         .IsRequired()
                         .HasMaxLength(255);
 
-                    b.Property<int>("VehicleId");
+                    b.Property<int>("MakeId");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("MakeId")
+                        .IsUnique();
 
                     b.ToTable("Logos");
                 });
@@ -59,6 +107,8 @@ namespace MoshA2.Migrations
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(255);
+
+                    b.Property<double>("Price");
 
                     b.HasKey("Id");
 
@@ -137,6 +187,22 @@ namespace MoshA2.Migrations
                     b.HasIndex("FeatureId");
 
                     b.ToTable("VehicleFeatures");
+                });
+
+            modelBuilder.Entity("_mosh_A2.Core.Models.AdditionalInfo", b =>
+                {
+                    b.HasOne("_mosh_A2.Models.Vehicle")
+                        .WithOne("AdditionalInfo")
+                        .HasForeignKey("_mosh_A2.Core.Models.AdditionalInfo", "VehicleId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("_mosh_A2.Core.Models.Logo", b =>
+                {
+                    b.HasOne("_mosh_A2.Models.Make")
+                        .WithOne("Logo")
+                        .HasForeignKey("_mosh_A2.Core.Models.Logo", "MakeId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("_mosh_A2.Core.Models.Photo", b =>

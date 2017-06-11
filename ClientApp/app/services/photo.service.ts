@@ -24,15 +24,15 @@ export class PhotoService {
             .map(res => res.json());
     }
 
-    uploadLogo(vehicleId, logo) {
+    uploadLogo(makeId, logo) {
          var formData = new FormData();
          formData.append("file", logo);
-         return this.http.post(`/api/vehicles/${vehicleId}/logo`, formData)
+         return this.http.post(`/api/makes/${makeId}/logo`, formData)
             .map(res => res.json());
     }
 
-    getLogo(vehicleId) {
-        return this.http.get(`/api/vehicles/${vehicleId}/logo`)
+    getLogo(makeId) {
+        return this.http.get(`/api/makes/${makeId}/logo`)
             .map(res => res.json());
     }
 

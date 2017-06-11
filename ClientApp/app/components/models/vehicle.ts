@@ -58,10 +58,9 @@ export interface AdditionalInfo {
 export interface SaveMake {
   id: number; 
   name: string;
-  models: Model[];
 }
 
-export interface Model {
+export interface SaveModel {
    id: number; 
    makeId: number;
    name: string; 
