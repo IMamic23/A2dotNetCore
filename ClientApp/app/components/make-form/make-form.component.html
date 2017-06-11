@@ -13,8 +13,13 @@
                   </tr>
                 </thead>
                 <tbody>
-                  <tr *ngFor="let m of makes">
-                    <td>{{ m.name }}</td>
+                  <tr *ngFor="let make of makes">
+                    <td>
+                      <span class="myLabel">
+                        <i (click)="deleteMake(make)" class="glyphicon glyphicon-minus"></i>
+                        {{ make.name }}
+                        </span>
+                      </td>
                   </tr>
                 </tbody>
               </table>
@@ -56,7 +61,17 @@
               </select>
               <div class="alert alert-danger my-alert" *ngIf="make.touched && !make.valid">Please specifiy the Make</div>
           </div>
-          <div class="form-group my-form">
+            <div class="form-group my-form">
+             <div *ngIf="vehicleSelected()">
+                <div *ngIf="logo == null && auth.authenticated()">
+                  <label>Upload logo</label>  
+                  <input type="file" (change)="uploadLogo()" #fileInput>
+                </div>
+                <div *ngIf="logo != null" class="photo-wrapper"> 
+                  <img src="/logos/{{ logo.fileName }}" class="img-thumbnail img-logo img-responsive">
+                    <!--<span class="close" (click)="deleteLogo(logo)"></span>-->
+                </div>
+              </div>
               <table class="table table-responsive">
                 <thead>
                   <tr>
@@ -65,8 +80,13 @@
                   </tr>
                 </thead>
                 <tbody>
-                  <tr *ngFor="let m of models">
-                    <td>{{ m.name }}</td>
+                  <tr *ngFor="let model of models">
+                    <td>
+                      <span class="myLabel">
+                        <i (click)="deleteModel(model)" class="glyphicon glyphicon-minus"></i>
+                          {{ model.name }}
+                      </span>
+                    </td>
                   </tr>
                 </tbody>
               </table>

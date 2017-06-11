@@ -53,5 +53,18 @@ namespace _mosh_A2.Controllers
 
             return Ok(result);
         }
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteModel(int id)
+        {
+            var model = await modelRepository.GetModel(id, includeRelated: false);
+
+            if (model == null)
+                return NotFound();
+
+            modelRepository.Remove(model);
+            await unitOfWork.CompleteAsync();
+
+            return Ok(id);
+        }
     }
 }

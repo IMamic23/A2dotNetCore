@@ -1,10 +1,12 @@
+import { Auth } from './../../services/auth.service';
+import { PhotoService } from './../../services/photo.service';
 import { Observable } from 'rxjs/Observable';
 import { ToastyService } from 'ng2-toasty';
 import { ModelService } from './../../services/model.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MakeService } from './../../services/make.service';
 import { SaveMake, SaveModel, SaveVehicle } from './../models/vehicle';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 
 @Component({
   selector: 'rb-make-form',
@@ -12,9 +14,12 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./make-form.component.css']
 })
 export class MakeFormComponent implements OnInit {
+  @ViewChild('fileInput') fileInput: ElementRef;
   makes: any[] = [];
   models: any[] = [];
   makeId: any;
+  logo: any;
+  file: any;
   saveMake: SaveMake = {
     id: 0,
     name: ''
@@ -54,11 +59,13 @@ export class MakeFormComponent implements OnInit {
   };
 
   constructor(
+    private auth: Auth,
     private route: ActivatedRoute,
     private router: Router,
     private makeService: MakeService,
     private modelService: ModelService,
-    private toastyService: ToastyService
+    private toastyService: ToastyService,
+    private photoService: PhotoService
   ) { }
 
   ngOnInit() {
@@ -85,14 +92,27 @@ export class MakeFormComponent implements OnInit {
   }
 
   onMakeChange() {
+    this.logo = null;
     this.populateModels();
-
+    this.vehicleSelected();
     delete this.model.id;
+  }
+
+  vehicleSelected(): boolean {
+    if(this.vehicle.makeId != 0)
+      return true;
+    else
+      return false;
   }
 
   private populateModels() {
     var selectedMake = this.makes.find(m => m.id == this.vehicle.makeId);
     this.models = selectedMake ? selectedMake.models : [];
+    
+    if(this.vehicle.makeId != null && this.vehicle.makeId != 0){
+      this.photoService.getLogo(this.vehicle.makeId)
+          .subscribe(logo => this.logo = logo);
+    }  
   }
   
   submitMake() {
@@ -125,6 +145,58 @@ export class MakeFormComponent implements OnInit {
     });
     this.model.name = '';
   };
+
+   uploadLogo() {
+    var nativeElement: HTMLInputElement = this.fileInput.nativeElement;
+    this.file = nativeElement.files[0];
+    
+    nativeElement.value = '';
+
+    this.photoService.uploadLogo(this.vehicle.makeId, this.file)
+      .subscribe(logo => {
+        this.logo = logo;
+      }, err =>{
+        this.toastyService.error({
+            title: 'Error',
+            msg: err.text(),
+            theme: 'bootstrap',
+            showClose: true,
+            timeout: 5000
+          });
+      });
+  }
+
+  deleteMake(make){
+      if(confirm("Are you sure?")) {
+      this.makeService.delete(make.id)
+        .subscribe(x => {
+          this.makes.splice(this.makes.indexOf(make), 1);
+          this.toastyService.success({
+            title: 'Success',
+            msg: 'Make is sucessfully deleted.',
+            theme: 'bootstrap',
+            showClose: true,
+            timeout: 5000
+          });
+        });
+    }
+  }
+
+  deleteModel(model){
+      if(confirm("Are you sure?")) {
+      this.modelService.delete(model.id)
+        .subscribe(x => {
+          this.models.splice(this.models.indexOf(model), 1);
+          this.toastyService.success({
+            title: 'Success',
+            msg: 'Model is sucessfully deleted.',
+            theme: 'bootstrap',
+            showClose: true,
+            timeout: 5000
+          });
+        });
+    }
+  }
 
   goBack() {
     window.history.back();

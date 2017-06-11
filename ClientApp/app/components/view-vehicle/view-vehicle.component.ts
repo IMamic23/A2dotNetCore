@@ -20,6 +20,7 @@ import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
 })
 export class ViewVehicleComponent implements OnInit {
   @ViewChild('fileInput') fileInput: ElementRef;
+  @ViewChild('photoFileInput') fileInput2: ElementRef;
   vehicle: Vehicle;
   vehicleId: number;
   photos: any[];
@@ -103,7 +104,7 @@ export class ViewVehicleComponent implements OnInit {
   }
 
   uploadPhoto() {
-    var nativeElement: HTMLInputElement = this.fileInput.nativeElement;
+    var nativeElement: HTMLInputElement = this.fileInput2.nativeElement;
     this.file = nativeElement.files[0];
     
     this.useProgress();
