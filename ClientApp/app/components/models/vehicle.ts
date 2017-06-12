@@ -54,3 +54,14 @@ export interface AdditionalInfo {
   carDescription: string,
   carColor: string
 }
+
+export interface SaveMake {
+  id: number; 
+  name: string;
+}
+
+export interface SaveModel {
+   id: number; 
+   makeId: number;
+   name: string; 
+}

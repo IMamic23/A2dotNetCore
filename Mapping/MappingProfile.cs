@@ -13,12 +13,15 @@ namespace _mosh_A2.Mapping
         {
             // Domain to API Resource
             CreateMap<Logo, LogoResource>();
+            CreateMap<Logo, KeyValuePairResource>();
             CreateMap<Photo, PhotoResource>();
             CreateMap(typeof(QueryResult<>), typeof(QueryResultResource<>));
             CreateMap<Make, MakeResource>();
             CreateMap<AdditionalInfo, AdditionalInfoResource>();
             CreateMap<Make, KeyValuePairResource>();
             CreateMap<Model, KeyValuePairResource>();
+            CreateMap<Model, ModelResource>();
+            CreateMap<ModelResource, KeyValuePairResource>();
             CreateMap<Feature, KeyValuePairResource>();
             CreateMap<Vehicle, SaveVehicleResource>()
                 .ForMember(vr => vr.Contact, opt => opt.MapFrom(v => new ContactResource { Name = v.ContactName, 
@@ -36,6 +39,12 @@ namespace _mosh_A2.Mapping
 
             // API Resource to Domain
             CreateMap<VehicleQueryResource, VehicleQuery>();
+            CreateMap<KeyValuePairResource, ModelResource>();
+            CreateMap<SaveModelResource, Model>();
+            CreateMap<SaveMakeResource, Make>();
+            // CreateMap<AdditionalInfoResource, AdditionalInfo>()
+            //     .ForMember(v => v.Id, opt => opt.Ignore());
+
             CreateMap<SaveVehicleResource, Vehicle>()
                 .ForMember(v => v.Id, opt => opt.Ignore())
                 .ForMember(v => v.ContactName, opt => opt.MapFrom(vr => vr.Contact.Name))
@@ -55,6 +64,8 @@ namespace _mosh_A2.Mapping
                          v.Features.Add(f);
                     }
                 });
+                // .ForMember(v => v.AdditionalInfo.Id, opt => opt.Ignore())
+
         }
     }
 }

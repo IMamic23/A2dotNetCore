@@ -9,6 +9,6 @@ namespace _mosh_A2.Core.Models
         [StringLength(255)]
         public string FileName { get; set; }
 
-        public int VehicleId { get; set; }
+        public int MakeId { get; set; }
     }
 }
