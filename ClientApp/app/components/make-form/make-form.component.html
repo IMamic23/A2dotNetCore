@@ -3,7 +3,7 @@
   <div class="col-md-4">
    <div class="container-fluid well">
     <h3>New Make</h3>
-      <form #f="ngForm" (ngSubmit)="submitMake()">
+      <form #f="ngForm" (ngSubmit)="submitMake(f)">
           <div class="form-group my-form">
               <table id="myTable" class="table table-responsive">
                 <thead>
@@ -15,7 +15,7 @@
                 <tbody>
                   <tr *ngFor="let make of makes">
                     <td>
-                      <span class="myLabel">
+                      <span class="myLabel" [ngClass]="{highlighted: make.new}">
                         <i (click)="deleteMake(make)" class="glyphicon glyphicon-minus"></i>
                         {{ make.name }}
                       </span>
@@ -38,6 +38,7 @@
           </div>
           <div class="buttons-wrapper">
               <button class="btn btn-primary" [disabled]="!f.valid">Save</button>
+              <button type="button" class="btn btn-primary" (click)="resetForm(f)" [disabled]="varMake.pristine">Done</button>
               <!--<button *ngIf="make.id" class="btn btn-danger" type="button" (click)="delete()">Delete</button>-->
           </div> 
       </form>
@@ -46,7 +47,7 @@
 <div class="col-md-4">
     <div class="container-fluid well">
       <h3>New Model</h3>
-      <form #f2="ngForm" (ngSubmit)="submitModel()">
+      <form #f2="ngForm" (ngSubmit)="submitModel(f2)">
           <div class="form-group my-form">
               <label for="make">Make</label>
               <select id="make" 
@@ -105,20 +106,23 @@
           </div>
           <div class="buttons-wrapper">
               <button class="btn btn-primary" [disabled]="!f2.valid">Save</button>
+              <button type="button" class="btn btn-primary" (click)="resetForm(f2)" [disabled]="varModel.pristine">Done</button>
           </div> 
       </form>
     </div>
+  </div>
+  <div class="col-md-4">
+     <div class="container-fluid well">
+       <h3>New Feature</h3>
+        <ul>
+          <li *ngFor="let feature of features">
+            {{feature.name}}
+          </li>
+        </ul>
+     </div>
   </div>
 </div>
 <button type="button" class="btn btn-default" (click)="goBack()">Cancel</button>
 <br/>
 <br/>
 <br/>
-<!--<script>
-var mylist = $('#myTable');
-var listitems = mylist.find('tr');
-    listitems.sort(function(a, b) {
-      return $(a).text().toUpperCase().localeCompare($(b).text().toUpperCase());
-    })
-    $.each(listitems, function(idx, itm) { mylist.append(itm); });
-</script>-->

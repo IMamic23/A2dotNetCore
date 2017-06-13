@@ -42,6 +42,7 @@ namespace _mosh_A2.Mapping
             CreateMap<KeyValuePairResource, ModelResource>();
             CreateMap<SaveModelResource, Model>();
             CreateMap<SaveMakeResource, Make>();
+            CreateMap<KeyValuePairResource, Feature>();
             // CreateMap<AdditionalInfoResource, AdditionalInfo>()
             //     .ForMember(v => v.Id, opt => opt.Ignore());
 

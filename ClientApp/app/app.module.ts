@@ -1,3 +1,4 @@
+import { FeatureService } from './services/feature.service';
 import { ModelService } from './services/model.service';
 import { MakeService } from './services/make.service';
 import { AdditionalInfoComponent } from './components/view-vehicle/additional-info.component';
@@ -79,7 +80,8 @@ Raven.config("https://f30ee7661839445f92ad72044ff7a487@sentry.io/167797").instal
         PhotoService, 
         VehicleService,
         MakeService,
-        ModelService
+        ModelService,
+        FeatureService
     ]
 })
 export class AppModule {

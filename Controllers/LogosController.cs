@@ -41,7 +41,10 @@ namespace _mosh_A2.Controllers
         public async Task<IActionResult> GetLogo(int makeId){
            
            var logo = await logoRepository.GetLogo(makeId);
-
+           
+           if(logo == null) 
+                return NotFound();
+                
            var logoResource = mapper.Map<Logo, LogoResource>(logo);
 
            return Ok(logoResource);

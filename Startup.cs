@@ -37,6 +37,7 @@ namespace WebApplicationBasic
             services.Configure<PhotoSettings>(Configuration.GetSection("PhotoSettings"));
 
             services.AddScoped<IVehicleRepository, VehicleRepository>();
+            services.AddScoped<IFeatureRepository, FeatureRepository>();
             services.AddScoped<IPhotoRepository, PhotoRepository>();
             services.AddScoped<IMakeRepository, MakeRepository>();
             services.AddScoped<IModelRepository, ModelRepository>();

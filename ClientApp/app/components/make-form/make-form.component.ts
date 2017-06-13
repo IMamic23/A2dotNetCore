@@ -1,3 +1,4 @@
+import { FeatureService } from './../../services/feature.service';
 import { Auth } from './../../services/auth.service';
 import { PhotoService } from './../../services/photo.service';
 import { Observable } from 'rxjs/Observable';
@@ -5,8 +6,9 @@ import { ToastyService } from 'ng2-toasty';
 import { ModelService } from './../../services/model.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MakeService } from './../../services/make.service';
-import { SaveMake, SaveModel, SaveVehicle } from './../models/vehicle';
+import { SaveMake, SaveModel, SaveVehicle, SaveFeature, Makes } from './../models/vehicle';
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { NgForm } from "@angular/forms";
 
 @Component({
   selector: 'rb-make-form',
@@ -15,8 +17,11 @@ import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 })
 export class MakeFormComponent implements OnInit {
   @ViewChild('fileInput') fileInput: ElementRef;
-  makes: any[] = [];
+  hidden = false;
+  highlighted = false;
+  makes: Makes[] = [];
   models: any[] = [];
+  features: any[] = [];
   makeId: any;
   logo: any;
   file: any;
@@ -57,6 +62,10 @@ export class MakeFormComponent implements OnInit {
       phone: '',
     }
   };
+  feature: SaveFeature = {
+    id: 0,
+    name: ''
+  }
 
   constructor(
     private auth: Auth,
@@ -64,41 +73,38 @@ export class MakeFormComponent implements OnInit {
     private router: Router,
     private makeService: MakeService,
     private modelService: ModelService,
+    private featureService: FeatureService,
     private toastyService: ToastyService,
     private photoService: PhotoService
   ) { }
 
   ngOnInit() {
     var sources = [
-      this.makeService.getMakes()
+      this.makeService.getMakes(),
+      this.featureService.getFeatures()
     ];
     
     Observable.forkJoin(sources).subscribe(data => {
       this.makes = data[0];
+      this.features = data[1];
+      this.sortData(this.makes);
+      this.sortData(this.features);
       }, err => {
         if (err.status == 404)
           this.router.navigate(['/home']);
     });
-      this.makeService.getMakes()
-        .subscribe( m => {
-            this.makes = m;
-            this.makes.sort((n1,n2) : number => {
+  }
+
+  sortData(input: any): any{
+      return input.sort((n1,n2) : number => {
               if (n1.name > n2.name) {
                   return 1;
               }
-          
               if (n1.name < n2.name) {
                   return -1;
               }
                 return 0;
             });
-          },
-          err => {
-            if(err.status = 404) {
-              this.router.navigate(['/makes']);
-              return;
-          }
-      });
   }
 
   onMakeChange() {
@@ -118,15 +124,7 @@ export class MakeFormComponent implements OnInit {
   private populateModels() {
     var selectedMake = this.makes.find(m => m.id == this.vehicle.makeId);
     this.models = selectedMake ? selectedMake.models : [];
-    this.models.sort((n1,n2) : number => {
-              if (n1.name > n2.name) {
-                  return 1;
-              }
-              if (n1.name < n2.name) {
-                  return -1;
-              }
-                return 0;
-            });
+    this.sortData(this.models);
 
     if(this.vehicle.makeId != null && this.vehicle.makeId != 0){
       this.photoService.getLogo(this.vehicle.makeId)
@@ -134,33 +132,25 @@ export class MakeFormComponent implements OnInit {
     }  
   }
 
-  submitMake() {
+  submitMake(f: NgForm) {
     var result$ = this.makeService.create(this.saveMake);
     result$.subscribe(make => {
       this.makes.push(make);
-      this.toastyService.success({
-        title: 'Success',
-        msg: 'Make was sucessfully saved.',
-        theme: 'bootstrap',
-        showClose: true,
-        timeout: 5000
-      });
+      make.new = true;
+      this.saveMake.name = '';
+      f.resetForm();
+      this.toastyMessage("Make is sucessfully saved.");
+      this.sortData(this.makes);
     });
-    this.saveMake.name = '';
    };
 
-  submitModel() {
+  submitModel(f: NgForm) {
     this.model.makeId = this.vehicle.makeId; 
     var result2$ = this.modelService.create(this.model);
     result2$.subscribe(model => {
       this.models.push(model);
-      this.toastyService.success({
-        title: 'Success',
-        msg: 'Model was sucessfully saved.',
-        theme: 'bootstrap',
-        showClose: true,
-        timeout: 5000
-      });
+      this.toastyMessage("Model is sucessfully saved.");
+      this.sortData(this.models);
     });
     this.model.name = '';
   };
@@ -190,13 +180,7 @@ export class MakeFormComponent implements OnInit {
       this.makeService.delete(make.id)
         .subscribe(x => {
           this.makes.splice(this.makes.indexOf(make), 1);
-          this.toastyService.success({
-            title: 'Success',
-            msg: 'Make is sucessfully deleted.',
-            theme: 'bootstrap',
-            showClose: true,
-            timeout: 5000
-          });
+          this.toastyMessage("Make is sucessfully deleted.");
         });
     }
   }
@@ -206,17 +190,25 @@ export class MakeFormComponent implements OnInit {
       this.modelService.delete(model.id)
         .subscribe(x => {
           this.models.splice(this.models.indexOf(model), 1);
-          this.toastyService.success({
-            title: 'Success',
-            msg: 'Model is sucessfully deleted.',
-            theme: 'bootstrap',
-            showClose: true,
-            timeout: 5000
-          });
+          this.toastyMessage("Model is sucessfully deleted.");
         });
     }
   }
 
+  toastyMessage(inputMsg: string) {
+    this.toastyService.success({
+            title: 'Success',
+            msg: inputMsg,
+            theme: 'bootstrap',
+            showClose: true,
+            timeout: 5000
+          });
+  }
+
+  resetForm(f: NgForm){
+    f.resetForm();
+  }
+ 
   goBack() {
     window.history.back();
   }

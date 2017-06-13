@@ -41,3 +41,19 @@ tbody > tr > td {
     padding: 5px;
     box-shadow: 3px 3px 3px rgba(0,0,0,0.3);
 }
+
+.highlighted {
+    border:  1px solid red;
+}
+
+.highlighted::after{
+    margin-left: 10px;
+    font-size: 11px;
+    font-weight: bold;
+    background: green;
+    opacity: 0.9;
+    border-radius: 3px;
+    padding: 4px;
+    content: 'NEW!';
+    color: white;
+}
