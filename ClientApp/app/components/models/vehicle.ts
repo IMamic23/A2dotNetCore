@@ -35,7 +35,8 @@ export interface SaveVehicle {
 export interface Make {
   id: number,
   name: string,
-  models: KeyValuePair[]
+  models: KeyValuePair[],
+  logo: Logo
 }
 
 export interface AdditionalInfo {
@@ -65,6 +66,7 @@ export interface Makes {
   id: number; 
   name: string;
   models: KeyValuePair[];
+  logo: Logo,
   new: boolean;
 }
 
@@ -77,4 +79,10 @@ export interface SaveModel {
 export interface SaveFeature {
   id: number;
   name: string;
+}
+
+export interface Logo {
+  id: number;
+  fileName: string;
+  makeId: number;
 }

@@ -15,9 +15,14 @@ namespace _mosh_A2.Persistence
             this.context = context;
         }
 
-        public async Task<Logo> GetLogo(int makeId)
+        public async Task<Logo> GetLogoByMake(int makeId)
         {
             return await context.Logos.Where(l => l.MakeId == makeId).FirstOrDefaultAsync();
+        }
+
+        public async Task<Logo> GetLogoById(int id)
+        {
+            return await context.Logos.Where(l => l.Id == id).FirstOrDefaultAsync();
         }
 
         public void Remove(Logo logo)

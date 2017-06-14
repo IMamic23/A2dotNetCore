@@ -20,6 +20,9 @@
                         <i (click)="deleteMake(make)" class="glyphicon glyphicon-minus"></i>
                         {{ make.name }}
                       </span>
+                      <div *ngIf="make.logo != null" class="photo-wrapper"> 
+                        <img src="/logos/{{ make.logo.fileName }}" class="img-logo-mini">
+                      </div>
                     </td>
                   </tr>
                 </tbody>
@@ -62,7 +65,7 @@
                       required
                       #make="ngModel">
                   <option value=""></option>
-                  <option *ngFor="let m of makes" value="{{ m.id }}">{{ m.name }}</option>
+                  <option *ngFor="let make of makes" value="{{ make.id }}">{{ make.name }}</option>
               </select>
               <div class="alert alert-danger my-alert" *ngIf="make.touched && !make.valid">Please specifiy the Make</div>
               </div>

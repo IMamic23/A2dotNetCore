@@ -40,7 +40,7 @@ namespace _mosh_A2.Controllers
         [HttpGet]
         public async Task<IActionResult> GetLogo(int makeId){
            
-           var logo = await logoRepository.GetLogo(makeId);
+           var logo = await logoRepository.GetLogoByMake(makeId);
            
            if(logo == null) 
                 return NotFound();
@@ -86,7 +86,7 @@ namespace _mosh_A2.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteLogo(int id)
         {
-            var logo = await logoRepository.GetLogo(id);
+            var logo = await logoRepository.GetLogoById(id);
 
              if (logo == null)
                 return NotFound();

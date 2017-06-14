@@ -17,7 +17,9 @@ import { NgForm } from "@angular/forms";
 })
 export class MakeFormComponent implements OnInit {
   @ViewChild('fileInput') fileInput: ElementRef;
+  @ViewChild('f2') modelsForm: NgForm;
   hidden = false;
+  selectedMake: any;
   highlighted = false;
   makes: Makes[] = [];
   models: any[] = [];
@@ -124,29 +126,30 @@ export class MakeFormComponent implements OnInit {
   }
 
   private populateModels() {
-    var selectedMake = this.makes.find(m => m.id == this.vehicle.makeId);
-    this.models = selectedMake ? selectedMake.models : [];
+    this.selectedMake = this.makes.find(m => m.id == this.vehicle.makeId);
+    this.models = this.selectedMake ? this.selectedMake.models : [];
     this.sortData(this.models);
+    this.logo = this.selectedMake.logo;
 
-    if(this.vehicle.makeId != null && this.vehicle.makeId != 0){
-      this.photoService.getLogo(this.vehicle.makeId)
-          .subscribe(logo => this.logo = logo), err =>{
-        this.toastyService.error({
-            title: 'Error',
-            msg: "No logo found for this vehicle",
-            theme: 'bootstrap',
-            showClose: true,
-            timeout: 5000
-          });
-      };
-    };
+    // if(this.vehicle.makeId != null && this.vehicle.makeId != 0){
+    //   this.photoService.getLogo(this.vehicle.makeId)
+    //       .subscribe(logo => this.logo = logo), err =>{
+    //     this.toastyService.error({
+    //         title: 'Error',
+    //         msg: "No logo found for this vehicle",
+    //         theme: 'bootstrap',
+    //         showClose: true,
+    //         timeout: 5000
+    //       });
+    //   };
+    // };
   };
 
   submitMake(f: NgForm) {
     var makeExists = this.makes.filter((obj) => {
       return obj.name.toLowerCase() === this.saveMake.name.toLowerCase();
     });
-    if(makeExists.length = 0) {
+    if(makeExists.length == 0) {
       var result$ = this.makeService.create(this.saveMake);
       result$.subscribe(make => {
         this.makes.push(make);
@@ -175,7 +178,7 @@ export class MakeFormComponent implements OnInit {
     var modelExists = this.models.filter((obj) => {
       return obj.name.toLowerCase() === this.model.name.toLowerCase();
     });
-    if(modelExists.length = 0) {
+    if(modelExists.length == 0) {
     this.model.makeId = this.vehicle.makeId; 
     var result2$ = this.modelService.create(this.model);
     result2$.subscribe(model => {
@@ -208,7 +211,7 @@ export class MakeFormComponent implements OnInit {
        return obj.name.toLowerCase() === this.feature.name.toLowerCase();
     });
 
-    if(featureExists.length = 0) {
+    if(featureExists.length == 0) {
     var result3$ = this.featureService.create(this.feature);
     result3$.subscribe(feature => {
       this.features.push(feature);
@@ -240,6 +243,9 @@ export class MakeFormComponent implements OnInit {
     this.photoService.uploadLogo(this.vehicle.makeId, this.file)
       .subscribe(logo => {
         this.logo = logo;
+        this.makes.filter((obj) => {
+         return obj.id === this.selectedMake.id;
+        })[0].logo = logo;
       }, err =>{
         this.toastyService.error({
             title: 'Error',
@@ -257,7 +263,11 @@ export class MakeFormComponent implements OnInit {
         .subscribe(x => {
           this.makes.splice(this.makes.indexOf(make), 1);
           this.toastyMessage("Make is sucessfully deleted.");
-          //this.vehicle.makeId = null;
+          if(make.id == this.selectedMake.id) {
+            this.modelsForm.resetForm();
+            this.logo = null;
+            this.models = null;
+          }
         });
     }
   }
@@ -267,6 +277,9 @@ export class MakeFormComponent implements OnInit {
       this.photoService.deleteLogo(logo.id)
         .subscribe(x => {
           this.logo = null;
+          this.makes.filter((obj) => {
+           return obj.id === this.selectedMake.id;
+          })[0].logo = null;
           this.toastyService.success({
             title: 'Success',
             msg: 'Logo is sucessfully deleted.',

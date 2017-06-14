@@ -19,7 +19,10 @@ namespace _mosh_A2.Persistence
 
         public async Task<List<Make>> GetMakes()
         {
-            return await context.Makes.Include(m => m.Models).ToListAsync();
+            return await context.Makes
+                .Include(m => m.Models)
+                .Include(m => m.Logo)
+                .ToListAsync();
         }
 
         public void Remove(Make make)
