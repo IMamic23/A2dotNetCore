@@ -1,9 +1,6 @@
 .img-logo {
     max-width:100px;
     margin-bottom: 10px;
-    display: block;
-    margin: auto;
-    margin-bottom: 10px;
 }
 
 .myLabel {
@@ -24,6 +21,8 @@ tbody > tr > td {
     margin-right: 5px;
     color: red;
     opacity: 0.7;
+    padding: 4px;
+    border-right: 1px solid rgba(255,255,255,0.4);
 }
 
 .myLabel > i:hover {
@@ -81,4 +80,25 @@ tr th {
     padding: 8px;
     font-size: 17px;
     padding-left: 20px;
+}
+
+.photo-wrapper {
+  position: relative;
+  display: inline-block;
+}
+.close:before {
+  content: '✕';
+}
+.close {
+  position: absolute;
+  font-size: 12px;
+  top: 1%;
+  right: 1%;
+  opacity: 0.6;
+  color: black;
+  cursor: pointer;
+}
+.close:hover {
+  color: red;
+  opacity: 0.9;
 }

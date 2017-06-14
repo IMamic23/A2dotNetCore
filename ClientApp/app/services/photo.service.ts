@@ -36,4 +36,9 @@ export class PhotoService {
             .map(res => res.json());
     }
 
+    deleteLogo(id) {
+        return this.http.delete('/api/logo/' + id)
+            .map(res => res.json());
+    }
+
 }

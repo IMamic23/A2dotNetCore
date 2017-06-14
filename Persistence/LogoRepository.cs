@@ -17,12 +17,13 @@ namespace _mosh_A2.Persistence
 
         public async Task<Logo> GetLogo(int makeId)
         {
-            var logo = await context.Logos.Where(l => l.MakeId == makeId).SingleAsync();
+            var logo = await context.Logos.Where(l => l.MakeId == makeId).FirstOrDefaultAsync();
             
-            if(logo != null)
-                return logo;
-            else
-                return null;
+            return logo;
+            // if(logo != null)
+            //     return logo;
+            // else
+            //     return null;
         }
 
         public void Remove(Logo logo)

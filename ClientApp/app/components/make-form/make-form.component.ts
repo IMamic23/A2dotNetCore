@@ -128,9 +128,17 @@ export class MakeFormComponent implements OnInit {
 
     if(this.vehicle.makeId != null && this.vehicle.makeId != 0){
       this.photoService.getLogo(this.vehicle.makeId)
-          .subscribe(logo => this.logo = logo);
-    }  
-  }
+          .subscribe(logo => this.logo = logo), err =>{
+        this.toastyService.error({
+            title: 'Error',
+            msg: "No logo found for this vehicle",
+            theme: 'bootstrap',
+            showClose: true,
+            timeout: 5000
+          });
+      };
+    };
+  };
 
   submitMake(f: NgForm) {
     var result$ = this.makeService.create(this.saveMake);
@@ -195,6 +203,30 @@ export class MakeFormComponent implements OnInit {
           this.makes.splice(this.makes.indexOf(make), 1);
           this.toastyMessage("Make is sucessfully deleted.");
         });
+    }
+  }
+
+  deleteLogo(logo){
+    if(confirm("Are you sure?")) {
+      this.photoService.deleteLogo(logo.id)
+        .subscribe(x => {
+          this.logo = null;
+          this.toastyService.success({
+            title: 'Success',
+            msg: 'Logo is sucessfully deleted.',
+            theme: 'bootstrap',
+            showClose: true,
+            timeout: 5000
+          });
+        }, err => {
+        this.toastyService.error({
+            title: 'Error',
+            msg: err.text(),
+            theme: 'bootstrap',
+            showClose: true,
+            timeout: 5000
+          });
+      });
     }
   }
 

@@ -81,5 +81,20 @@ namespace _mosh_A2.Controllers
 
             return Ok(mapper.Map<Logo, LogoResource>(logo));
         }
+
+        [Route("/api/logo/{id}")]
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteLogo(int id)
+        {
+            var logo = await logoRepository.GetLogo(id);
+
+             if (logo == null)
+                return NotFound();
+
+             logoRepository.Remove(logo);
+             await unitOfWork.CompleteAsync();
+
+             return Ok(id);
+        }
     }
 }
