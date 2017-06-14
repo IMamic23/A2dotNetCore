@@ -3,12 +3,10 @@
   <a [routerLink]="['/makes/new']" class="btn btn-primary">New Make and/or Model</a>
 </p>
 <div class="row">
-  <div class="col-md-3 col-sm-6 col-xs-12" *ngFor="let m of makes" style="margin-top:30px">
-    <div class="well">
+  <div id="makesList" class="col-md-3 col-sm-6 col-xs-12 well" *ngFor="let m of makes" style="margin-top:30px">
       <span class="myLabelHeader" style="font-weight:bold; font-size: 18px;"> {{m.name}} </span>
         <div *ngFor = "let n of m.models" style="margin-top:20px">
           <span class="myLabel" style="margin-left:15px;">{{n.name}}</span>
       </div>
-    </div>
   </div>
 </div>

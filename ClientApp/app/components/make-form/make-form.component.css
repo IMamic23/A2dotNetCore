@@ -1,5 +1,9 @@
 .img-logo {
-    max-width:100px; 
+    max-width:100px;
+    margin-bottom: 10px;
+    display: block;
+    margin: auto;
+    margin-bottom: 10px;
 }
 
 .myLabel {
@@ -56,4 +60,25 @@ tbody > tr > td {
     padding: 4px;
     content: 'NEW!';
     color: white;
+}
+
+.myTable {
+    height: auto;
+    margin-top: 10px;
+    max-height: 500px;
+    overflow: auto;
+    border: 1px solid rgba(0,0,0,0.2);
+    box-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+}
+
+#make, #model, #feature {
+    margin-top:10px;
+}
+
+tr th {
+    background: rgba(0,0,0,0.9);
+    color: white;
+    padding: 8px;
+    font-size: 17px;
+    padding-left: 20px;
 }

@@ -149,10 +149,23 @@ export class MakeFormComponent implements OnInit {
     var result2$ = this.modelService.create(this.model);
     result2$.subscribe(model => {
       this.models.push(model);
+      model.new = true;
       this.toastyMessage("Model is sucessfully saved.");
       this.sortData(this.models);
     });
     this.model.name = '';
+  };
+
+  submitFeature(f: NgForm) {
+    var result3$ = this.featureService.create(this.feature);
+    result3$.subscribe(feature => {
+      this.features.push(feature);
+      feature.new = true;
+      this.toastyMessage("Feature is sucessfully saved.");
+      this.sortData(this.features);
+      this.feature.name = '';
+      f.resetForm();
+    }); 
   };
 
    uploadLogo() {
@@ -191,6 +204,17 @@ export class MakeFormComponent implements OnInit {
         .subscribe(x => {
           this.models.splice(this.models.indexOf(model), 1);
           this.toastyMessage("Model is sucessfully deleted.");
+        });
+    }
+  }
+
+  deleteFeature(feature, f: NgForm){
+      if(confirm("Are you sure?")) {
+      this.featureService.delete(feature.id)
+        .subscribe(x => {
+          this.features.splice(this.features.indexOf(feature), 1);
+          this.toastyMessage("Feature is sucessfully deleted.");
+          f.resetForm();
         });
     }
   }
