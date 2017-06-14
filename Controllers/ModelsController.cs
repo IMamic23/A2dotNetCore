@@ -11,58 +11,57 @@ using Microsoft.EntityFrameworkCore;
 
 namespace _mosh_A2.Controllers
 {
-    [Route("/api/makes")]
-    public class MakesController : Controller
+    [Route("/api/models")]
+    public class ModelsController : Controller
     {
         private readonly IMapper mapper;
-        private readonly IMakeRepository makeRepository;
+        private readonly IModelRepository modelRepository;
         private readonly IUnitOfWork unitOfWork;
         
-        public MakesController(VegaDbContext context, 
+        public ModelsController(VegaDbContext context, 
                                IMapper mapper,
-                               IMakeRepository makeRepository,
+                               IModelRepository modelRepository,
                                IUnitOfWork unitOfWork)
         {
             this.mapper = mapper;
             this.unitOfWork = unitOfWork;
-            this.makeRepository = makeRepository;
+            this.modelRepository = modelRepository;
         }
 
         [HttpGet]
-        public async Task<IEnumerable<MakeResource>> GetMakes()
+        public async Task<IEnumerable<ModelResource>> GetModels()
         {
-           var makes = await makeRepository.GetMakes();
-
-           return mapper.Map<List<Make>, List<MakeResource>>(makes);
+           var models = await modelRepository.GetModels();
+        
+           return mapper.Map<List<Model>, List<ModelResource>>(models);
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateMakes([FromBody] SaveMakeResource makeResource)
+        public async Task<IActionResult> CreateModels([FromBody] SaveModelResource modelResource)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
             
-            var make = mapper.Map<SaveMakeResource, Make>(makeResource);
+            var model = mapper.Map<SaveModelResource, Model>(modelResource);
             
-            makeRepository.Add(make);
+            modelRepository.Add(model);
             await unitOfWork.CompleteAsync();
 
-            make = await makeRepository.GetMake(make.Id);
+            model = await modelRepository.GetModel(model.Id);
 
-            var result = mapper.Map<Make, MakeResource>(make);
+            var result = mapper.Map<Model, ModelResource>(model);
 
             return Ok(result);
         }
-
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteMake(int id)
+        public async Task<IActionResult> DeleteModel(int id)
         {
-            var make = await makeRepository.GetMake(id, includeRelated: false);
+            var model = await modelRepository.GetModel(id, includeRelated: false);
 
-            if (make == null)
+            if (model == null)
                 return NotFound();
 
-            makeRepository.Remove(make);
+            modelRepository.Remove(model);
             await unitOfWork.CompleteAsync();
 
             return Ok(id);

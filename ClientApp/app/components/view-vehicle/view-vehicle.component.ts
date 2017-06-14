@@ -1,3 +1,4 @@
+import { Vehicle } from './../models/vehicle';
 import { Auth } from './../../services/auth.service';
 import { BrowserXhr } from '@angular/http';
 import { NgZone } from '@angular/core';
@@ -19,7 +20,8 @@ import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
 })
 export class ViewVehicleComponent implements OnInit {
   @ViewChild('fileInput') fileInput: ElementRef;
-  vehicle: any;
+  @ViewChild('photoFileInput') fileInput2: ElementRef;
+  vehicle: Vehicle;
   vehicleId: number;
   photos: any[];
   logo: any;
@@ -70,20 +72,19 @@ export class ViewVehicleComponent implements OnInit {
   getVehicleLogoAndPhotos() {
     this.photoService.getPhotos(this.vehicleId)
       .subscribe(photos => this.photos = photos);
-    
-     this.photoService.getLogo(this.vehicleId)
-       .subscribe(logo => this.logo = logo);
 
     this.vehicleService.getVehicle(this.vehicleId)
-      .subscribe(
-        v => this.vehicle = v,
+      .subscribe( v => { this.vehicle = v;
+        if(this.vehicle)
+          this.photoService.getLogo(this.vehicle.make.id)
+            .subscribe(logo => this.logo = logo); 
+      },
         err => {
           if(err.status = 404) {
             this.router.navigate(['/vehicles']);
             return;
           }
-        }
-      )
+        });
   }
 
   delete() {
@@ -103,7 +104,7 @@ export class ViewVehicleComponent implements OnInit {
   }
 
   uploadPhoto() {
-    var nativeElement: HTMLInputElement = this.fileInput.nativeElement;
+    var nativeElement: HTMLInputElement = this.fileInput2.nativeElement;
     this.file = nativeElement.files[0];
     
     this.useProgress();
@@ -143,7 +144,7 @@ export class ViewVehicleComponent implements OnInit {
     
     nativeElement.value = '';
 
-    this.photoService.uploadLogo(this.vehicleId, this.file)
+    this.photoService.uploadLogo(this.vehicle.make.id, this.file)
       .subscribe(logo => {
         this.logo = logo;
       }, err =>{

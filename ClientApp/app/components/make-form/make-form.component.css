@@ -1,0 +1,104 @@
+.img-logo {
+    max-width:100px;
+    margin-bottom: 10px;
+}
+
+.myLabel {
+    background: black;
+    color: white;
+    font-weight: bold;
+    padding: 10px;
+    margin: 4px;
+    border-radius: 10px;
+    box-shadow: 2px 2px 2px rgba(0,0,0,0.4);
+}
+
+tbody > tr > td {
+    padding: 12px !important;
+}
+
+.myLabel > i {
+    margin-right: 5px;
+    color: red;
+    opacity: 0.7;
+    padding: 4px;
+    border-right: 1px solid rgba(255,255,255,0.4);
+}
+
+.myLabel > i:hover {
+    cursor: pointer;
+    opacity: 0.9;
+}
+.my-form{
+    position: relative;
+}
+.my-alert{
+    position: absolute;
+    width: 50%;
+    height: 25px;
+    font-size: 13px; 
+    text-align: center;
+    left: 45%;
+    bottom: 5px;
+    margin-bottom: 0px;
+    padding: 5px;
+    box-shadow: 3px 3px 3px rgba(0,0,0,0.3);
+}
+
+.highlighted {
+    border:  1px solid red;
+}
+
+.highlighted::after{
+    margin-left: 10px;
+    font-size: 11px;
+    font-weight: bold;
+    background: green;
+    opacity: 0.9;
+    border-radius: 3px;
+    padding: 4px;
+    content: 'NEW!';
+    color: white;
+}
+
+.myTable {
+    height: auto;
+    margin-top: 10px;
+    max-height: 500px;
+    overflow: auto;
+    border: 1px solid rgba(0,0,0,0.2);
+    box-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+}
+
+#make, #model, #feature {
+    margin-top:10px;
+}
+
+tr th {
+    background: rgba(0,0,0,0.9);
+    color: white;
+    padding: 8px;
+    font-size: 17px;
+    padding-left: 20px;
+}
+
+.photo-wrapper {
+  position: relative;
+  display: inline-block;
+}
+.close:before {
+  content: '✕';
+}
+.close {
+  position: absolute;
+  font-size: 12px;
+  top: 1%;
+  right: 1%;
+  opacity: 0.6;
+  color: black;
+  cursor: pointer;
+}
+.close:hover {
+  color: red;
+  opacity: 0.9;
+}

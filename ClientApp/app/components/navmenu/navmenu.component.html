@@ -48,6 +48,17 @@
                         <span class='glyphicon glyphicon-plus'></span> New Vehicle
                     </a>
                 </li>
+                <li [routerLinkActive]="['link-active']"
+                     [routerLinkActiveOptions]="{exact: true}">
+                    <a [routerLink]="['/makes']">
+                        <span class='glyphicon glyphicon-th-list'></span> Makes and Models List
+                    </a>
+                </li>
+                <li [routerLinkActive]="['link-active']" *ngIf="auth.authenticated()">
+                    <a [routerLink]="['/makes/new']">
+                        <span class='glyphicon glyphicon-plus'></span> New Make/Model
+                    </a>
+                </li>
             </ul>
         </div>
     </div>

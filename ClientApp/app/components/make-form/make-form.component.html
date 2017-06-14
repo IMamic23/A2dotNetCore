@@ -1,0 +1,175 @@
+
+<div class="row">
+  <div class="col-md-4">
+   <div class="container-fluid well">
+    <h3>New Make</h3>
+      <form #f="ngForm" (ngSubmit)="submitMake(f)">
+          <div class="form-group my-form">
+            <div class="myTable">
+              <table id="myTable" class="table table-responsive">
+                <thead>
+                  <tr>
+                    <th>Makes
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let make of makes">
+                    <td>
+                      <span class="myLabel" [ngClass]="{highlighted: make.new}">
+                        <i (click)="deleteMake(make)" class="glyphicon glyphicon-minus"></i>
+                        {{ make.name }}
+                      </span>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <input id="make" 
+                  type="text"
+                  placeholder="Enter New Make"  
+                  class="form-control"
+                  [(ngModel)]="saveMake.name"
+                  name="name"
+                  required
+                  #varMake="ngModel">
+              <div class="alert alert-danger my-alert" 
+                  *ngIf="varMake.touched && !varMake.valid">
+                  Please specifiy new Make
+              </div>
+          </div>
+          <div class="buttons-wrapper">
+              <button class="btn btn-primary" [disabled]="!f.valid">Save</button>
+              <button type="button" class="btn btn-primary" (click)="resetForm(f)" [disabled]="varMake.pristine">Done</button>
+              <!--<button *ngIf="make.id" class="btn btn-danger" type="button" (click)="delete()">Delete</button>-->
+          </div> 
+      </form>
+    </div>
+</div>
+<div class="col-md-4">
+    <div class="container-fluid well">
+      <h3>New Model</h3>
+      <form #f2="ngForm" (ngSubmit)="submitModel(f2)">
+        <div class="row">
+          <div class="form-group my-form">
+            <div class="col-md-6">
+              <label for="make">Select Make</label>
+              <select id="make" 
+                      class="form-control" 
+                      (change)="onMakeChange()" 
+                      [(ngModel)]="vehicle.makeId" 
+                      name="makeId"
+                      required
+                      #make="ngModel">
+                  <option value=""></option>
+                  <option *ngFor="let m of makes" value="{{ m.id }}">{{ m.name }}</option>
+              </select>
+              <div class="alert alert-danger my-alert" *ngIf="make.touched && !make.valid">Please specifiy the Make</div>
+              </div>
+              <div class="col-md-6">
+               <div *ngIf="vehicleSelected()">
+                <div *ngIf="logo == null && auth.authenticated()">
+                  <label>Upload logo</label>  
+                  <input type="file" (change)="uploadLogo()" #fileInput>
+                </div>
+                <div *ngIf="logo != null" class="photo-wrapper"> 
+                  <img src="/logos/{{ logo.fileName }}" class="img-logo img-responsive">
+                  <span class="close" (click)="deleteLogo(logo)"></span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-12">
+            <div class="form-group my-form">
+              <div class="myTable">
+                <table id="myTable" class="table table-responsive">
+                  <thead>
+                    <tr>
+                      <th>Models
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let model of models">
+                      <td>
+                        <span class="myLabel" [ngClass]="{highlighted: model.new}">
+                          <i (click)="deleteModel(model)" class="glyphicon glyphicon-minus"></i>
+                            {{ model.name }}
+                        </span>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            <input id="model" 
+                  type="text"
+                  placeholder="Enter New Model"  
+                  class="form-control"
+                  [(ngModel)]="model.name"
+                  name="model"
+                  required
+                  #varModel="ngModel">
+              <div class="alert alert-danger my-alert" 
+                  *ngIf="varModel.touched && !varModel.valid">
+                  Please specifiy new Model
+              </div>
+            </div>
+            </div>
+          </div>
+          <div class="buttons-wrapper">
+              <button class="btn btn-primary" [disabled]="!f2.valid">Save</button>
+              <button type="button" class="btn btn-primary" (click)="resetForm(f2)" [disabled]="varModel.pristine">Done</button>
+          </div> 
+      </form>
+    </div>
+  </div>
+  <div class="col-md-4">
+     <div class="container-fluid well">
+       <h3>New Feature</h3>
+       <form #f3="ngForm" (ngSubmit)="submitFeature(f3)">
+        <div class="form-group my-form">
+          <div class="myTable">
+            <table id="myTable" class="table table-responsive">
+              <thead>
+                <tr>
+                  <th>Features
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let feature of features">
+                  <td>
+                    <span class="myLabel" [ngClass]="{highlighted: feature.new}">
+                      <i (click)="deleteFeature(feature, f3)" class="glyphicon glyphicon-minus"></i>
+                        {{ feature.name }}
+                    </span>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <input id="feature" 
+                    type="text"
+                    placeholder="Enter New Feature"  
+                    class="form-control"
+                    [(ngModel)]="feature.name"
+                    name="feature"
+                    required
+                    #varFeature="ngModel">
+          <div class="alert alert-danger my-alert" 
+              *ngIf="varFeature.touched && !varFeature.valid">
+              Please specifiy new Feature
+          </div>
+        </div>
+        <div class="buttons-wrapper">
+              <button class="btn btn-primary" [disabled]="!f3.valid">Save</button>
+              <button type="button" class="btn btn-primary" (click)="resetForm(f3)" [disabled]="varFeature.pristine">Done</button>
+          </div> 
+      </form>
+     </div>
+  </div>
+</div>
+<button type="button" class="btn btn-default" (click)="goBack()">Cancel</button>
+<br/>
+<br/>
+<br/>

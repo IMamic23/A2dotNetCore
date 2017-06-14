@@ -29,11 +29,11 @@ namespace MoshA2.Migrations
 
                     b.Property<string>("CarState");
 
-                    b.Property<int>("FirstRegistratioYear");
+                    b.Property<int>("FirstRegistrationYear");
 
                     b.Property<double>("FuelConsumption");
 
-                    b.Property<string>("GeatType");
+                    b.Property<string>("GearType");
 
                     b.Property<double>("Mileage");
 
@@ -70,11 +70,11 @@ namespace MoshA2.Migrations
                         .IsRequired()
                         .HasMaxLength(255);
 
-                    b.Property<int>("VehicleId");
+                    b.Property<int>("MakeId");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("VehicleId")
+                    b.HasIndex("MakeId")
                         .IsUnique();
 
                     b.ToTable("Logos");
@@ -198,9 +198,9 @@ namespace MoshA2.Migrations
 
             modelBuilder.Entity("_mosh_A2.Core.Models.Logo", b =>
                 {
-                    b.HasOne("_mosh_A2.Models.Vehicle")
+                    b.HasOne("_mosh_A2.Models.Make")
                         .WithOne("Logo")
-                        .HasForeignKey("_mosh_A2.Core.Models.Logo", "VehicleId")
+                        .HasForeignKey("_mosh_A2.Core.Models.Logo", "MakeId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 

@@ -19,7 +19,7 @@
           <input type="file" (change)="uploadLogo()" #fileInput>
         </div>
         <div *ngIf="logo != null" class="photo-wrapper"> 
-          <img src="/logos/{{ logo.fileName }}" class="img-thumbnail img-logo img-responsive">
+          <img src="/logos/{{ logo.fileName }}" class="img-logo img-responsive">
           <!--<span class="close" (click)="deleteLogo(logo)"></span>-->
         </div>
       </div>
@@ -278,7 +278,7 @@
     <!-- Photos tab -->
     <div role="tabpanel" class="tab-pane" id="photos">
       <h2>{{ vehicle.make.name }} {{ vehicle.model.name }} <small>PHOTOS</small></h2>
-      <input *ngIf="auth.authenticated()" type="file" (change)="uploadPhoto()" #fileInput>
+      <input *ngIf="auth.authenticated()" type="file" (change)="uploadPhoto()" #photoFileInput>
       <div class="progress" *ngIf="progress && progress.percentage < 100">
         <div class="progress-bar" [style.width]="progress.percentage + '%'">
           <span class="sr-only">{{ progress.percentage }}% Complete</span>
