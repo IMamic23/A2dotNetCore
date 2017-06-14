@@ -27,7 +27,8 @@ export class MakeListComponent implements OnInit {
     ); 
   }
 
-   sortData(input: any): any{
+  sortData(input: any): any{
+    if(input != undefined)
       return input.sort((n1,n2) : number => {
               if (n1.name > n2.name) {
                   return 1;

@@ -27,7 +27,8 @@ export class MakeFormComponent implements OnInit {
   file: any;
   saveMake: SaveMake = {
     id: 0,
-    name: ''
+    name: '',
+    models: []
   };
   model: SaveModel = {
     id: 0,
@@ -96,6 +97,7 @@ export class MakeFormComponent implements OnInit {
   }
 
   sortData(input: any): any{
+    if(input != undefined)
       return input.sort((n1,n2) : number => {
               if (n1.name > n2.name) {
                   return 1;
@@ -141,18 +143,39 @@ export class MakeFormComponent implements OnInit {
   };
 
   submitMake(f: NgForm) {
-    var result$ = this.makeService.create(this.saveMake);
-    result$.subscribe(make => {
-      this.makes.push(make);
-      make.new = true;
+    var makeExists = this.makes.filter((obj) => {
+      return obj.name.toLowerCase() === this.saveMake.name.toLowerCase();
+    });
+    if(makeExists.length = 0) {
+      var result$ = this.makeService.create(this.saveMake);
+      result$.subscribe(make => {
+        this.makes.push(make);
+        make.new = true;
+        this.saveMake.name = '';
+        f.resetForm();
+        this.toastyMessage("Make is sucessfully saved.");
+        this.sortData(this.makes);
+        this.vehicle.makeId = make.id;
+        this.populateModels();
+      });
+    } else {
+      this.toastyService.warning({
+            title: 'Warning',
+            msg: "Make with same name already exists.",
+            theme: 'bootstrap',
+            showClose: true,
+            timeout: 6000
+          });
       this.saveMake.name = '';
       f.resetForm();
-      this.toastyMessage("Make is sucessfully saved.");
-      this.sortData(this.makes);
-    });
+    }
    };
 
   submitModel(f: NgForm) {
+    var modelExists = this.models.filter((obj) => {
+      return obj.name.toLowerCase() === this.model.name.toLowerCase();
+    });
+    if(modelExists.length = 0) {
     this.model.makeId = this.vehicle.makeId; 
     var result2$ = this.modelService.create(this.model);
     result2$.subscribe(model => {
@@ -162,9 +185,30 @@ export class MakeFormComponent implements OnInit {
       this.sortData(this.models);
     });
     this.model.name = '';
+    } else {
+      this.toastyService.warning({
+            title: 'Warning',
+            msg: "Model with same name already exists.",
+            theme: 'bootstrap',
+            showClose: true,
+            timeout: 6000
+          });
+      this.model.name = '';
+    }
   };
+  
+  // checkIfExists(items: any, item: any): any {
+  //     items.filter((obj) => {
+  //       return obj.name.toLowerCase() === item.name.toLowerCase();
+  //   });
+  // };
 
   submitFeature(f: NgForm) {
+    var featureExists = this.features.filter((obj) => {
+       return obj.name.toLowerCase() === this.feature.name.toLowerCase();
+    });
+
+    if(featureExists.length = 0) {
     var result3$ = this.featureService.create(this.feature);
     result3$.subscribe(feature => {
       this.features.push(feature);
@@ -173,7 +217,18 @@ export class MakeFormComponent implements OnInit {
       this.sortData(this.features);
       this.feature.name = '';
       f.resetForm();
-    }); 
+    });
+    } else {
+      this.toastyService.warning({
+            title: 'Warning',
+            msg: "Feature with same name already exists.",
+            theme: 'bootstrap',
+            showClose: true,
+            timeout: 6000
+          });
+      this.feature.name = '';
+      f.resetForm();
+    }
   };
 
    uploadLogo() {
@@ -202,6 +257,7 @@ export class MakeFormComponent implements OnInit {
         .subscribe(x => {
           this.makes.splice(this.makes.indexOf(make), 1);
           this.toastyMessage("Make is sucessfully deleted.");
+          //this.vehicle.makeId = null;
         });
     }
   }

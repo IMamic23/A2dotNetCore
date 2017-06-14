@@ -58,6 +58,7 @@ export interface AdditionalInfo {
 export interface SaveMake {
   id: number; 
   name: string;
+  models: KeyValuePair[]
 }
 
 export interface Makes {
