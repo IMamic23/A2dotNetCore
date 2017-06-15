@@ -130,20 +130,12 @@ export class MakeFormComponent implements OnInit {
     this.models = this.selectedMake ? this.selectedMake.models : [];
     this.sortData(this.models);
     this.logo = this.selectedMake.logo;
-
-    // if(this.vehicle.makeId != null && this.vehicle.makeId != 0){
-    //   this.photoService.getLogo(this.vehicle.makeId)
-    //       .subscribe(logo => this.logo = logo), err =>{
-    //     this.toastyService.error({
-    //         title: 'Error',
-    //         msg: "No logo found for this vehicle",
-    //         theme: 'bootstrap',
-    //         showClose: true,
-    //         timeout: 5000
-    //       });
-    //   };
-    // };
   };
+
+  selectMake(make) {
+    this.vehicle.makeId = make.id;
+    this.populateModels();
+  }
 
   submitMake(f: NgForm) {
     var makeExists = this.makes.filter((obj) => {
@@ -296,6 +288,24 @@ export class MakeFormComponent implements OnInit {
             timeout: 5000
           });
       });
+    }
+  }
+  
+  activateRename(model) {
+    model.renameActivated = true;
+  }
+  cancelRename(model) {
+    model.renameActivated = false;
+    this.model.name = null;
+  }
+
+  updateModel(model){
+    if(confirm("Are you sure?")) {
+      this.modelService.update(model)
+        .subscribe(x => {
+          this.toastyMessage("Model is sucessfully updated.");
+          model.renameActivated = false;
+        });
     }
   }
 

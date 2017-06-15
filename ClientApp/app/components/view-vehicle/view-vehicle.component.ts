@@ -28,6 +28,7 @@ export class ViewVehicleComponent implements OnInit {
   progress: any;
   subscription: any;
   file: any;
+  interval: any;
   additionalInfoTitles: any = {
     modelType: "Model Type",
     modelEngineType: "Engine Type",
@@ -70,9 +71,6 @@ export class ViewVehicleComponent implements OnInit {
   }
 
   getVehicleLogoAndPhotos() {
-    this.photoService.getPhotos(this.vehicleId)
-      .subscribe(photos => this.photos = photos);
-
     this.vehicleService.getVehicle(this.vehicleId)
       .subscribe( v => { this.vehicle = v;
         if(this.vehicle)
@@ -85,6 +83,8 @@ export class ViewVehicleComponent implements OnInit {
             return;
           }
         });
+    this.photoService.getPhotos(this.vehicleId)
+      .subscribe(photos => this.photos = photos);
   }
 
   delete() {

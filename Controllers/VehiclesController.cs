@@ -67,12 +67,13 @@ namespace _mosh_A2.Controllers
 
             repository.Update(vehicle);
             await unitOfWork.CompleteAsync();
-
+            
             vehicle = await repository.GetVehicle(vehicle.Id);
             var result = mapper.Map<Vehicle, VehicleResource>(vehicle);
 
             return Ok(result);
         }
+
         [HttpDelete("{id}")]
         [Authorize]
         public async Task<IActionResult> DeleteVehicle(int id)

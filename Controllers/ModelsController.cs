@@ -53,6 +53,27 @@ namespace _mosh_A2.Controllers
 
             return Ok(result);
         }
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdateModel(int id, [FromBody] KeyValuePairResource modelResource)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            var model = await modelRepository.GetModel(id);
+
+            if (model == null)
+                return NotFound();
+
+            mapper.Map<KeyValuePairResource, Model>(modelResource, model);
+
+            modelRepository.Update(model);
+            await unitOfWork.CompleteAsync();
+
+            model = await modelRepository.GetModel(model.Id);
+            var result = mapper.Map<Model, ModelResource>(model);
+
+            return Ok(result);
+        }
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteModel(int id)
         {

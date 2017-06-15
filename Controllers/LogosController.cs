@@ -83,7 +83,7 @@ namespace _mosh_A2.Controllers
 
             using (Image<Rgba32> image = ImageSharp.Image.Load(filePath))
             {
-                if(image.Width > 500)
+                if(image.Width > 600)
                     image.Resize(image.Width / 2, image.Height / 2)
                         .Quantize(Quantization.Palette, 256)
                         .Save(filePath); // automatic encoder selected based on extension.

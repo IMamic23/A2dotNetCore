@@ -16,7 +16,7 @@
                 <tbody>
                   <tr *ngFor="let make of makes">
                     <td>
-                      <span class="myLabel" [ngClass]="{highlighted: make.new}">
+                      <span class="myLabel makesLabel" (click)="selectMake(make)" [ngClass]="{highlighted: make.new}">
                         <i (click)="deleteMake(make)" class="glyphicon glyphicon-minus"></i>
                         {{ make.name }}
                       </span>
@@ -95,9 +95,25 @@
                   <tbody>
                     <tr *ngFor="let model of models">
                       <td>
-                        <span class="myLabel" [ngClass]="{highlighted: model.new}">
+                        <span *ngIf="model.renameActivated != true" class="myLabel" [ngClass]="{highlighted: model.new}">
                           <i (click)="deleteModel(model)" class="glyphicon glyphicon-minus"></i>
                             {{ model.name }}
+                        </span>
+                        <input *ngIf="model.renameActivated == true"
+                              style="width:60%; margin-top: 0 !important;" 
+                              id="model" 
+                              type="text" 
+                              class="form-control pull-left"
+                              [(ngModel)]="model.name"
+                              name="model">
+                        <span *ngIf="model.renameActivated != true" (click)="activateRename(model)" class="rename pull-right">
+                          rename
+                        </span>
+                        <span *ngIf="model.renameActivated == true" (click)="updateModel(model)" class="rename pull-right">
+                          update
+                        </span>
+                        <span *ngIf="model.renameActivated == true" (click)="cancelRename(model)" class="rename pull-right">
+                          cancel
                         </span>
                       </td>
                     </tr>

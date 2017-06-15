@@ -18,6 +18,7 @@ namespace _mosh_A2.Mapping
             CreateMap(typeof(QueryResult<>), typeof(QueryResultResource<>));
             CreateMap<Make, MakeResource>();
             CreateMap<AdditionalInfo, AdditionalInfoResource>();
+            CreateMap<AdditionalInfo, SaveAdditionalInfoResource>();
             CreateMap<Make, KeyValuePairResource>();
             CreateMap<Model, KeyValuePairResource>();
             CreateMap<Model, ModelResource>();
@@ -43,8 +44,13 @@ namespace _mosh_A2.Mapping
             CreateMap<SaveModelResource, Model>();
             CreateMap<SaveMakeResource, Make>();
             CreateMap<KeyValuePairResource, Feature>();
-            // CreateMap<AdditionalInfoResource, AdditionalInfo>()
-            //     .ForMember(v => v.Id, opt => opt.Ignore());
+            CreateMap<AdditionalInfoResource, AdditionalInfo>();
+            CreateMap<SaveAdditionalInfoResource, AdditionalInfo>()
+                .ForMember(v => v.Id, opt => opt.Ignore())
+                .ForMember(v => v.VehicleId, opt => opt.Ignore());
+            CreateMap<KeyValuePairResource, Model>()
+                .ForMember(v => v.MakeId, opt => opt.Ignore())
+                .ForMember(v => v.Make, opt => opt.Ignore());
 
             CreateMap<SaveVehicleResource, Vehicle>()
                 .ForMember(v => v.Id, opt => opt.Ignore())
@@ -65,8 +71,6 @@ namespace _mosh_A2.Mapping
                          v.Features.Add(f);
                     }
                 });
-                // .ForMember(v => v.AdditionalInfo.Id, opt => opt.Ignore())
-
         }
     }
 }

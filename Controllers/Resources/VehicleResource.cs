@@ -14,7 +14,7 @@ namespace _mosh_A2.Controllers.Resources
         public ContactResource Contact { get; set; }
         public DateTime LastUpdate { get; set; }
         public ICollection<KeyValuePairResource> Features { get; set; }
-        public AdditionalInfo AdditionalInfo { get; set; }
+        public AdditionalInfoResource AdditionalInfo { get; set; }
         public VehicleResource()
         {
             Features = new Collection<KeyValuePairResource>();
