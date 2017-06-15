@@ -9,6 +9,8 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
+using System.Drawing;
+using ImageSharp;
 
 namespace _mosh_A2.Controllers
 {
@@ -79,6 +81,14 @@ namespace _mosh_A2.Controllers
             make.Logo = logo;
             await unitOfWork.CompleteAsync();
 
+            using (Image<Rgba32> image = ImageSharp.Image.Load(filePath))
+            {
+                if(image.Width > 500)
+                    image.Resize(image.Width / 2, image.Height / 2)
+                        .Quantize(Quantization.Palette, 256)
+                        .Save(filePath); // automatic encoder selected based on extension.
+            }
+
             return Ok(mapper.Map<Logo, LogoResource>(logo));
         }
 
@@ -93,6 +103,11 @@ namespace _mosh_A2.Controllers
 
              logoRepository.Remove(logo);
              await unitOfWork.CompleteAsync();
+
+             var uploadsFolderPath = Path.Combine(host.WebRootPath, "logos");
+             var filePath = Path.Combine(uploadsFolderPath, logo.FileName);
+
+             System.IO.File.Delete(filePath);
 
              return Ok(id);
         }

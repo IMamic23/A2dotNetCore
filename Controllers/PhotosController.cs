@@ -7,6 +7,8 @@ using _mosh_A2.Controllers.Resources;
 using _mosh_A2.Core;
 using _mosh_A2.Core.Models;
 using AutoMapper;
+using ImageSharp;
+using System.Drawing;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -45,13 +47,13 @@ namespace _mosh_A2.Controllers
         {
             var vehicle = await repository.GetVehicle(vehicleId, includeRelated: false);
             if (vehicle == null)
-                return NotFound();
+                return NotFound();           
 
             if (file == null) return BadRequest("Null file");
             if (file.Length == 0) return BadRequest("Empty file");
             if (file.Length > photoSettings.MaxBytes) return BadRequest("Max file size exceeded");
             if (!photoSettings.IsSupperted(file.FileName)) return BadRequest("This file type is not accepted");
-
+                    
             var uploadsFolderPath = Path.Combine(host.WebRootPath, "uploads");
             if (!Directory.Exists(uploadsFolderPath))
                 Directory.CreateDirectory(uploadsFolderPath);
@@ -68,6 +70,18 @@ namespace _mosh_A2.Controllers
             vehicle.Photos.Add(photo);
             await unitOfWork.CompleteAsync();
 
+            using (Image<Rgba32> image = ImageSharp.Image.Load(filePath))
+            {
+                if(image.Width > 2400)
+                    image.Resize(image.Width / 3, image.Height / 3)
+                        .Quantize(Quantization.Palette, 512)
+                        .Save(filePath);
+                else if(image.Width > 1200)
+                    image.Resize(image.Width / 2, image.Height / 2)
+                        .Quantize(Quantization.Palette, 512)
+                        .Save(filePath); // automatic encoder selected based on extension.
+            }
+            
             return Ok(mapper.Map<Photo, PhotoResource>(photo));
         }
         [HttpGet]
@@ -89,6 +103,11 @@ namespace _mosh_A2.Controllers
 
              photoRepository.Remove(photo);
              await unitOfWork.CompleteAsync();
+
+             var uploadsFolderPath = Path.Combine(host.WebRootPath, "uploads");
+             var filePath = Path.Combine(uploadsFolderPath, photo.FileName);
+
+             System.IO.File.Delete(filePath);
 
              return Ok(id);
         }
