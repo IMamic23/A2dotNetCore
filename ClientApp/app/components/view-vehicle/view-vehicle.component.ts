@@ -1,4 +1,5 @@
-import { Vehicle } from './../models/vehicle';
+import { AddInfoService } from './../../services/add-info.service';
+import { Vehicle, AdditionalInfo } from './../models/vehicle';
 import { Auth } from './../../services/auth.service';
 import { BrowserXhr } from '@angular/http';
 import { NgZone } from '@angular/core';
@@ -22,6 +23,7 @@ export class ViewVehicleComponent implements OnInit {
   @ViewChild('fileInput') fileInput: ElementRef;
   @ViewChild('photoFileInput') fileInput2: ElementRef;
   vehicle: Vehicle;
+  additionalInfo: AdditionalInfo;
   vehicleId: number;
   photos: any[];
   logo: any;
@@ -54,6 +56,7 @@ export class ViewVehicleComponent implements OnInit {
     private progressService: ProgressService,
     private photoService: PhotoService,
     private vehicleService: VehicleService,
+    private addInfoService: AddInfoService,
     private auth: Auth) { 
 
     route.params.subscribe(p => {
@@ -83,6 +86,8 @@ export class ViewVehicleComponent implements OnInit {
             return;
           }
         });
+    this.addInfoService.getAdditionalInfo(this.vehicleId)
+      .subscribe(addInfo => this.additionalInfo = addInfo);
     this.photoService.getPhotos(this.vehicleId)
       .subscribe(photos => this.photos = photos);
   }

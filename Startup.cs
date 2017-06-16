@@ -42,6 +42,7 @@ namespace WebApplicationBasic
             services.AddScoped<IMakeRepository, MakeRepository>();
             services.AddScoped<IModelRepository, ModelRepository>();
             services.AddScoped<ILogoRepository, LogoRepository>();
+            services.AddScoped<IAdditionalInfoRepository, AdditionalInfoRepository>();
             services.AddScoped<IUnitOfWork, UnitOfWork>();
 
             services.AddAutoMapper();

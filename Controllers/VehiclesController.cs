@@ -31,7 +31,7 @@ namespace _mosh_A2.Controllers
 
         [HttpPost]
         //[Authorize(Policies.RequireAdminRole)]
-        [Authorize]
+        //[Authorize]
         public async Task<IActionResult> CreateVehicle([FromBody] SaveVehicleResource vehicleResource)
         {
             if (!ModelState.IsValid)
@@ -51,7 +51,7 @@ namespace _mosh_A2.Controllers
         }
 
         [HttpPut("{id}")]
-        [Authorize]
+        //[Authorize]
         public async Task<IActionResult> UpdateVehicle(int id, [FromBody] SaveVehicleResource vehicleResource)
         {
             if (!ModelState.IsValid)
@@ -65,11 +65,13 @@ namespace _mosh_A2.Controllers
             mapper.Map<SaveVehicleResource, Vehicle>(vehicleResource, vehicle);
             vehicle.LastUpdate = DateTime.Now;
 
-            repository.Update(vehicle);
             await unitOfWork.CompleteAsync();
             
             vehicle = await repository.GetVehicle(vehicle.Id);
             var result = mapper.Map<Vehicle, VehicleResource>(vehicle);
+            
+            if(vehicle == null)
+                return NotFound("Vehicle not found after update");
 
             return Ok(result);
         }

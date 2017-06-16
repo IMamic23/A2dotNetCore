@@ -35,8 +35,7 @@ namespace _mosh_A2.Mapping
                                                                                            Email = v.ContactEmail,
                                                                                            Phone = v.ContactPhone }))
                 .ForMember(vr => vr.Features, opt => opt.MapFrom(v => v.Features.Select(vf => new KeyValuePairResource { Id = vf.Feature.Id, 
-                                                                                                                    Name = vf.Feature.Name })))
-                .ForMember(vr => vr.AdditionalInfo, opt => opt.MapFrom(v => v.AdditionalInfo));
+                                                                                                                    Name = vf.Feature.Name })));
 
             // API Resource to Domain
             CreateMap<VehicleQueryResource, VehicleQuery>();
@@ -61,7 +60,7 @@ namespace _mosh_A2.Mapping
                 .AfterMap((vr, v) => {
                     // Remove unselected features
                     var removeFeatures = v.Features.Where(f => !vr.Features.Contains(f.FeatureId));
-                    foreach(var f in removeFeatures){
+                    foreach(var f in removeFeatures.ToList()){
                             v.Features.Remove(f);
                     }
 

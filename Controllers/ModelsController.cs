@@ -18,10 +18,9 @@ namespace _mosh_A2.Controllers
         private readonly IModelRepository modelRepository;
         private readonly IUnitOfWork unitOfWork;
         
-        public ModelsController(VegaDbContext context, 
-                               IMapper mapper,
-                               IModelRepository modelRepository,
-                               IUnitOfWork unitOfWork)
+        public ModelsController( IMapper mapper,
+                                 IModelRepository modelRepository,
+                                 IUnitOfWork unitOfWork)
         {
             this.mapper = mapper;
             this.unitOfWork = unitOfWork;

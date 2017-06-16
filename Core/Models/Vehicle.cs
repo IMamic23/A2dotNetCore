@@ -24,8 +24,8 @@ namespace _mosh_A2.Models
         public string ContactPhone { get; set; }
         public DateTime LastUpdate { get; set; }
         public ICollection<VehicleFeature> Features { get; set; }
-        public AdditionalInfo AdditionalInfo { get; set; }
         public ICollection<Photo> Photos { get; set; }
+        public AdditionalInfo AdditionalInfo { get; set; }
 
         public Vehicle()
         {

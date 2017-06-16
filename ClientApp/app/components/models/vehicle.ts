@@ -18,7 +18,6 @@ export interface Vehicle {
   isRegistered: boolean;
   features: KeyValuePair[];
   contact: Contact;
-  additionalInfo: AdditionalInfo;
   lastUpdate: string; 
 }
 
@@ -28,7 +27,6 @@ export interface SaveVehicle {
   makeId: number;
   isRegistered: boolean;
   features: number[];
-  additionalInfo: AdditionalInfo;
   contact: Contact;
 }
 
@@ -40,6 +38,8 @@ export interface Make {
 }
 
 export interface AdditionalInfo {
+  id: number;
+  vehicleId: number;
   modelType: string,
   yearOfManafacture: number,
   firstRegistrationYear: number,

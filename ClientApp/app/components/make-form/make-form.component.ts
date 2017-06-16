@@ -43,22 +43,6 @@ export class MakeFormComponent implements OnInit {
     modelId: 0,
     isRegistered: false,
     features: [],
-    additionalInfo: {
-      modelType: '',
-      yearOfManafacture: null,
-      firstRegistrationYear: null,
-      mileage: null,
-      modelEngineType: '',
-      modelEnginePower: null,
-      gearType: '',
-      noOfGears: null,
-      fuelConsumption: null,
-      carState: '',
-      ownerNo: null,
-      carCurrentLocation: '',
-      carDescription: '',
-      carColor: ''
-    },
     contact: {
       name: '',
       email: '',

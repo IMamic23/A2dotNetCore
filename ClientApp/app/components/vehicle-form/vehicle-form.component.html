@@ -91,7 +91,7 @@
                 type="text"
                 placeholder="Enter Model Type (e.g. 2.0 TDI)"  
                 class="form-control" 
-                [(ngModel)]="vehicle.additionalInfo.modelType" 
+                [(ngModel)]="additionalInfo.modelType" 
                 name="modelType" 
                 required
                 #modelType="ngModel">
@@ -101,7 +101,7 @@
               <label for="modelEngineType">Engine Type</label>
                <select id="modelEngineType" 
                     class="form-control"
-                    [(ngModel)]="vehicle.additionalInfo.modelEngineType" 
+                    [(ngModel)]="additionalInfo.modelEngineType" 
                     name="modelEngineType" 
                     required 
                     #modelEngineType="ngModel">
@@ -112,14 +112,6 @@
                 <option value="Diesel">Gas</option>
                 <option value="Diesel">Electrical</option>
             </select>
-             <!--<input id="modelEngineType" 
-                type="text"
-                placeholder="Enter Model Engine Type (Diesel, Gas, Electrical...)"  
-                class="form-control" 
-                [(ngModel)]="vehicle.additionalInfo.modelEngineType" 
-                name="modelEngineType" 
-                required
-                #modelEngineType="ngModel">-->
             <div class="alert alert-danger my-alert" *ngIf="modelEngineType.touched && !modelEngineType.valid">Please specifiy Model Engine Type</div>
          </div>
          <div class="form-group my-form">
@@ -127,22 +119,13 @@
              
               <select id="yearOfManafacture" 
                     class="form-control"
-                    [(ngModel)]="vehicle.additionalInfo.yearOfManafacture" 
+                    [(ngModel)]="additionalInfo.yearOfManafacture" 
                     name="yearOfManafacture" 
                     required 
                     #yearOfManafacture="ngModel">
                 <option value=""></option>
                 <option *ngFor="let y of years" value="{{ y }}">{{ y }}</option>
             </select>
-             
-             <!--<input id="yearOfManafacture" 
-                type="number"
-                placeholder="Enter Year Of Manafacture"  
-                class="form-control" 
-                [(ngModel)]="vehicle.additionalInfo.yearOfManafacture" 
-                name="yearOfManafacture" 
-                required
-                #yearOfManafacture="ngModel">-->
             <div class="alert alert-danger my-alert" *ngIf="yearOfManafacture.touched && !yearOfManafacture.valid">Please specifiy a year of manafacture</div> 
          </div>
          <div class="form-group my-form">
@@ -150,22 +133,13 @@
              
               <select id="firstRegistrationYear" 
                     class="form-control"
-                    [(ngModel)]="vehicle.additionalInfo.firstRegistrationYear" 
+                    [(ngModel)]="additionalInfo.firstRegistrationYear" 
                     name="firstRegistrationYear" 
                     required 
                     #firstRegistrationYear="ngModel">
                 <option value=""></option>
                 <option *ngFor="let y of years" value="{{ y }}">{{ y }}</option>
-            </select>
-             
-             <!--<input id="firstRegistrationYear" 
-                type="number"
-                placeholder="Enter First Year Of Registration"  
-                class="form-control" 
-                [(ngModel)]="vehicle.additionalInfo.firstRegistrationYear" 
-                name="firstRegistrationYear" 
-                required
-                #firstRegistrationYear="ngModel">-->
+            </select>           
             <div class="alert alert-danger my-alert" *ngIf="firstRegistrationYear.touched && !firstRegistrationYear.valid">Please specifiy a First Year Of Registration</div>
          </div>
          <div class="form-group my-form">
@@ -174,7 +148,7 @@
                 type="number"
                 placeholder="Enter Mileage"  
                 class="form-control"
-                [(ngModel)]="vehicle.additionalInfo.mileage"
+                [(ngModel)]="additionalInfo.mileage"
                 name="mileage"
                 step="0.1"
                 required
@@ -190,7 +164,7 @@
                 type="text"
                 placeholder="Enter Model Engine Power"  
                 class="form-control" 
-                [(ngModel)]="vehicle.additionalInfo.modelEnginePower" 
+                [(ngModel)]="additionalInfo.modelEnginePower" 
                 name="modelEnginePower"
                 step="0.1" 
                 required
@@ -204,7 +178,7 @@
             <label for="gearType">Gear Type</label>
               <select id="gearType" 
                     class="form-control" 
-                    [(ngModel)]="vehicle.additionalInfo.gearType" 
+                    [(ngModel)]="additionalInfo.gearType" 
                     name="gearType" 
                     required 
                     #gearType="ngModel">
@@ -214,21 +188,13 @@
                 <option value="Manual - Automatic">Manual - Automatic</option>
                 <option value="Semi-Automatic">Semi-Automatic</option>
             </select>
-             <!--<input id="gearType" 
-                type="text"
-                placeholder="Enter Gear Type (Manual or Automatic)"  
-                class="form-control" 
-                [(ngModel)]="vehicle.additionalInfo.gearType" 
-                name="gearType" 
-                required
-                #gearType="ngModel">-->
             <div class="alert alert-danger my-alert" *ngIf="gearType.touched && !gearType.valid">Please specifiy Gear Type</div>
          </div>
          <div class="form-group my-form">
             <label for="noOfGears">Number of Gears</label>
               <select id="noOfGears" 
                     class="form-control" 
-                    [(ngModel)]="vehicle.additionalInfo.noOfGears" 
+                    [(ngModel)]="additionalInfo.noOfGears" 
                     name="noOfGears" 
                     required 
                     #noOfGears="ngModel">
@@ -238,14 +204,6 @@
                 <option value="6">6</option>
                 <option value="7">7</option>
             </select>
-             <!--<input id="noOfGears" 
-                type="number"
-                placeholder="Enter Number of Gears"  
-                class="form-control" 
-                [(ngModel)]="vehicle.additionalInfo.noOfGears" 
-                name="noOfGears" 
-                required
-                #noOfGears="ngModel">-->
             <div class="alert alert-danger my-alert" *ngIf="noOfGears.touched && !noOfGears.valid">Please specifiy Number of Gears</div>
          </div>
          <div class="form-group my-form">
@@ -254,7 +212,7 @@
                 type="number"
                 placeholder="Enter Fuel Consumption"  
                 class="form-control" 
-                [(ngModel)]="vehicle.additionalInfo.fuelConsumption" 
+                [(ngModel)]="additionalInfo.fuelConsumption" 
                 name="fuelConsumption"
                 step="0.1"
                 required
@@ -270,7 +228,7 @@
                 type="text"
                 placeholder="Enter Car State"  
                 class="form-control" 
-                [(ngModel)]="vehicle.additionalInfo.carState" 
+                [(ngModel)]="additionalInfo.carState" 
                 name="carState" 
                 required
                 #carState="ngModel">
@@ -282,7 +240,7 @@
                 type="text"
                 placeholder="Enter Car Color"  
                 class="form-control" 
-                [(ngModel)]="vehicle.additionalInfo.carColor" 
+                [(ngModel)]="additionalInfo.carColor" 
                 name="carColor" 
                 required
                 #carColor="ngModel">
@@ -292,7 +250,7 @@
             <label for="ownerNo">Owner Number?</label>
              <select id="ownerNo" 
                     class="form-control" 
-                    [(ngModel)]="vehicle.additionalInfo.ownerNo" 
+                    [(ngModel)]="additionalInfo.ownerNo" 
                     name="ownerNo" 
                     required 
                     #ownerNo="ngModel">
@@ -302,14 +260,6 @@
                 <option value="3">3</option>
                 <option value="4">4</option>
             </select>
-             <!--<input id="ownerNo" 
-                type="number"
-                placeholder="Enter Owner Number?"  
-                class="form-control" 
-                [(ngModel)]="vehicle.additionalInfo.ownerNo" 
-                name="ownerNo" 
-                required
-                #ownerNo="ngModel">-->
             <div class="alert alert-danger my-alert" *ngIf="ownerNo.touched && !ownerNo.valid">Please specifiy Owner Number?</div>
          </div>
          <div class="form-group my-form">
@@ -318,7 +268,7 @@
                 type="text"
                 placeholder="Enter Car Current Location"  
                 class="form-control" 
-                [(ngModel)]="vehicle.additionalInfo.carCurrentLocation" 
+                [(ngModel)]="additionalInfo.carCurrentLocation" 
                 name="carCurrentLocation" 
                 required
                 #carCurrentLocation="ngModel">
@@ -330,7 +280,7 @@
                 type="text"
                 placeholder="Enter Car Description"  
                 class="form-control" 
-                [(ngModel)]="vehicle.additionalInfo.carDescription" 
+                [(ngModel)]="additionalInfo.carDescription" 
                 name="carDescription" 
                 required
                 #carDescription="ngModel">
