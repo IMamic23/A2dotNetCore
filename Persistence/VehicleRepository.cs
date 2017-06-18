@@ -14,6 +14,11 @@ namespace _mosh_A2.Persistence
     public class VehicleRepository : IVehicleRepository
     {
         private readonly VegaDbContext context;
+
+        public VegaDbContext GetContext()
+        {
+            return this.context;
+        }
         public VehicleRepository(VegaDbContext context)
         {
             this.context = context;

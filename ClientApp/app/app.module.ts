@@ -1,3 +1,7 @@
+import { EventsService } from './services/mlb-events.service';
+import { MlbEventsComponent } from './components/mlb-events/mlb-events.component';
+import { MlbBoxScoreService } from './services/mlb-box-score.service';
+import { MlbBoxScoreComponent } from './components/mlb-box-score/mlb-box-score.component';
 import { AddInfoService } from './services/add-info.service';
 import { FeatureService } from './services/feature.service';
 import { ModelService } from './services/model.service';
@@ -49,7 +53,9 @@ Raven.config("https://f30ee7661839445f92ad72044ff7a487@sentry.io/167797").instal
         AdminComponent,
         AdditionalInfoComponent,
         MakeFormComponent,
-        MakeListComponent
+        MakeListComponent,
+        MlbBoxScoreComponent,
+        MlbEventsComponent
     ],
     imports: [
         FormsModule,
@@ -67,6 +73,8 @@ Raven.config("https://f30ee7661839445f92ad72044ff7a487@sentry.io/167797").instal
             { path: "vehicles/new", component: VehicleFormComponent, canActivate: [AuthGuard] },
             { path: "vehicles/:id", component: ViewVehicleComponent },
             { path: "vehicles/edit/:id", component: VehicleFormComponent, canActivate: [AuthGuard] },
+            { path: "mlb/boxscore/:event_id", component: MlbBoxScoreComponent, canActivate: [AuthGuard] },
+            { path: "mlb/events", component: MlbEventsComponent, canActivate: [AuthGuard] },
             { path: "**", redirectTo: "home" },
         ])
     ],
@@ -83,7 +91,9 @@ Raven.config("https://f30ee7661839445f92ad72044ff7a487@sentry.io/167797").instal
         MakeService,
         ModelService,
         FeatureService,
-        AddInfoService
+        AddInfoService,
+        MlbBoxScoreService,
+        EventsService
     ]
 })
 export class AppModule {

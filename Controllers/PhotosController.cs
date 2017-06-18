@@ -19,13 +19,13 @@ namespace _mosh_A2.Controllers
     [Route("/api/vehicles/{vehicleId}/photos")]
     public class PhotosController : Controller
     {
-        private readonly IHostingEnvironment host;
-        private readonly IVehicleRepository repository;
-        private readonly IUnitOfWork unitOfWork;
-        private readonly IMapper mapper;
-        private readonly PhotoSettings photoSettings;
-        private readonly IPhotoRepository photoRepository;
-        private readonly ILogoRepository logoRepository;
+        private readonly IHostingEnvironment _host;
+        private readonly IVehicleRepository _repository;
+        private readonly IUnitOfWork _unitOfWork;
+        private readonly IMapper _mapper;
+        private readonly PhotoSettings _photoSettings;
+        private readonly IPhotoRepository _photoRepository;
+        private readonly ILogoRepository _logoRepository;
         public PhotosController(IHostingEnvironment host, 
                                 IVehicleRepository repository, 
                                 IUnitOfWork unitOfWork,
@@ -34,27 +34,27 @@ namespace _mosh_A2.Controllers
                                 IPhotoRepository photoRepository,
                                 ILogoRepository logoRepository)
         {
-            this.photoSettings = options.Value;
-            this.unitOfWork = unitOfWork;
-            this.repository = repository;
-            this.host = host;
-            this.mapper = mapper;
-            this.photoRepository = photoRepository;
-            this.logoRepository = logoRepository;
+            _photoSettings = options.Value;
+            _unitOfWork = unitOfWork;
+            _repository = repository;
+            _host = host;
+            _mapper = mapper;
+            _photoRepository = photoRepository;
+            _logoRepository = logoRepository;
         }
         [HttpPost]
         public async Task<IActionResult> Upload(int vehicleId, IFormFile file)
         {
-            var vehicle = await repository.GetVehicle(vehicleId, includeRelated: false);
+            var vehicle = await _repository.GetVehicle(vehicleId, includeRelated: false);
             if (vehicle == null)
                 return NotFound();           
 
             if (file == null) return BadRequest("Null file");
             if (file.Length == 0) return BadRequest("Empty file");
-            if (file.Length > photoSettings.MaxBytes) return BadRequest("Max file size exceeded");
-            if (!photoSettings.IsSupperted(file.FileName)) return BadRequest("This file type is not accepted");
+            if (file.Length > _photoSettings.MaxBytes) return BadRequest("Max file size exceeded");
+            if (!_photoSettings.IsSupperted(file.FileName)) return BadRequest("This file type is not accepted");
                     
-            var uploadsFolderPath = Path.Combine(host.WebRootPath, "uploads");
+            var uploadsFolderPath = Path.Combine(_host.WebRootPath, "uploads");
             if (!Directory.Exists(uploadsFolderPath))
                 Directory.CreateDirectory(uploadsFolderPath);
 
@@ -68,7 +68,7 @@ namespace _mosh_A2.Controllers
 
             var photo = new Photo { FileName = fileName };
             vehicle.Photos.Add(photo);
-            await unitOfWork.CompleteAsync();
+            await _unitOfWork.CompleteAsync();
 
             using (Image<Rgba32> image = ImageSharp.Image.Load(filePath))
             {
@@ -82,29 +82,29 @@ namespace _mosh_A2.Controllers
                         .Save(filePath); // automatic encoder selected based on extension.
             }
             
-            return Ok(mapper.Map<Photo, PhotoResource>(photo));
+            return Ok(_mapper.Map<Photo, PhotoResource>(photo));
         }
         [HttpGet]
         public async Task<IEnumerable<PhotoResource>> GetPhotos(int vehicleId)
         {
-            var photos = await photoRepository.GetPhotos(vehicleId);
+            var photos = await _photoRepository.GetPhotos(vehicleId);
 
-            return mapper.Map<IEnumerable<Photo>, IEnumerable<PhotoResource>>(photos);
+            return _mapper.Map<IEnumerable<Photo>, IEnumerable<PhotoResource>>(photos);
         }
 
         [Route("/api/photos/{id}")]
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeletePhoto(int id){            
 
-             var photo = await photoRepository.GetPhoto(id);
+             var photo = await _photoRepository.GetPhoto(id);
 
              if (photo == null)
                 return NotFound();
 
-             photoRepository.Remove(photo);
-             await unitOfWork.CompleteAsync();
+             _photoRepository.Remove(photo);
+             await _unitOfWork.CompleteAsync();
 
-             var uploadsFolderPath = Path.Combine(host.WebRootPath, "uploads");
+             var uploadsFolderPath = Path.Combine(_host.WebRootPath, "uploads");
              var filePath = Path.Combine(uploadsFolderPath, photo.FileName);
 
              System.IO.File.Delete(filePath);

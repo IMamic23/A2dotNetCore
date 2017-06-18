@@ -1,0 +1,16 @@
+<p>
+  mlb-events works!
+</p>
+<table>
+  <thead>
+    <tr>
+      <th></th>
+    </tr>
+  </thead>
+</table>
+<ul *ngIf="standings">
+    <span>Standings date: {{standings.standings_date}}</span>
+    <li *ngFor="let team of standings.standing">
+      {{team.last_name}}
+    </li>
+</ul>

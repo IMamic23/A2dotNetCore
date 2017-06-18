@@ -12,13 +12,13 @@ namespace _mosh_A2.Mapping
         public MappingProfile()
         {
             // Domain to API Resource
+            CreateMap<AdditionalInfo, AdditionalInfoResource>();
+            CreateMap<AdditionalInfo, SaveAdditionalInfoResource>();
             CreateMap<Logo, LogoResource>();
             CreateMap<Logo, KeyValuePairResource>();
             CreateMap<Photo, PhotoResource>();
             CreateMap(typeof(QueryResult<>), typeof(QueryResultResource<>));
             CreateMap<Make, MakeResource>();
-            CreateMap<AdditionalInfo, AdditionalInfoResource>();
-            CreateMap<AdditionalInfo, SaveAdditionalInfoResource>();
             CreateMap<Make, KeyValuePairResource>();
             CreateMap<Model, KeyValuePairResource>();
             CreateMap<Model, ModelResource>();
@@ -45,11 +45,8 @@ namespace _mosh_A2.Mapping
             CreateMap<KeyValuePairResource, Feature>();
             CreateMap<AdditionalInfoResource, AdditionalInfo>();
             CreateMap<SaveAdditionalInfoResource, AdditionalInfo>()
-                .ForMember(v => v.Id, opt => opt.Ignore())
-                .ForMember(v => v.VehicleId, opt => opt.Ignore());
-            CreateMap<KeyValuePairResource, Model>()
-                .ForMember(v => v.MakeId, opt => opt.Ignore())
-                .ForMember(v => v.Make, opt => opt.Ignore());
+                .ForMember(v => v.Id, opt => opt.Ignore());
+            CreateMap<KeyValuePairResource, Model>();
 
             CreateMap<SaveVehicleResource, Vehicle>()
                 .ForMember(v => v.Id, opt => opt.Ignore())
@@ -59,11 +56,10 @@ namespace _mosh_A2.Mapping
                 .ForMember(v => v.Features, opt => opt.Ignore())
                 .AfterMap((vr, v) => {
                     // Remove unselected features
-                    var removeFeatures = v.Features.Where(f => !vr.Features.Contains(f.FeatureId));
-                    foreach(var f in removeFeatures.ToList()){
+                    var removeFeatures = v.Features.Where(f => !vr.Features.Contains(f.FeatureId)).ToList();
+                    foreach(var f in removeFeatures){
                             v.Features.Remove(f);
                     }
-
                     // Add new features
                     var addedFeatures = vr.Features.Where(id => !v.Features.Any(f => f.FeatureId == id)).Select(id => new VehicleFeature { FeatureId = id });
                     foreach( var f in addedFeatures ) {

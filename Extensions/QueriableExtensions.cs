@@ -7,9 +7,9 @@ using _mosh_A2.Models;
 
 namespace _mosh_A2.Extensions
 {
-    public static class IQueriableExtensions
+    public static class QueriableExtensions
     {
-        public static IQueryable<T> ApplyOrdering<T>(this IQueryable<T> query, IQueryObject queryObj, Dictionary<string, Expression<Func<T, object>>> columnsMap)
+        public static IQueryable<T> ApplyOrdering<T>(this IQueryable<T> query, QueryObject queryObj, Dictionary<string, Expression<Func<T, object>>> columnsMap)
         {
         if(String.IsNullOrWhiteSpace(queryObj.SortBy) || !columnsMap.ContainsKey(queryObj.SortBy))
             return query;
@@ -20,7 +20,7 @@ namespace _mosh_A2.Extensions
             return query = query.OrderByDescending(columnsMap[queryObj.SortBy]);
         }
 
-        public static IQueryable<T> ApplyPaging<T>(this IQueryable<T> query, IQueryObject queryObj)
+        public static IQueryable<T> ApplyPaging<T>(this IQueryable<T> query, QueryObject queryObj)
         {
             if(queryObj.Page <= 0)
                 queryObj.Page = 1;

@@ -2,7 +2,7 @@ import { AddInfoService } from './../../services/add-info.service';
 import * as _ from "underscore";
 import { SaveVehicle, Vehicle, AdditionalInfo } from "./../models/vehicle";
 import { VehicleService } from "./../../services/vehicle.service";
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, NgZone } from "@angular/core";
 import { ToastyService } from "ng2-toasty";
 import { ActivatedRoute, Router } from "@angular/router";
 import { Observable } from "rxjs/Observable";
@@ -55,7 +55,8 @@ export class VehicleFormComponent implements OnInit {
     private router: Router,
     private vehicleService: VehicleService,
     private addInfoService: AddInfoService,
-    private toastyService: ToastyService) {
+    private toastyService: ToastyService,
+    private zone: NgZone) {
 
     route.params.subscribe(p => {
       this.vehicle.id = +p['id'] || 0;
@@ -141,7 +142,7 @@ export class VehicleFormComponent implements OnInit {
         showClose: true,
         timeout: 5000
       });
-      this.router.navigate(['/vehicles/', vehicle.id])
+      this.zone.run(() => this.router.navigate(['/vehicles/', vehicle.id]));
     });
   }
 

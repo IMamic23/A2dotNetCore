@@ -1,6 +1,6 @@
 namespace _mosh_A2.Extensions
 {
-    public interface IQueryObject
+    public interface QueryObject
     {
         string SortBy { get; set; }
         bool IsSortAscending { get; set; }

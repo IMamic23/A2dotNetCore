@@ -21,7 +21,7 @@ export class AddInfoService {
     }
 
     update(additionalInfo: AdditionalInfo) {
-        return this.authHttp.put(this.addInfoEndpoint + "/" + additionalInfo.id, additionalInfo)
+        return this.authHttp.put(this.addInfoEndpoint + "/" + additionalInfo.vehicleId, additionalInfo)
           .map(res => res.json());
     }
 

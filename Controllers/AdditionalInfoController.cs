@@ -40,5 +40,44 @@ namespace _mosh_A2.Controllers
 
            return Ok(addInfoResource);
         }
+
+        [HttpPost]
+        public async Task<IActionResult> CreateAdditionalInfo([FromBody] SaveAdditionalInfoResource addInfoResource)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+            
+            var addInfo = mapper.Map<SaveAdditionalInfoResource, AdditionalInfo>(addInfoResource);
+            
+            additionalInfoRepository.Add(addInfo);
+            await unitOfWork.CompleteAsync();
+
+            addInfo = await additionalInfoRepository.GetAdditionalInfo(addInfo.VehicleId);
+
+            var result = mapper.Map<AdditionalInfo, AdditionalInfoResource>(addInfo);
+
+            return Ok(result);
+        }
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdateAdditionalInfo(int id, [FromBody] AdditionalInfoResource addInfoResource)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            var addInfo = await additionalInfoRepository.GetAdditionalInfo(id);
+
+            if (addInfo == null)
+                return NotFound();
+
+            mapper.Map<AdditionalInfoResource, AdditionalInfo>(addInfoResource, addInfo);
+
+            additionalInfoRepository.Update(addInfo);
+            await unitOfWork.CompleteAsync();
+
+            addInfo = await additionalInfoRepository.GetAdditionalInfo(addInfo.VehicleId);
+            var result = mapper.Map<AdditionalInfo, AdditionalInfoResource>(addInfo);
+
+            return Ok(result);
+        }
     }
 }

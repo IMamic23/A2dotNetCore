@@ -22,8 +22,8 @@ import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
 export class ViewVehicleComponent implements OnInit {
   @ViewChild('fileInput') fileInput: ElementRef;
   @ViewChild('photoFileInput') fileInput2: ElementRef;
-  vehicle: Vehicle;
-  additionalInfo: AdditionalInfo;
+  vehicle: Vehicle = null;
+  additionalInfo: AdditionalInfo = null;
   vehicleId: number;
   photos: any[];
   logo: any;
@@ -57,7 +57,8 @@ export class ViewVehicleComponent implements OnInit {
     private photoService: PhotoService,
     private vehicleService: VehicleService,
     private addInfoService: AddInfoService,
-    private auth: Auth) { 
+    private auth: Auth,
+    ) { 
 
     route.params.subscribe(p => {
       this.vehicleId = +p['id'];
@@ -70,7 +71,9 @@ export class ViewVehicleComponent implements OnInit {
     }
 
   ngOnInit() {
-    this.getVehicleLogoAndPhotos();
+    this.zone.run(() => {
+            this.getVehicleLogoAndPhotos();
+        });
   }
 
   getVehicleLogoAndPhotos() {

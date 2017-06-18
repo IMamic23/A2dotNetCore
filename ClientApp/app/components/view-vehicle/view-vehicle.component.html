@@ -1,4 +1,4 @@
-<h1>Vehicle details</h1>
+<h2>Vehicle details</h2>
 <div class="well">
   <!-- Nav tabs -->
   <ul class="nav nav-tabs" role="tablist">
@@ -7,7 +7,7 @@
   </ul>
 
   <!-- Tab panes -->
-  <div class="tab-content" *ngIf="vehicle">
+  <div class="tab-content" *ngIf="vehicle && additionalInfo">
     <!-- Vehicle tab -->
     <div role="tabpanel" class="tab-pane active" id="basic">
      <div class="row">

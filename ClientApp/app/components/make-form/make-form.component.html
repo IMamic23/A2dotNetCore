@@ -105,7 +105,8 @@
                               type="text" 
                               class="form-control pull-left"
                               [(ngModel)]="model.name"
-                              name="model">
+                              name="model"
+                              #varModel2="ngModel">
                         <span *ngIf="model.renameActivated != true" (click)="activateRename(model)" class="rename pull-right">
                           rename
                         </span>
@@ -137,7 +138,7 @@
           </div>
           <div class="buttons-wrapper">
               <button class="btn btn-primary" [disabled]="!f2.valid">Save</button>
-              <button type="button" class="btn btn-primary" (click)="resetForm(f2)" [disabled]="varModel.pristine">Done</button>
+              <button type="button" class="btn btn-primary" (click)="resetForm(f2)" [disabled]="!varModel.touched">Done</button>
           </div> 
       </form>
     </div>
