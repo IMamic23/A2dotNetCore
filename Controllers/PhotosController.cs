@@ -26,13 +26,15 @@ namespace _mosh_A2.Controllers
         private readonly PhotoSettings _photoSettings;
         private readonly IPhotoRepository _photoRepository;
         private readonly ILogoRepository _logoRepository;
+        private readonly IPhotoService _photoService;
         public PhotosController(IHostingEnvironment host, 
                                 IVehicleRepository repository, 
                                 IUnitOfWork unitOfWork,
                                 IMapper mapper,
                                 IOptionsSnapshot<PhotoSettings> options,
                                 IPhotoRepository photoRepository,
-                                ILogoRepository logoRepository)
+                                ILogoRepository logoRepository,
+                                IPhotoService photoService)
         {
             _photoSettings = options.Value;
             _unitOfWork = unitOfWork;
@@ -41,6 +43,7 @@ namespace _mosh_A2.Controllers
             _mapper = mapper;
             _photoRepository = photoRepository;
             _logoRepository = logoRepository;
+            _photoService = photoService;
         }
         [HttpPost]
         public async Task<IActionResult> Upload(int vehicleId, IFormFile file)
@@ -55,32 +58,7 @@ namespace _mosh_A2.Controllers
             if (!_photoSettings.IsSupperted(file.FileName)) return BadRequest("This file type is not accepted");
                     
             var uploadsFolderPath = Path.Combine(_host.WebRootPath, "uploads");
-            if (!Directory.Exists(uploadsFolderPath))
-                Directory.CreateDirectory(uploadsFolderPath);
-
-            var fileName = Guid.NewGuid().ToString() + Path.GetExtension(file.FileName);
-            var filePath = Path.Combine(uploadsFolderPath, fileName);
-
-            using (var stream = new FileStream(filePath, FileMode.Create))
-            {
-                await file.CopyToAsync(stream);
-            }
-
-            var photo = new Photo { FileName = fileName };
-            vehicle.Photos.Add(photo);
-            await _unitOfWork.CompleteAsync();
-
-            using (Image<Rgba32> image = ImageSharp.Image.Load(filePath))
-            {
-                if(image.Width > 2400)
-                    image.Resize(image.Width / 3, image.Height / 3)
-                        .Quantize(Quantization.Palette, 512)
-                        .Save(filePath);
-                else if(image.Width > 1200)
-                    image.Resize(image.Width / 2, image.Height / 2)
-                        .Quantize(Quantization.Palette, 512)
-                        .Save(filePath); // automatic encoder selected based on extension.
-            }
+            var photo = await _photoService.UploadPhoto(vehicle, file, uploadsFolderPath);
             
             return Ok(_mapper.Map<Photo, PhotoResource>(photo));
         }

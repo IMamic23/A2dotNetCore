@@ -12,13 +12,23 @@ export class MlbEventsComponent implements OnInit {
   standings: any;
   varDate: string;
   varSport: any;
+  mlbEventsHeader = {
+      AwayTeam: "Away Team",
+      HomeTeam: "Home Team",
+      Site: "Site",
+      AwayPoints: "Away Points",
+      HomePoints: "Home Points",
+      AwayByPeriod: "APBP",
+      HomeByPeriod: "HPBP",
+  };
 
   constructor(private eventsService: EventsService) { }
 
   ngOnInit() {
     this.setDate();
     this.varSport = 'mlb';
-    this.getStandings();
+    this.getEvents();
+    //this.getStandings();
   }
   
   getStandings() {

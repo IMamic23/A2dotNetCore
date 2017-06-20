@@ -24,8 +24,12 @@ namespace WebApplicationBasic
             var builder = new ConfigurationBuilder()
                 .SetBasePath(env.ContentRootPath)
                 .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
-                .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
-                .AddEnvironmentVariables();
+                .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true);
+
+            if(env.IsDevelopment())
+                builder = builder.AddUserSecrets<Startup>();
+
+            builder = builder.AddEnvironmentVariables();
             Configuration = builder.Build();
         }
 
@@ -44,6 +48,8 @@ namespace WebApplicationBasic
             services.AddScoped<ILogoRepository, LogoRepository>();
             services.AddScoped<IAdditionalInfoRepository, AdditionalInfoRepository>();
             services.AddScoped<IUnitOfWork, UnitOfWork>();
+            services.AddTransient<IPhotoService, PhotoService>();
+            services.AddTransient<IPhotoStorage, FileSystemPhotoStorage>();
 
             services.AddAutoMapper();
 

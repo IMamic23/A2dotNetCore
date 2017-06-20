@@ -134,6 +134,7 @@ export class VehicleFormComponent implements OnInit {
   submit() {
     var result$ = (this.vehicle.id) ? this.vehicleService.update(this.vehicle) : this.vehicleService.create(this.vehicle);
     result$.subscribe(vehicle => {
+      this.additionalInfo.vehicleId = vehicle.id;
       this.submitAddInfo();
       this.toastyService.success({
         title: 'Success',

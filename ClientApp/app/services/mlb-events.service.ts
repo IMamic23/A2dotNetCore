@@ -11,12 +11,12 @@ constructor(private http: Http, private authHttp: AuthHttp) { }
         let headers = new Headers();
         var token = 'Bearer c8580cc7-c8c0-4afd-a7e1-fa45e11254f6';
         headers.append('Content-Type', 'application/json');
-        headers.append('Accept-Encoding', 'gzip')  
-        headers.append('Authorization', token);
+        headers.append('Authorization', 'Bearer c8580cc7-c8c0-4afd-a7e1-fa45e11254f6');
         let options = new RequestOptions({headers: headers});
+        console.log(headers);
 
-        return this.http.get(`https://erikberg.com/events.json?date=${date}&sport=${sport}`, options)
-            .map(res => res.json());
+        return this.authHttp.get(`https://erikberg.com/events.json?date=${date}&sport=${sport}`, 
+            options).map(res => res.json());
     }
 
     getStandings() {

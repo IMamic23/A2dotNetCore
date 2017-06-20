@@ -57,27 +57,27 @@ namespace _mosh_A2.Controllers
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            var vehicle = await _repository.GetVehicle(id);
+            //var vehicle = await _repository.GetVehicle(id);
 
-            if (vehicle == null)
-                return NotFound();
-            //var vehicle = new Vehicle();
+            //if (vehicle == null)
+            //    return NotFound();
+            var vehicle = new Vehicle();
             _mapper.Map<SaveVehicleResource, Vehicle>(vehicleResource, vehicle);
             vehicle.LastUpdate = DateTime.Now;
             vehicle.Id = id;
-
+            
             var entity = await _repository.GetVehicle(id);
-
             _repository.GetContext().Entry(entity).CurrentValues.SetValues(vehicle);
 
             //repository.Update(vehicle);
-            await _unitOfWork.CompleteAsync();
-            
             vehicle = await _repository.GetVehicle(vehicle.Id);
             var result = _mapper.Map<Vehicle, VehicleResource>(vehicle);
+            //var result = _repository.Update(id, vehicle);
             
-            if(vehicle == null)
+            if(result == null)
                 return NotFound("Vehicle not found after update");
+            
+            await _unitOfWork.CompleteAsync();
 
             return Ok(result);
         }

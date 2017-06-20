@@ -45,9 +45,13 @@ namespace _mosh_A2.Persistence
         {
             context.Vehicles.Remove(vehicle);
         }
-         public void Update(Vehicle vehicle) 
+         public async Task<Vehicle> Update(int id, Vehicle vehicle) 
         {
-            context.Vehicles.Update(vehicle);
+            var entity = await GetVehicle(id);
+            vehicle.LastUpdate = DateTime.Now;
+            vehicle.Id = id;
+            context.Entry(entity).CurrentValues.SetValues(vehicle);
+            return entity;
         }
 
         public async Task<QueryResult<Vehicle>> GetVehicles(VehicleQuery queryObj){
@@ -57,28 +61,19 @@ namespace _mosh_A2.Persistence
             var query = context.Vehicles
                 .Include(v => v.Model)
                     .ThenInclude(m => m.Make)
-                .Include(v => v.Features)
-                    .ThenInclude(vf => vf.Feature)
                 .AsQueryable();
 
-            if(queryObj.MakeId.HasValue)
-                query = query.Where(v => v.Model.MakeId == queryObj.MakeId.Value);
-
-            if(queryObj.ModelId.HasValue)
-                query = query.Where(v => v.ModelId == queryObj.ModelId.Value);
+            query = query.ApplyFiltering(queryObj);
 
             var columnsMap = new Dictionary<string, Expression<Func<Vehicle, object>>>()
             {
                 ["make"] = v => v.Model.Make.Name,
                 ["model"] = v => v.Model.Name,
                 ["contactName"] = v => v.ContactName
-            };
-            
+            };           
             query = query.ApplyOrdering(queryObj, columnsMap);
-            
             result.TotalItems = await query.CountAsync();
             query = query.ApplyPaging(queryObj);
-
             result.Items = await query.ToListAsync();
 
             return result;
