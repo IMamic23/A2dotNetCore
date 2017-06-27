@@ -23,6 +23,7 @@ import { NgModule, ErrorHandler } from "@angular/core";
 import { RouterModule } from "@angular/router";
 import { ToastyModule } from "ng2-toasty";
 
+import { ChartModule } from "angular2-chartjs";
 import { VehicleService } from "./services/vehicle.service";
 import { AppComponent } from "./components/app/app.component";
 import { NavMenuComponent } from "./components/navmenu/navmenu.component";
@@ -58,9 +59,10 @@ Raven.config("https://f30ee7661839445f92ad72044ff7a487@sentry.io/167797").instal
         MlbEventsComponent
     ],
     imports: [
+        UniversalModule, // must be first import. This automatically imports BrowserModule, HttpModule, and JsonpModule too.
         FormsModule,
         ToastyModule.forRoot(),
-        UniversalModule, // must be first import. This automatically imports BrowserModule, HttpModule, and JsonpModule too.
+        ChartModule,
         RouterModule.forRoot([
             { path: "", redirectTo: "vehicles", pathMatch: "full" },
             { path: "home", component: HomeComponent },
