@@ -17,7 +17,6 @@ namespace _mosh_A2.Controllers.Resources
         [Required]
         public ContactResource Contact { get; set; }
         public ICollection<int> Features { get; set; }
-        public AdditionalInfo AdditionalInfo { get; set; }
         public SaveVehicleResource()
         {
             Features = new Collection<int>();

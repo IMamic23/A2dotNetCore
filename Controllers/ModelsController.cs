@@ -18,10 +18,9 @@ namespace _mosh_A2.Controllers
         private readonly IModelRepository modelRepository;
         private readonly IUnitOfWork unitOfWork;
         
-        public ModelsController(VegaDbContext context, 
-                               IMapper mapper,
-                               IModelRepository modelRepository,
-                               IUnitOfWork unitOfWork)
+        public ModelsController( IMapper mapper,
+                                 IModelRepository modelRepository,
+                                 IUnitOfWork unitOfWork)
         {
             this.mapper = mapper;
             this.unitOfWork = unitOfWork;
@@ -29,15 +28,15 @@ namespace _mosh_A2.Controllers
         }
 
         [HttpGet]
-        public async Task<IEnumerable<ModelResource>> GetModels()
+        public async Task<IEnumerable<KeyValuePairResource>> GetModels()
         {
            var models = await modelRepository.GetModels();
         
-           return mapper.Map<List<Model>, List<ModelResource>>(models);
+           return mapper.Map<List<Model>, List<KeyValuePairResource>>(models);
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateModels([FromBody] SaveModelResource modelResource)
+        public async Task<IActionResult> CreateModel([FromBody] SaveModelResource modelResource)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
@@ -49,7 +48,28 @@ namespace _mosh_A2.Controllers
 
             model = await modelRepository.GetModel(model.Id);
 
-            var result = mapper.Map<Model, ModelResource>(model);
+            var result = mapper.Map<Model, KeyValuePairResource>(model);
+
+            return Ok(result);
+        }
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdateModel(int id, [FromBody] KeyValuePairResource modelResource)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            var model = await modelRepository.GetModel(id);
+
+            if (model == null)
+                return NotFound();
+
+            mapper.Map<KeyValuePairResource, Model>(modelResource, model);
+
+            modelRepository.Update(model);
+            await unitOfWork.CompleteAsync();
+
+            model = await modelRepository.GetModel(model.Id);
+            var result = mapper.Map<Model, KeyValuePairResource>(model);
 
             return Ok(result);
         }

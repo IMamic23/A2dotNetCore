@@ -2,7 +2,7 @@ using _mosh_A2.Extensions;
 
 namespace _mosh_A2.Core.Models
 {
-    public class VehicleQuery : IQueryObject
+    public class VehicleQuery : QueryObject
     {
         public int? MakeId { get; set; }
         public int? ModelId { get; set; }

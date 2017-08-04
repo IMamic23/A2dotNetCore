@@ -12,12 +12,13 @@ namespace _mosh_A2.Mapping
         public MappingProfile()
         {
             // Domain to API Resource
+            CreateMap<AdditionalInfo, AdditionalInfoResource>();
+            CreateMap<AdditionalInfo, SaveAdditionalInfoResource>();
             CreateMap<Logo, LogoResource>();
             CreateMap<Logo, KeyValuePairResource>();
             CreateMap<Photo, PhotoResource>();
             CreateMap(typeof(QueryResult<>), typeof(QueryResultResource<>));
             CreateMap<Make, MakeResource>();
-            CreateMap<AdditionalInfo, AdditionalInfoResource>();
             CreateMap<Make, KeyValuePairResource>();
             CreateMap<Model, KeyValuePairResource>();
             CreateMap<Model, ModelResource>();
@@ -34,8 +35,7 @@ namespace _mosh_A2.Mapping
                                                                                            Email = v.ContactEmail,
                                                                                            Phone = v.ContactPhone }))
                 .ForMember(vr => vr.Features, opt => opt.MapFrom(v => v.Features.Select(vf => new KeyValuePairResource { Id = vf.Feature.Id, 
-                                                                                                                    Name = vf.Feature.Name })))
-                .ForMember(vr => vr.AdditionalInfo, opt => opt.MapFrom(v => v.AdditionalInfo));
+                                                                                                                    Name = vf.Feature.Name })));
 
             // API Resource to Domain
             CreateMap<VehicleQueryResource, VehicleQuery>();
@@ -43,8 +43,10 @@ namespace _mosh_A2.Mapping
             CreateMap<SaveModelResource, Model>();
             CreateMap<SaveMakeResource, Make>();
             CreateMap<KeyValuePairResource, Feature>();
-            // CreateMap<AdditionalInfoResource, AdditionalInfo>()
-            //     .ForMember(v => v.Id, opt => opt.Ignore());
+            CreateMap<AdditionalInfoResource, AdditionalInfo>();
+            CreateMap<SaveAdditionalInfoResource, AdditionalInfo>()
+                .ForMember(v => v.Id, opt => opt.Ignore());
+            CreateMap<KeyValuePairResource, Model>();
 
             CreateMap<SaveVehicleResource, Vehicle>()
                 .ForMember(v => v.Id, opt => opt.Ignore())
@@ -54,19 +56,16 @@ namespace _mosh_A2.Mapping
                 .ForMember(v => v.Features, opt => opt.Ignore())
                 .AfterMap((vr, v) => {
                     // Remove unselected features
-                    var removeFeatures = v.Features.Where(f => !vr.Features.Contains(f.FeatureId));
+                    var removeFeatures = v.Features.Where(f => !vr.Features.Contains(f.FeatureId)).ToList();
                     foreach(var f in removeFeatures){
                             v.Features.Remove(f);
                     }
-
                     // Add new features
                     var addedFeatures = vr.Features.Where(id => !v.Features.Any(f => f.FeatureId == id)).Select(id => new VehicleFeature { FeatureId = id });
                     foreach( var f in addedFeatures ) {
                          v.Features.Add(f);
                     }
                 });
-                // .ForMember(v => v.AdditionalInfo.Id, opt => opt.Ignore())
-
         }
     }
 }

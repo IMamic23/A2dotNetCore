@@ -1,3 +1,8 @@
+import { EventsService } from './services/mlb-events.service';
+import { MlbEventsComponent } from './components/mlb-events/mlb-events.component';
+import { MlbBoxScoreService } from './services/mlb-box-score.service';
+import { MlbBoxScoreComponent } from './components/mlb-box-score/mlb-box-score.component';
+import { AddInfoService } from './services/add-info.service';
 import { FeatureService } from './services/feature.service';
 import { ModelService } from './services/model.service';
 import { MakeService } from './services/make.service';
@@ -18,6 +23,7 @@ import { NgModule, ErrorHandler } from "@angular/core";
 import { RouterModule } from "@angular/router";
 import { ToastyModule } from "ng2-toasty";
 
+import { ChartModule } from "angular2-chartjs";
 import { VehicleService } from "./services/vehicle.service";
 import { AppComponent } from "./components/app/app.component";
 import { NavMenuComponent } from "./components/navmenu/navmenu.component";
@@ -48,12 +54,15 @@ Raven.config("https://f30ee7661839445f92ad72044ff7a487@sentry.io/167797").instal
         AdminComponent,
         AdditionalInfoComponent,
         MakeFormComponent,
-        MakeListComponent
+        MakeListComponent,
+        MlbBoxScoreComponent,
+        MlbEventsComponent
     ],
     imports: [
+        UniversalModule, // must be first import. This automatically imports BrowserModule, HttpModule, and JsonpModule too.
         FormsModule,
         ToastyModule.forRoot(),
-        UniversalModule, // must be first import. This automatically imports BrowserModule, HttpModule, and JsonpModule too.
+        ChartModule,
         RouterModule.forRoot([
             { path: "", redirectTo: "vehicles", pathMatch: "full" },
             { path: "home", component: HomeComponent },
@@ -66,6 +75,8 @@ Raven.config("https://f30ee7661839445f92ad72044ff7a487@sentry.io/167797").instal
             { path: "vehicles/new", component: VehicleFormComponent, canActivate: [AuthGuard] },
             { path: "vehicles/:id", component: ViewVehicleComponent },
             { path: "vehicles/edit/:id", component: VehicleFormComponent, canActivate: [AuthGuard] },
+            { path: "mlb/boxscore/:event_id", component: MlbBoxScoreComponent, canActivate: [AuthGuard] },
+            { path: "mlb/events", component: MlbEventsComponent, canActivate: [AuthGuard] },
             { path: "**", redirectTo: "home" },
         ])
     ],
@@ -81,7 +92,10 @@ Raven.config("https://f30ee7661839445f92ad72044ff7a487@sentry.io/167797").instal
         VehicleService,
         MakeService,
         ModelService,
-        FeatureService
+        FeatureService,
+        AddInfoService,
+        MlbBoxScoreService,
+        EventsService
     ]
 })
 export class AppModule {

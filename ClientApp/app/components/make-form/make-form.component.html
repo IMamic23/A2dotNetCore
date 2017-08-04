@@ -16,10 +16,13 @@
                 <tbody>
                   <tr *ngFor="let make of makes">
                     <td>
-                      <span class="myLabel" [ngClass]="{highlighted: make.new}">
+                      <span class="myLabel makesLabel" (click)="selectMake(make)" [ngClass]="{highlighted: make.new}">
                         <i (click)="deleteMake(make)" class="glyphicon glyphicon-minus"></i>
                         {{ make.name }}
                       </span>
+                      <div *ngIf="make.logo != null" class="photo-wrapper"> 
+                        <img src="/logos/{{ make.logo.fileName }}" class="img-logo-mini">
+                      </div>
                     </td>
                   </tr>
                 </tbody>
@@ -62,7 +65,7 @@
                       required
                       #make="ngModel">
                   <option value=""></option>
-                  <option *ngFor="let m of makes" value="{{ m.id }}">{{ m.name }}</option>
+                  <option *ngFor="let make of makes" value="{{ make.id }}">{{ make.name }}</option>
               </select>
               <div class="alert alert-danger my-alert" *ngIf="make.touched && !make.valid">Please specifiy the Make</div>
               </div>
@@ -92,9 +95,26 @@
                   <tbody>
                     <tr *ngFor="let model of models">
                       <td>
-                        <span class="myLabel" [ngClass]="{highlighted: model.new}">
+                        <span *ngIf="model.renameActivated != true" class="myLabel" [ngClass]="{highlighted: model.new}">
                           <i (click)="deleteModel(model)" class="glyphicon glyphicon-minus"></i>
                             {{ model.name }}
+                        </span>
+                        <input *ngIf="model.renameActivated == true"
+                              style="width:60%; margin-top: 0 !important;" 
+                              id="model" 
+                              type="text" 
+                              class="form-control pull-left"
+                              [(ngModel)]="model.name"
+                              name="model"
+                              #varModel2="ngModel">
+                        <span *ngIf="model.renameActivated != true" (click)="activateRename(model)" class="rename pull-right">
+                          rename
+                        </span>
+                        <span *ngIf="model.renameActivated == true" (click)="updateModel(model)" class="rename pull-right">
+                          update
+                        </span>
+                        <span *ngIf="model.renameActivated == true" (click)="cancelRename(model)" class="rename pull-right">
+                          cancel
                         </span>
                       </td>
                     </tr>
@@ -118,7 +138,7 @@
           </div>
           <div class="buttons-wrapper">
               <button class="btn btn-primary" [disabled]="!f2.valid">Save</button>
-              <button type="button" class="btn btn-primary" (click)="resetForm(f2)" [disabled]="varModel.pristine">Done</button>
+              <button type="button" class="btn btn-primary" (click)="resetForm(f2)" [disabled]="!varModel.touched">Done</button>
           </div> 
       </form>
     </div>

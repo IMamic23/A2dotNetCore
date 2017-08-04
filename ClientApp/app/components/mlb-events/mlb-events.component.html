@@ -1,0 +1,35 @@
+<p>
+  mlb-events works!
+</p>
+<table class="table table-hover table-responsive">
+  <thead>
+    <tr>
+      <th>{{mlbEventsHeader.AwayTeam}}</th>
+      <th>{{mlbEventsHeader.HomeTeam}}</th>
+      <th>{{mlbEventsHeader.Site}}</th>
+      <th>{{mlbEventsHeader.AwayPoints}}</th>
+      <th>{{mlbEventsHeader.HomePoints}}</th>
+      <th>{{mlbEventsHeader.AwayByPeriod}}</th>
+      <th>{{mlbEventsHeader.HomeByPeriod}}</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let e of events">
+      <td>{{ e.away_team.last_name }}</td>
+      <td>{{ e.home_team.last_name }}</td>
+      <td>{{ e.site.name }}</td>
+      <td>{{ e.away_points_scored }}</td>
+      <td>{{ e.home_points_scored }}</td>
+      <td>{{ e.away_period_scores }}</td>
+      <td>{{ e.home_period_scores }}</td>
+    </tr>
+  </tbody>
+</table>
+<div class="standings" *ngIf="standings">
+  <span>Standings date: {{standings.standings_date}}</span>
+  <ul>
+      <li *ngFor="let team of standings.standing">
+        {{team.last_name}}
+      </li>
+  </ul>
+</div>

@@ -1,4 +1,5 @@
-import { Vehicle } from './../models/vehicle';
+import { AddInfoService } from './../../services/add-info.service';
+import { Vehicle, AdditionalInfo } from './../models/vehicle';
 import { Auth } from './../../services/auth.service';
 import { BrowserXhr } from '@angular/http';
 import { NgZone } from '@angular/core';
@@ -21,13 +22,15 @@ import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
 export class ViewVehicleComponent implements OnInit {
   @ViewChild('fileInput') fileInput: ElementRef;
   @ViewChild('photoFileInput') fileInput2: ElementRef;
-  vehicle: Vehicle;
+  vehicle: Vehicle = null;
+  additionalInfo: AdditionalInfo = null;
   vehicleId: number;
   photos: any[];
   logo: any;
   progress: any;
   subscription: any;
   file: any;
+  interval: any;
   additionalInfoTitles: any = {
     modelType: "Model Type",
     modelEngineType: "Engine Type",
@@ -53,7 +56,9 @@ export class ViewVehicleComponent implements OnInit {
     private progressService: ProgressService,
     private photoService: PhotoService,
     private vehicleService: VehicleService,
-    private auth: Auth) { 
+    private addInfoService: AddInfoService,
+    private auth: Auth,
+    ) { 
 
     route.params.subscribe(p => {
       this.vehicleId = +p['id'];
@@ -66,13 +71,12 @@ export class ViewVehicleComponent implements OnInit {
     }
 
   ngOnInit() {
-    this.getVehicleLogoAndPhotos();
+    this.zone.run(() => {
+            this.getVehicleLogoAndPhotos();
+        });
   }
 
   getVehicleLogoAndPhotos() {
-    this.photoService.getPhotos(this.vehicleId)
-      .subscribe(photos => this.photos = photos);
-
     this.vehicleService.getVehicle(this.vehicleId)
       .subscribe( v => { this.vehicle = v;
         if(this.vehicle)
@@ -85,6 +89,10 @@ export class ViewVehicleComponent implements OnInit {
             return;
           }
         });
+    this.addInfoService.getAdditionalInfo(this.vehicleId)
+      .subscribe(addInfo => this.additionalInfo = addInfo);
+    this.photoService.getPhotos(this.vehicleId)
+      .subscribe(photos => this.photos = photos);
   }
 
   delete() {
