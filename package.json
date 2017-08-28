@@ -5,6 +5,7 @@
     "test": "karma start ClientApp/test/karma.conf.js"
   },
   "dependencies": {
+    "@agm/core": "^1.0.0-beta.1",
     "@angular/common": "^2.4.5",
     "@angular/compiler": "^2.4.5",
     "@angular/core": "^2.4.5",
@@ -16,6 +17,7 @@
     "@angular/router": "^3.4.5",
     "@types/node": "^6.0.42",
     "angular2-chartjs": "^0.2.0",
+    "angular2-datatable": "^0.6.0",
     "angular2-jwt": "^0.2.3",
     "angular2-platform-node": "~2.0.11",
     "angular2-template-loader": "^0.6.2",
@@ -58,6 +60,7 @@
   "devDependencies": {
     "@angular/cli": "^1.0.0",
     "@types/chai": "^3.4.34",
+    "@types/googlemaps": "^3.26.20",
     "@types/jasmine": "^2.5.37",
     "chai": "^3.5.0",
     "jasmine-core": "^2.5.2",

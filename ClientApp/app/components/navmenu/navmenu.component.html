@@ -22,7 +22,7 @@
                         <span class='glyphicon glyphicon-user'></span> Welcome, {{ auth.profile.name }} 
                     </a>
                 </li>
-                 <li>
+                <li>
                     <a (click)="auth.logout()" *ngIf="auth.authenticated()">
                         <span class='glyphicon glyphicon-user'></span> Logout
                     </a>
@@ -37,7 +37,7 @@
                         <span class='glyphicon glyphicon-education'></span> Admin
                     </a>
                 </li>
-                 <li [routerLinkActive]="['link-active']"
+                <li [routerLinkActive]="['link-active']"
                      [routerLinkActiveOptions]="{exact: true}">
                     <a [routerLink]="['/vehicles']">
                         <span class='glyphicon glyphicon-th-list'></span> Vehicles List
@@ -59,6 +59,11 @@
                         <span class='glyphicon glyphicon-plus'></span> New Make/Model
                     </a>
                 </li>
+                <li [routerLinkActive]="['link-active']" *ngIf="auth.authenticated()">
+                    <a [routerLink]="['/googlemaps']">
+                        <span class='glyphicon glyphicon-plus'></span> Google Maps
+                    </a>
+                </li>
                 <li [routerLinkActive]="['link-active']">
                     <a [routerLink]="['/mlb/events']">
                         <span class='glyphicon glyphicon-th-list'></span> MLB Events
@@ -68,3 +73,5 @@
         </div>
     </div>
 </div>
+<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDD2V2T47wEoEbwIHO976afEI1jvT34lGY&callback=initMap"
+  type="text/javascript"></script>
