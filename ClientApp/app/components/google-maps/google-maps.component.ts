@@ -178,20 +178,29 @@ export class GoogleMapsComponent implements OnInit {
           scaledSize: new google.maps.Size(25, 25)
         };
 
-        this.marker = new google.maps.Marker({
+        var marker = new google.maps.Marker({
           map: this.map,
           icon: image,
           title: place.name,
           position: place.geometry.location
         });
+        console.log(marker);
 
         this.places.push(place);
+        
+        var infowindow = new google.maps.InfoWindow()
+        var content = "Name: " + place.name + "</h3><br> Address: " + place.vicinity + "<br> Rating: " + place.rating;
 
-        console.log(this.marker);
-        this.markers.push(this.marker);
+        google.maps.event.addListener(marker,'click', (function(marker,content,infowindow){ 
+          return function() {
+              infowindow.setContent(content);
+              infowindow.open(this.map,marker);
+          };
+        })(marker,content,infowindow)); 
 
-        //this.places = places;
-        //placesList.innerHTML += '<li style="border: 1px solid rgba(0,0,0,0.2); padding:5px;">' + place.name + '</li>';
+        this.ngZone.run(()=>{
+          this.markers.push(marker);
+        });
 
         bounds.extend(place.geometry.location);
       }
