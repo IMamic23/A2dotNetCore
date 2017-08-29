@@ -1,0 +1,36 @@
+agm-map {
+   height: 400px;
+}
+
+#map {
+   height: 400px;
+   width: 100%;
+}
+
+#places {
+   list-style: none;
+   padding: 10px;
+}
+
+table thead tr{
+    display:block;
+}
+
+table th:not(:first-child),table td:not(:first-child){
+    width: 220px;
+}
+
+table th:first-child,table td:first-child{
+    width: 50px;
+}
+
+table tbody{
+  display:block;
+  height:600px;
+  overflow:auto;
+}
+
+.myIcon {
+    width: 25px;
+    height: 25px;
+}
