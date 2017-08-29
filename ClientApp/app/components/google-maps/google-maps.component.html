@@ -1,16 +1,16 @@
 <div class="container">
       <h1>Angular 4 + Google Maps Places Autocomplete</h1>
-      <div class="form-group">
+       <div class="form-group">
          <input placeholder="search for location" autocorrect="off" autocapitalize="off" spellcheck="off" type="text" class="form-control" #search [formControl]="searchControl">
       </div>
       <agm-map [latitude]="latitude" [longitude]="longitude" [scrollwheel]="false" [zoom]="zoom">
         <agm-marker [latitude]="latitude" [longitude]="longitude"></agm-marker>
-      </agm-map>
+      </agm-map> 
       <h1>Google Maps Markers</h1>
       <div id="map"></div>
       <ul id=places>
       </ul>
-    <br>
+    <br> 
     <table *ngIf="places" id="placesTable" class="table table-hover table-striped">
       <thead>
         <tr>
@@ -34,6 +34,7 @@
       </tbody>
     </table>
     <button class="btn btn-primary" id="more">More results</button>
+    <span class="pull-right">Showing {{places.length}} results.</span>
     <br>
     <br>
 </div>

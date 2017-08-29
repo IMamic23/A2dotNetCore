@@ -81,7 +81,7 @@ Raven.config("https://f30ee7661839445f92ad72044ff7a487@sentry.io/167797").instal
             { path: "vehicles/edit/:id", component: VehicleFormComponent, canActivate: [AuthGuard] },
             { path: "mlb/boxscore/:event_id", component: MlbBoxScoreComponent, canActivate: [AuthGuard] },
             { path: "mlb/events", component: MlbEventsComponent, canActivate: [AuthGuard] },
-            { path: "googlemaps", component: GoogleMapsComponent, canActivate: [AuthGuard] },
+            { path: "googlemaps", component: GoogleMapsComponent },
             { path: "**", redirectTo: "home" },
         ]),
         ReactiveFormsModule,
