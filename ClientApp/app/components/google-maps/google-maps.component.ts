@@ -26,6 +26,7 @@ export class GoogleMapsComponent implements OnInit {
   moreButton;
   moreBtnEL:boolean = false;
   tableBody;
+  uluru: any;
 
   @ViewChild("search")
   public searchElementRef: ElementRef;
@@ -41,14 +42,14 @@ export class GoogleMapsComponent implements OnInit {
 
       //this.setMarkers();
       this.ngZone.run(() => {
-        var uluru = { lat: 45.815399, lng: 15.966568 };
+        this.uluru = { lat: 45.815399, lng: 15.966568 };
         this.map = new google.maps.Map(document.getElementById('map'), {
           zoom: 13,
-          center: uluru
+          center: this.uluru
         });
-
-        this.executeNearbySearch(uluru);
+        this.executeNearbySearch(this.uluru);
       });
+        
 
       google.maps.event.addListener(this.map, 'dragend', () => {
         this.currentLocation = this.map.getCenter();
@@ -123,18 +124,19 @@ export class GoogleMapsComponent implements OnInit {
   executeNearbySearch(currentLocation: any) {
     this.request = {
       location: currentLocation,
-      radius: '600',
+      radius: '6000',
       type: ['bar']
     };
     
     this.moreButton = <HTMLInputElement>document.getElementById('more');
-    this.tableBody = <HTMLTableElement>document.querySelector('table > tbody');
 
     var service = new google.maps.places.PlacesService(this.map);
 
     service.nearbySearch(this.request, (results, status, pagination) => {
       if (status == google.maps.places.PlacesServiceStatus.OK) {
         this.createMarkers(results);
+
+        this.tableBody = <HTMLTableElement>document.querySelector('table > tbody');
 
         if (pagination.hasNextPage) {
           this.thereIsMore = true;
@@ -143,18 +145,22 @@ export class GoogleMapsComponent implements OnInit {
           this.moreButton.addEventListener('click', () => {
             this.moreButton.disabled = true;
             this.moreBtnEL = true;
-            pagination.nextPage();
+            if (this.thereIsMore) {
+                pagination.nextPage();
+                this.thereIsMore = false;
+              }
           });
 
-          // this.tableBody.addEventListener('scroll', () => {
-          //   console.log("scrolling body");
-          //   if (this.tableBody.offsetHeight + this.tableBody.scrollTop >= this.tableBody.scrollHeight) {
-          //     if (this.thereIsMore) {
-          //       pagination.nextPage();
-          //       this.thereIsMore = false;
-          //     }
-          //   }
-          // });
+          this.tableBody.addEventListener('scroll', () => {
+            console.log("scrolling body");
+            if (this.tableBody.offsetHeight + this.tableBody.scrollTop >= this.tableBody.scrollHeight) {
+              if (this.thereIsMore) {
+                pagination.nextPage();
+                this.thereIsMore = false;
+                this.moreButton.disabled = true;
+              }
+            }
+          });
         }
       }
     });
@@ -164,11 +170,6 @@ export class GoogleMapsComponent implements OnInit {
     try {
       var bounds = new google.maps.LatLngBounds();
       var placesList = document.getElementById('places');
-
-      var shape = {
-        coords: [1, 1, 1, 20, 18, 20, 18, 1],
-        type: 'poly'
-      };
 
       for (var i = 0, place; place = places[i]; i++) {
         var image = {
@@ -185,8 +186,7 @@ export class GoogleMapsComponent implements OnInit {
           title: place.name,
           label: place.name,
           animation: google.maps.Animation.DROP,
-          position: place.geometry.location,
-          shape: shape,
+          position: place.geometry.location
         });
         console.log(marker);
 
@@ -203,7 +203,8 @@ export class GoogleMapsComponent implements OnInit {
         })(marker, content, infowindow));
 
         this.ngZone.run(() => {
-          this.markers.push(marker);
+          //if(this.map.getBounds().contains(this.marker.getPosition()))
+            this.markers.push(marker);
         });
 
         bounds.extend(place.geometry.location);
@@ -235,12 +236,16 @@ export class GoogleMapsComponent implements OnInit {
     }
     this.markers = [];
     this.places = [];
-    if(this.markerCluster)
+    if(this.markerCluster) {
       this.markerCluster.clearMarkers();
-    //this.markerCluster.resetViewport();
-    //this.tableBody.removeEventListener('scroll');
+      this.markerCluster.resetViewport();
+    }
+    if(this.tableBody)
+      this.tableBody.removeEventListener('scroll');
     if(this.moreBtnEL)
       this.moreButton.removeEventListener('click');
+    this.moreButton.disabled = true;
+    this.thereIsMore = false;
   }
 
   onScroll() {
