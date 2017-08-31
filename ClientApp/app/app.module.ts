@@ -24,6 +24,7 @@ import { RouterModule } from "@angular/router";
 import { ToastyModule } from "ng2-toasty";
 import { AgmCoreModule } from '@agm/core';
 import {DataTableModule} from "angular2-datatable";
+import { InfiniteScrollModule } from 'angular2-infinite-scroll';
 
 import { ChartModule } from "angular2-chartjs";
 import { VehicleService } from "./services/vehicle.service";
@@ -85,6 +86,7 @@ Raven.config("https://f30ee7661839445f92ad72044ff7a487@sentry.io/167797").instal
             { path: "**", redirectTo: "home" },
         ]),
         ReactiveFormsModule,
+        InfiniteScrollModule, 
         DataTableModule,
         AgmCoreModule.forRoot({
           apiKey: "AIzaSyDD2V2T47wEoEbwIHO976afEI1jvT34lGY",

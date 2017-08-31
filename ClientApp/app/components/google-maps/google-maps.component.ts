@@ -1,6 +1,7 @@
 import { FormControl } from '@angular/forms';
 import { ElementRef, NgZone, Component, OnInit, ViewChild } from '@angular/core';
 import { } from 'googlemaps';
+import * as MarkerClusterer from 'node-js-marker-clusterer';
 import { MapsAPILoader } from '@agm/core';
 
 @Component({
@@ -20,6 +21,11 @@ export class GoogleMapsComponent implements OnInit {
   map: google.maps.Map;
   places: any[] = [];
   currentLocation: any;
+  markerCluster: any;
+  thereIsMore: boolean = false;
+  moreButton;
+  moreBtnEL:boolean = false;
+  tableBody;
 
   @ViewChild("search")
   public searchElementRef: ElementRef;
@@ -34,13 +40,15 @@ export class GoogleMapsComponent implements OnInit {
       this.locationSearch();
 
       //this.setMarkers();
-      var uluru = { lat: 45.815399, lng: 15.966568 };
-      this.map = new google.maps.Map(document.getElementById('map'), {
-        zoom: 13,
-        center: uluru
-      });
+      this.ngZone.run(() => {
+        var uluru = { lat: 45.815399, lng: 15.966568 };
+        this.map = new google.maps.Map(document.getElementById('map'), {
+          zoom: 13,
+          center: uluru
+        });
 
-      this.executeNearbySearch(uluru);
+        this.executeNearbySearch(uluru);
+      });
 
       google.maps.event.addListener(this.map, 'dragend', () => {
         this.currentLocation = this.map.getCenter();
@@ -104,31 +112,6 @@ export class GoogleMapsComponent implements OnInit {
     }
   }
 
-  setMarkers() {
-    var uluru = { lat: 45.815399, lng: 15.966568 };
-    var uluru2 = { lat: 45.825313, lng: 15.976513 };
-    var map = new google.maps.Map(document.getElementById('map'), {
-      zoom: 13,
-      center: uluru
-    });
-    this.marker = new google.maps.Marker({
-      position: uluru,
-      map: map,
-      draggable: true,
-      animation: google.maps.Animation.DROP,
-      title: "Hello World!"
-    });
-    var marker2 = new google.maps.Marker({
-      position: uluru2,
-      map: map,
-      draggable: true,
-      animation: google.maps.Animation.DROP,
-      title: "Repsly Zgb"
-    });
-
-    this.marker.addListener('click', this.toggleBounce);
-  }
-
   toggleBounce() {
     if (this.marker.getAnimation() !== null) {
       this.marker.setAnimation(null);
@@ -143,6 +126,9 @@ export class GoogleMapsComponent implements OnInit {
       radius: '600',
       type: ['bar']
     };
+    
+    this.moreButton = <HTMLInputElement>document.getElementById('more');
+    this.tableBody = <HTMLTableElement>document.querySelector('table > tbody');
 
     var service = new google.maps.places.PlacesService(this.map);
 
@@ -151,14 +137,24 @@ export class GoogleMapsComponent implements OnInit {
         this.createMarkers(results);
 
         if (pagination.hasNextPage) {
-          var moreButton = <HTMLInputElement>document.getElementById('more');
+          this.thereIsMore = true;
+          this.moreButton.disabled = false;
 
-          moreButton.disabled = false;
-
-          moreButton.addEventListener('click', function () {
-            moreButton.disabled = true;
+          this.moreButton.addEventListener('click', () => {
+            this.moreButton.disabled = true;
+            this.moreBtnEL = true;
             pagination.nextPage();
           });
+
+          // this.tableBody.addEventListener('scroll', () => {
+          //   console.log("scrolling body");
+          //   if (this.tableBody.offsetHeight + this.tableBody.scrollTop >= this.tableBody.scrollHeight) {
+          //     if (this.thereIsMore) {
+          //       pagination.nextPage();
+          //       this.thereIsMore = false;
+          //     }
+          //   }
+          // });
         }
       }
     });
@@ -168,6 +164,11 @@ export class GoogleMapsComponent implements OnInit {
     try {
       var bounds = new google.maps.LatLngBounds();
       var placesList = document.getElementById('places');
+
+      var shape = {
+        coords: [1, 1, 1, 20, 18, 20, 18, 1],
+        type: 'poly'
+      };
 
       for (var i = 0, place; place = places[i]; i++) {
         var image = {
@@ -182,28 +183,36 @@ export class GoogleMapsComponent implements OnInit {
           map: this.map,
           icon: image,
           title: place.name,
-          position: place.geometry.location
+          label: place.name,
+          animation: google.maps.Animation.DROP,
+          position: place.geometry.location,
+          shape: shape,
         });
         console.log(marker);
 
         this.places.push(place);
-        
+
         var infowindow = new google.maps.InfoWindow()
         var content = "Name: " + place.name + "</h3><br> Address: " + place.vicinity + "<br> Rating: " + place.rating;
 
-        google.maps.event.addListener(marker,'click', (function(marker,content,infowindow){ 
-          return function() {
-              infowindow.setContent(content);
-              infowindow.open(this.map,marker);
+        google.maps.event.addListener(marker, 'click', (function (marker, content, infowindow) {
+          return function () {
+            infowindow.setContent(content);
+            infowindow.open(this.map, marker);
           };
-        })(marker,content,infowindow)); 
+        })(marker, content, infowindow));
 
-        this.ngZone.run(()=>{
+        this.ngZone.run(() => {
           this.markers.push(marker);
         });
 
         bounds.extend(place.geometry.location);
       }
+
+      // Add a marker clusterer to manage the markers.
+      this.markerCluster = new MarkerClusterer(this.map, this.markers,
+        { imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m' });
+
       this.map.fitBounds(bounds);
     } catch (error) {
       console.log(error);
@@ -224,10 +233,19 @@ export class GoogleMapsComponent implements OnInit {
     for (var i = 0; i < this.markers.length; i++) {
       this.markers[i].setMap(null);
     }
+    this.markers = [];
     this.places = [];
+    if(this.markerCluster)
+      this.markerCluster.clearMarkers();
+    //this.markerCluster.resetViewport();
+    //this.tableBody.removeEventListener('scroll');
+    if(this.moreBtnEL)
+      this.moreButton.removeEventListener('click');
   }
 
-
+  onScroll() {
+    console.log('scrolled!!')
+  }
 
 
 
@@ -252,6 +270,31 @@ export class GoogleMapsComponent implements OnInit {
     });
 
     this.executeNearbySearch(this.currentLocation);
+  }
+
+  setMarkers() {
+    var uluru = { lat: 45.815399, lng: 15.966568 };
+    var uluru2 = { lat: 45.825313, lng: 15.976513 };
+    var map = new google.maps.Map(document.getElementById('map'), {
+      zoom: 13,
+      center: uluru
+    });
+    this.marker = new google.maps.Marker({
+      position: uluru,
+      map: map,
+      draggable: true,
+      animation: google.maps.Animation.DROP,
+      title: "Hello World!"
+    });
+    var marker2 = new google.maps.Marker({
+      position: uluru2,
+      map: map,
+      draggable: true,
+      animation: google.maps.Animation.DROP,
+      title: "Repsly Zgb"
+    });
+
+    this.marker.addListener('click', this.toggleBounce);
   }
 
   // processResults(results, status, pagination) {

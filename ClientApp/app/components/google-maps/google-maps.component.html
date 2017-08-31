@@ -22,7 +22,8 @@
           <th>Open Now?</th>
         </tr>
       </thead>
-      <tbody>
+      <tbody id="tableBody" infinite-scroll [infiniteScrollDistance]="2"
+            [infiniteScrollThrottle]="300" (scrolled)="onScroll()" [scrollWindow]="false">
         <tr *ngFor="let p of places">
           <td><img [ngClass]="'myIcon'" [src]="p.icon"></td>
           <td><img *ngIf="p.photos" [src]="p.photos[0].getUrl({'maxWidth': 200, 'maxHeight': 200})"></td>
